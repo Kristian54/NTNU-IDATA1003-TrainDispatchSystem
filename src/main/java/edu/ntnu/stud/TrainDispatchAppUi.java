@@ -4,9 +4,6 @@ import java.sql.SQLOutput;
 import java.util.Comparator;
 import java.util.Iterator;
 
-/**
- * This is the main class for the train dispatch application.
- */
 // TODO: Fill in the main method and any other methods you need.
 
 public class TrainDispatchAppUi {
@@ -23,9 +20,8 @@ public class TrainDispatchAppUi {
    * Prints the information table.
    */
   public void printInfoTable() {
-    System.out.println("Destination:    | Departure Time: | Delay: | "
-        + "Line: | Train number: | Track Number: | Current Time: "
-        + trainStation.getGlobalTime());
+    System.out.println(trainStation.getGlobalTime() + "   Avganger/Departures    | Delay: | "
+        + "Train number: | Track Number:");
     trainStation.printDeparturesSortedByTime();
   }
 

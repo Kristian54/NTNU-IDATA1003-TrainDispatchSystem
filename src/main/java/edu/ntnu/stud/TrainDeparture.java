@@ -49,6 +49,15 @@ public class TrainDeparture {
     return time;
   }
 
+  public String getTimePrint() {
+    String delayed = "Delayed";
+    if (delayTime.equals(LocalTime.parse("00:00"))) {
+        return delayed;
+        } else {
+        return delayTime.toString();
+    }
+  }
+
   /**
    * Returns the delay time.
    *
@@ -62,6 +71,8 @@ public class TrainDeparture {
    * Returns the delaytime in a string format for printing to console.
    * If the delaytime is 00:00, it will return an empty string.
    *
+   * @return empty
+   * or
    * @return delayTime.toString()
    */
   public String getDelayTimePrint() {
@@ -116,7 +127,7 @@ public class TrainDeparture {
    *
    * @param initialTime the initial time of the train departure.
    */
-  public void setTime(String initialTime) {
+  private void setTime(String initialTime) {
     String patternExample = "([01]?[0-9]|2[0-3]):[0-5][0-9]";
 
     Pattern pattern = Pattern.compile(patternExample);

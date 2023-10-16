@@ -81,7 +81,7 @@ public class TrainStation {
     this.trainStation.add(new TrainDeparture("12:00", "L1", 1, "Trondheim", "11", "00:00"));
     this.trainStation.add(new TrainDeparture("01:40", "L21", 23, "Ålesund", "2", "00:10"));
     this.trainStation.add(new TrainDeparture("10:00", "R", 3, "Moss", "34", "00:20"));
-    this.trainStation.add(new TrainDeparture("03:00", "40330", 43, "Oslo", "4", "00:00"));
+    this.trainStation.add(new TrainDeparture("03:00", "403", 43, "Oslo", "4", "00:00"));
     this.trainStation.add(new TrainDeparture("04:30", "20", 51, "Vestby", "52", "00:40"));
   }
 
@@ -91,14 +91,14 @@ public class TrainStation {
    * @param trainDeparture the train departure to print.
    */
   public void printDeparture(TrainDeparture trainDeparture) {
-    String departureTime = String.format("%-15s", trainDeparture.getDestination());
-    String delayTime = String.format("%-15s", trainDeparture.getTime());
+    String departureTime = String.format("%-8s", trainDeparture.getTimePrint())
+        + String.format("%-5s", trainDeparture.getLine())
+        + String.format("%-17s", trainDeparture.getDestination());
     String line = String.format("%-6s", trainDeparture.getDelayTimePrint());
-    String trainNumber = String.format("%-5s", trainDeparture.getLine());
     String trackNumber = String.format("%-13s", trainDeparture.getTrainNumber());
     String destination = String.format("%-13s", trainDeparture.getTrackNumber());
-    System.out.println(departureTime + " | " + delayTime + " | "
-        + line + " | " + trainNumber + " | " + trackNumber + " | " + destination);
+    System.out.println(departureTime + " | "
+        + line + " | " + trackNumber + " | " + destination);
   }
   /**
    * Prints the details of all departures in the train station to the console.

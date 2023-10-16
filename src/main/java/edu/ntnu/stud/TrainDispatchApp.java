@@ -1,5 +1,8 @@
 package edu.ntnu.stud;
 
+/**
+ * This is the main class for the TrainDispatch application.
+ */
 public class TrainDispatchApp {
 
 
