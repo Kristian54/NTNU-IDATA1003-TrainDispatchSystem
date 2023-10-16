@@ -4,7 +4,7 @@ import java.time.LocalTime;
 import java.util.regex.Pattern;
 
 /**
- * Represents a train departure with:
+ * Represents a train departure with:.
  * Departure time
  * Line
  * Train Number
@@ -32,7 +32,6 @@ public class TrainDeparture {
 
   public TrainDeparture(String departureTime, String trainLine, int number, String trainDestination,
                         String trackNum, String delay) {
-    //Må endres
     setTime(departureTime);
     setDelayTime(delay);
     setTrainLine(trainLine);
@@ -42,57 +41,85 @@ public class TrainDeparture {
   }
 
   /**
-   * returns the departure time
+   * Returns the departure time.
+   *
+   * @return time
    */
   public LocalTime getTime() {
     return time;
   }
 
   /**
-   * returns the delay time
+   * Returns the delay time.
+   *
+   * @return delayTime
    */
   public LocalTime getDelayTime() {
     return delayTime;
   }
 
   /**
-   * returns the train line
+   * Returns the delaytime in a string format for printing to console.
+   * If the delaytime is 00:00, it will return an empty string.
+   *
+   * @return delayTime.toString()
+   */
+  public String getDelayTimePrint() {
+    String empty = "";
+    if (delayTime.equals(LocalTime.parse("00:00"))) {
+      return empty;
+    } else {
+      return delayTime.toString();
+    }
+  }
+
+  /**
+   * Returns the train line.
+   *
+   * @return line
    */
   public String getLine() {
     return line;
   }
 
   /**
-   * returns the train number
+   * Returns the train number.
+   *
+   * @return trainNumber
    */
   public int getTrainNumber() {
     return trainNumber;
   }
 
   /**
-   * returns the train destination
+   * Returns the train destination.
+   *
+   * @return destination
    */
   public String getDestination() {
     return destination;
   }
 
   /**
-   * returns the track number
+   * Returns the track number.
+   *
+   * @return trackNumber
    */
   public String getTrackNumber() {
     return trackNumber;
   }
 
   /**
-   * Parts of the code used under was suggested by GitHub Copilot
-   * Check´s if the initial time provided is written in valid hh:mm format. If it is not, the time will be set to 00:00.
+   * Parts of the code used under was suggested by GitHub Copilot.
+   * Check´s if the initial time provided is written in valid hh:mm format.
+   * If it is not, the time will be set to 00:00.
    *
-   * @param initialTime
+   * @param initialTime the initial time of the train departure.
    */
-  public void setTime(String initialTime){
-    String regex = "([01]?[0-9]|2[0-3]):[0-5][0-9]";
+  public void setTime(String initialTime) {
+    String patternExample = "([01]?[0-9]|2[0-3]):[0-5][0-9]";
 
-    Pattern pattern = Pattern.compile(regex);
+    Pattern pattern = Pattern.compile(patternExample);
 
     if (initialTime == null) {
       time = LocalTime.parse("00:00");
@@ -105,15 +132,16 @@ public class TrainDeparture {
   }
 
   /**
-   * Parts of the code used under was suggested by GitHub Copilot
-   * Check´s if the delay time provided is written in valid hh:mm format. If it is not, the time will be set to 00:00.
+   * Parts of the code used under was suggested by GitHub Copilot.
+   * Check´s if the delay time provided is written in
+   * valid hh:mm format. If it is not, the time will be set to 00:00.
    *
-   * @param delayedTime
+   * @param delayedTime the time the train is delayed.
    */
-  public void setDelayTime(String delayedTime){
-    String regex = "([01]?[0-9]|2[0-3]):[0-5][0-9]";
+  public void setDelayTime(String delayedTime) {
+    String patternExample = "([01]?[0-9]|2[0-3]):[0-5][0-9]";
 
-    Pattern pattern = Pattern.compile(regex);
+    Pattern pattern = Pattern.compile(patternExample);
 
     if (delayedTime == null) {
       delayTime = LocalTime.parse("00:00");
@@ -125,10 +153,11 @@ public class TrainDeparture {
   }
   /**
    * checks if the track number given is empty,
-   * if it is empty it will be set as an empty string
+   * if it is empty it will be set as an empty string.
    *
-   * @param newTrackNumber
+   * @param newTrackNumber the track number of the train.
    */
+
   public void setTrackNumber(String newTrackNumber) {
     if (newTrackNumber == null) {
       trackNumber = "";
@@ -142,20 +171,21 @@ public class TrainDeparture {
    * Positive and either a 1 or 2 digit number.
    * If both conditions aren't met, the train number will be set to 0.
    *
-   * @param trainNum
+   * @param trainNum the train number of the train.
    */
   public void setTrainNumber(int trainNum) {
     if (trainNum > 0 && trainNum < 100) {
       trainNumber = trainNum;
     } else {
-      trainNumber = 0;}
+      trainNumber = 0;
+    }
   }
 
   /**
    * Checks if the train line provided is empty,
    * if it is empty it will be set as an empty string.
    *
-   * @param trainLine
+   * @param trainLine the train line of the train.
    */
   public void setTrainLine(String trainLine) {
     if (trainLine == null) {
@@ -169,10 +199,10 @@ public class TrainDeparture {
    * Checks if the destination provided is empty.
    * If it is empty it will be set as an empty string.
    *
-   * @param trainDestination
+   * @param trainDestination the destination of the train.
    */
-  public void setDestination(String trainDestination){
-    if (trainDestination == null){
+  public void setDestination(String trainDestination) {
+    if (trainDestination == null) {
       destination = "";
     } else {
       destination = trainDestination;
