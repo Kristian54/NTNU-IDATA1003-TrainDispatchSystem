@@ -20,8 +20,9 @@ public class TrainDispatchAppUi {
    * Prints the information table.
    */
   public void printInfoTable() {
-    System.out.println(trainStation.getGlobalTime() + "   Avganger/Departures    | Delay: | "
-        + "Train number: | Track Number:");
+    System.out.println(trainStation.getGlobalTime() + "   Avganger/Departures   " +
+        "Forventet/expected | "
+        + "Track/Spor | Nummer/Number:");
     trainStation.printDeparturesSortedByTime();
   }
 

@@ -13,12 +13,12 @@ import java.util.regex.Pattern;
  */
 
 public class TrainDeparture {
-  private LocalTime time;
-  private LocalTime delayTime;
-  private String line;
-  private int trainNumber;
-  private String destination;
-  private String trackNumber;
+  private LocalTime time; // Initial departure time
+  private LocalTime delayTime; // Delay time
+  private String line; // Train line
+  private int trainNumber; // Train number
+  private String destination; // Train destination
+  private String trackNumber; // Track number
 
   /**
    * Creates an instance of TrainDepature.
@@ -41,25 +41,7 @@ public class TrainDeparture {
   }
 
   /**
-   * Returns the departure time.
-   *
-   * @return time
-   */
-  public LocalTime getTime() {
-    return time;
-  }
-
-  public String getTimePrint() {
-    String delayed = "Delayed";
-    if (delayTime.equals(LocalTime.parse("00:00"))) {
-        return delayed;
-        } else {
-        return delayTime.toString();
-    }
-  }
-
-  /**
-   * Returns the delay time.
+   * Returns the delay time in "hh:mm" format.
    *
    * @return delayTime
    */
@@ -68,19 +50,41 @@ public class TrainDeparture {
   }
 
   /**
+   * Returns the initial departure time in "hh:mm" format.
+   */
+  public LocalTime getTime() {
+    return time;
+  }
+
+  /**
    * Returns the delaytime in a string format for printing to console.
    * If the delaytime is 00:00, it will return an empty string.
    *
    * @return empty
-   * or
-   * @return delayTime.toString()
-   */
+   * */
   public String getDelayTimePrint() {
     String empty = "";
-    if (delayTime.equals(LocalTime.parse("00:00"))) {
+    if (delayTime.equals(LocalTime.parse("00:00"))) { // If delay is 00:00, return empty string
       return empty;
     } else {
       return delayTime.toString();
+    }
+  }
+
+  /**
+   * Returns the expected time of the departure including the delay. If delay is 00:00, it will
+   * return an empty string
+   *
+   * @return sumTime The expected time of the departure as a string in "hh:mm" format.
+   */
+  public String getExpectedTime() {
+    String empty = "";
+    LocalTime sumTime = time.plusHours(delayTime.getHour()).plusMinutes(delayTime.getMinute());
+    if (delayTime.equals(LocalTime.parse("00:00"))) { // If delay is 00:00, return empty string
+
+      return empty;
+    } else {
+      return sumTime.toString();
     }
   }
 
@@ -128,18 +132,19 @@ public class TrainDeparture {
    * @param initialTime the initial time of the train departure.
    */
   private void setTime(String initialTime) {
+    // Example pattern for a string in hh:mm format
     String patternExample = "([01]?[0-9]|2[0-3]):[0-5][0-9]";
 
-    Pattern pattern = Pattern.compile(patternExample);
+    Pattern pattern = Pattern.compile(patternExample); // Compiles the pattern
 
-    if (initialTime == null) {
+    if (initialTime == null) { // If the initial time is empty, set time to 00:00
       time = LocalTime.parse("00:00");
+      // Else if the initial time matches the pattern, set time to the initial time
     } else if (pattern.matcher(initialTime).matches()) {
       time = LocalTime.parse(initialTime);
-    } else {
+    } else { // Else set time to 00:00
       time = LocalTime.parse("00:00");
     }
-
   }
 
   /**
@@ -150,18 +155,21 @@ public class TrainDeparture {
    * @param delayedTime the time the train is delayed.
    */
   public void setDelayTime(String delayedTime) {
+    // Example pattern for a string in hh:mm format
     String patternExample = "([01]?[0-9]|2[0-3]):[0-5][0-9]";
 
-    Pattern pattern = Pattern.compile(patternExample);
+    Pattern pattern = Pattern.compile(patternExample); // Compiles the pattern
 
-    if (delayedTime == null) {
+    if (delayedTime == null) { // If the delay time is empty, set time to 00:00
       delayTime = LocalTime.parse("00:00");
+      // Else if the delay time matches the pattern, set time to the delay time
     } else if (pattern.matcher(delayedTime).matches()) {
       delayTime = LocalTime.parse(delayedTime);
-    } else {
+    } else { // Else set time to 00:00
       delayTime = LocalTime.parse("00:00");
     }
   }
+
   /**
    * checks if the track number given is empty,
    * if it is empty it will be set as an empty string.
@@ -170,9 +178,9 @@ public class TrainDeparture {
    */
 
   public void setTrackNumber(String newTrackNumber) {
-    if (newTrackNumber == null) {
-      trackNumber = "";
-    } else {
+    if (newTrackNumber == null) { // If the track number is empty, set track number to -1
+      trackNumber = "-1";
+    } else { // Else set track number to the track number
       trackNumber = newTrackNumber;
     }
   }
@@ -184,10 +192,12 @@ public class TrainDeparture {
    *
    * @param trainNum the train number of the train.
    */
-  public void setTrainNumber(int trainNum) {
+  private void setTrainNumber(int trainNum) {
+    // If the train number is positive and either a 1 or 2 digit number,
+    // set train number to the train number
     if (trainNum > 0 && trainNum < 100) {
       trainNumber = trainNum;
-    } else {
+    } else { // Else set train number to 0
       trainNumber = 0;
     }
   }
@@ -198,10 +208,10 @@ public class TrainDeparture {
    *
    * @param trainLine the train line of the train.
    */
-  public void setTrainLine(String trainLine) {
-    if (trainLine == null) {
+  private void setTrainLine(String trainLine) {
+    if (trainLine == null) { // If the train line is empty, set train line to an empty string
       line = "";
-    } else {
+    } else { // Else set train line to the train line
       line = trainLine;
     }
   }
@@ -212,10 +222,11 @@ public class TrainDeparture {
    *
    * @param trainDestination the destination of the train.
    */
-  public void setDestination(String trainDestination) {
+  private void setDestination(String trainDestination) {
+    // If the destination is empty, set destination to an empty string
     if (trainDestination == null) {
       destination = "";
-    } else {
+    } else { // Else set destination to the destination
       destination = trainDestination;
     }
   }
