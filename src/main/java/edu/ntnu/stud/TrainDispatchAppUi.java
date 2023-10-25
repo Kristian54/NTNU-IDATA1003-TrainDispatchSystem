@@ -47,8 +47,13 @@ public class TrainDispatchAppUi {
     System.out.println("If there is a delay, enter it on the format hh:mm :");
     String delay = scanner.nextLine();
 
-    this.trainStation.addDeparture(departureTime, trainLine, number, trainDestination, trackNum, delay);
-
+    boolean trainDepartureAdded = this.trainStation.addDeparture(departureTime, trainLine, number,
+        trainDestination, trackNum, delay);
+    if (trainDepartureAdded == true) {
+      System.out.println("Train departure added");
+    } else {
+      System.out.println("Train number must be unique. Train departure not added");
+    }
   }
 
   private int displayMenu() {
@@ -69,8 +74,8 @@ public class TrainDispatchAppUi {
     //boolean finished = false;
     //printInfoTable();
     //while (!finished)
-    //userAddStudent();
-    //printInfoTable();
+    userAddStudent();
+    printInfoTable();
     }
   }
 

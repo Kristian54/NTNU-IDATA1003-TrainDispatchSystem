@@ -3,6 +3,8 @@ package edu.ntnu.stud;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.regex.Pattern;
 
@@ -18,15 +20,16 @@ import java.util.regex.Pattern;
  * </ul>
  */
 public class TrainStation {
-
-  private ArrayList<TrainDeparture> trainStation;
+  private HashSet<TrainDeparture> trainStation;
+  //private ArrayList<TrainDeparture> trainStation;
   private LocalTime globalTime;
 
   /**
    * Creates an instance of TrainStation.
    */
   public TrainStation() {
-    this.trainStation = new ArrayList<>();
+    this.trainStation = new HashSet<>();
+    //this.trainStation = new ArrayList<>();
   }
 
   /**
@@ -64,6 +67,7 @@ public class TrainStation {
     }
 
   }
+
   /**
    * Adds a train departure to the trainstation.
    *
@@ -75,22 +79,32 @@ public class TrainStation {
    * @param delay         the delay of the train departure.
    */
 
-  public void addDeparture(String departureTime, String trainLine, int trainNumber,
+  public boolean addDeparture(String departureTime, String trainLine, int trainNumber,
                            String destination, String track, String delay) {
-    TrainDeparture departure =
-        new TrainDeparture(departureTime, trainLine, trainNumber, destination, track, delay);
-    this.trainStation.add(departure);
+    boolean trainNumberAdded = true;
+    for (TrainDeparture trainDeparture : trainStation) {
+      if (trainDeparture.getTrainNumber() == trainNumber) {
+        trainNumberAdded = false;
+      }
+    }
+
+    if (trainNumberAdded == true) {
+      TrainDeparture departure =
+          new TrainDeparture(departureTime, trainLine, trainNumber, destination, track, delay);
+      this.trainStation.add(departure);
+    }
+  return trainNumberAdded;
   }
 
   /**
    * Fills the train station with 5 dummy departures for testing purposes only.
    */
   public void fillTrainStationWithDummyDepartures() {
-    this.trainStation.add(new TrainDeparture("12:00", "L1", 0, "Trondheim", "11", "00:00"));
-    this.trainStation.add(new TrainDeparture("01:40", "L21", 23, "Ålesund", "2", "00:10"));
-    this.trainStation.add(new TrainDeparture("10:00", "R", 3, "Moss", "34", "20:20"));
-    this.trainStation.add(new TrainDeparture("03:00", "403", 43, "Oslo", "4", "00:00"));
-    this.trainStation.add(new TrainDeparture("04:30", "20", 51, "Gursken", "52", "00:40"));
+    addDeparture("10:00","1",8, "Stryn", "11", "00:00");
+    addDeparture("01:40", "L21", 23, "Ålesund", "2", "00:10");
+    addDeparture("10:00", "R", 8, "Moss", "34", "20:20");
+    addDeparture("03:00", "403", 43, "Oslo", "4", "00:00");
+    addDeparture("04:30", "20", 51, "Gursken", "52", "00:40");
   }
 
   /**
