@@ -67,11 +67,19 @@ public class TrainStation {
   /**
    * Adds a train departure to the trainstation.
    *
-   * @param trainDeparture the train departure to add.
+   * @param departureTime the train departure to add.
+   * @param trainLine     the train line of the train departure.
+   * @param trainNumber   train number (unique)
+   * @param destination   the destination of the train departure.
+   * @param track         the track number of the train departure.
+   * @param delay         the delay of the train departure.
    */
 
-  public void addDeparture(TrainDeparture trainDeparture) {
-    this.trainStation.add(trainDeparture);
+  public void addDeparture(String departureTime, String trainLine, int trainNumber,
+                           String destination, String track, String delay) {
+    TrainDeparture departure =
+        new TrainDeparture(departureTime, trainLine, trainNumber, destination, track, delay);
+    this.trainStation.add(departure);
   }
 
   /**
@@ -82,7 +90,7 @@ public class TrainStation {
     this.trainStation.add(new TrainDeparture("01:40", "L21", 23, "Ålesund", "2", "00:10"));
     this.trainStation.add(new TrainDeparture("10:00", "R", 3, "Moss", "34", "20:20"));
     this.trainStation.add(new TrainDeparture("03:00", "403", 43, "Oslo", "4", "00:00"));
-    this.trainStation.add(new TrainDeparture("04:30", "20", 51, "Vestby", "52", "00:40"));
+    this.trainStation.add(new TrainDeparture("04:30", "20", 51, "Gursken", "52", "00:40"));
   }
 
   /**
