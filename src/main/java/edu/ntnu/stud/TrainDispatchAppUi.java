@@ -1,6 +1,8 @@
 package edu.ntnu.stud;
 
 import java.sql.SQLOutput;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.Scanner;
@@ -35,7 +37,40 @@ public class TrainDispatchAppUi {
     System.out.println(trainStation.getGlobalTime() + "   Avganger/Departures   " +
         "Forventet/expected | "
         + "Track/Spor | Nummer/Number:");
-    trainStation.printDeparturesSortedByTime();
+    this.printDeparturesSortedByTime();
+  }
+
+  /**
+   * Prints the details of one train departure.
+   *
+   * @param trainDeparture the train departure to print.
+   */
+  public void printDeparture(TrainDeparture trainDeparture) {
+    String departureTime = String.format("%-8s", trainDeparture.getTime())
+        + String.format("%-5s", trainDeparture.getLine())
+        + String.format("%-15s", trainDeparture.getDestination());
+    String line = String.format("%-18s", trainDeparture.getExpectedTime());
+    String trackNumber = String.format("%-10s", trainDeparture.getTrackNumber());
+    String destination = String.format("%-13s", trainDeparture.getTrainNumber());
+    System.out.println(departureTime + "  "
+        + line + " | " + trackNumber + " | " + destination);
+  }
+
+  /**
+   * Comparator for comparing train departures by time. Suggested by ChatGPT.
+   */
+  Comparator<TrainDeparture> byLocalTime = Comparator.comparing(TrainDeparture::getTime);
+
+  /**
+   * Prints the details of all departures in the train station sorted by time to the console.
+   */
+  public void printDeparturesSortedByTime() {
+    ArrayList<TrainDeparture> sortedDepartures = new ArrayList<>(trainStation.getTrainStation());
+    sortedDepartures.sort(byLocalTime);
+
+    for (TrainDeparture trainDeparture : sortedDepartures) {
+      printDeparture(trainDeparture);
+    }
   }
 
   /**

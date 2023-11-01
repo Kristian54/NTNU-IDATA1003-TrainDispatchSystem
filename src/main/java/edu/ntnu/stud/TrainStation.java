@@ -33,6 +33,16 @@ public class TrainStation {
   }
 
   /**
+   * Returns the entire register
+   *
+   * @return trainStation the entire register
+   */
+  public HashSet getTrainStation() {
+    return trainStation;
+  }
+
+
+  /**
    * Returns the global time.
    */
   public LocalTime getGlobalTime() {
@@ -77,12 +87,11 @@ public class TrainStation {
    * @param destination   the destination of the train departure.
    * @param track         the track number of the train departure.
    * @param delay         the delay of the train departure.
-   *
    * @return trainNumberAdded True if added, false if train number is not unique
    */
 
   public boolean addDeparture(String departureTime, String trainLine, int trainNumber,
-                           String destination, String track, String delay) {
+                              String destination, String track, String delay) {
     boolean trainDepartureAdded = true;
     for (TrainDeparture trainDeparture : trainStation) {
       if (trainDeparture.getTrainNumber() == trainNumber) {
@@ -95,59 +104,18 @@ public class TrainStation {
           new TrainDeparture(departureTime, trainLine, trainNumber, destination, track, delay);
       this.trainStation.add(departure);
     }
-  return trainDepartureAdded;
+    return trainDepartureAdded;
   }
 
   /**
    * Fills the train station with 5 dummy departures for testing purposes only.
    */
   public void fillTrainStationWithDummyDepartures() {
-    addDeparture("10:00","1",8, "Stryn", "11", "00:00");
+    addDeparture("10:00", "1", 8, "Stryn", "11", "00:00");
     addDeparture("01:40", "L21", 23, "Ålesund", "2", "00:10");
     addDeparture("10:00", "R", 8, "Moss", "34", "20:20");
     addDeparture("03:00", "403", 43, "Oslo", "4", "00:00");
     addDeparture("04:30", "20", 51, "Gursken", "52", "00:40");
   }
 
-  /**
-   * Prints the details of one train departure.
-   *
-   * @param trainDeparture the train departure to print.
-   */
-  public void printDeparture(TrainDeparture trainDeparture) {
-    String departureTime = String.format("%-8s", trainDeparture.getTime())
-        + String.format("%-5s", trainDeparture.getLine())
-        + String.format("%-15s", trainDeparture.getDestination());
-    String line = String.format("%-18s", trainDeparture.getExpectedTime());
-    String trackNumber = String.format("%-10s", trainDeparture.getTrackNumber());
-    String destination = String.format("%-13s", trainDeparture.getTrainNumber());
-    System.out.println(departureTime + "  "
-        + line + " | " + trackNumber + " | " + destination);
-  }
-  /**
-   * Prints the details of all departures in the train station to the console.
-   */
-
-  public void printDepartures() {
-    for (TrainDeparture trainDeparture : this.trainStation) {
-      printDeparture(trainDeparture);
-    }
-  }
-
-  /**
-   * Comparator for comparing train departures by time. Suggested by ChatGPT.
-   */
-  Comparator<TrainDeparture> byLocalTime = Comparator.comparing(TrainDeparture::getTime);
-
-  /**
-   * Prints the details of all departures in the train station sorted by time to the console.
-   */
-  public void printDeparturesSortedByTime() {
-    ArrayList<TrainDeparture> sortedDepartures = new ArrayList<>(this.trainStation);
-    sortedDepartures.sort(byLocalTime);
-
-    for (TrainDeparture trainDeparture : sortedDepartures) {
-      printDeparture(trainDeparture);
-    }
-  }
 }
