@@ -1,11 +1,9 @@
-package edu.ntnu.stud;
+package edu.ntnu.stud.entity;
 
+import edu.ntnu.stud.logic.TrainDeparture;
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.regex.Pattern;
 
 /**
@@ -20,16 +18,13 @@ import java.util.regex.Pattern;
  * </ul>
  */
 public class TrainStation {
-  private HashSet<TrainDeparture> trainStation;
-  //private ArrayList<TrainDeparture> trainStation;
-  private LocalTime globalTime;
+  private ArrayList<TrainDeparture> trainStation;
 
   /**
    * Creates an instance of TrainStation.
    */
   public TrainStation() {
-    this.trainStation = new HashSet<>();
-    //this.trainStation = new ArrayList<>();
+    this.trainStation = new ArrayList<>();
   }
 
   /**
@@ -37,45 +32,8 @@ public class TrainStation {
    *
    * @return trainStation the entire register
    */
-  public HashSet getTrainStation() {
+  public ArrayList<TrainDeparture> getTrainStation() {
     return trainStation;
-  }
-
-
-  /**
-   * Returns the global time.
-   */
-  public LocalTime getGlobalTime() {
-    return globalTime;
-  }
-
-  /**
-   * Prints the global time.
-   */
-  public void printGlobalTime() {
-    System.out.println("Global time: " + globalTime);
-  }
-
-  /**
-   * Parts of the code used under was suggested by GitHub Copilot.
-   * Check´s if the initial time provided is written in valid hh:mm format.
-   * If it is not, the time will be set to 00:00.
-   *
-   * @param globalTimeInput the initial time of the train departure.
-   */
-  public void setGlobalTime(String globalTimeInput) {
-    String patternExample = "([01]?[0-9]|2[0-3]):[0-5][0-9]";
-
-    Pattern pattern = Pattern.compile(patternExample);
-
-    if (globalTimeInput == null) {
-      this.globalTime = LocalTime.parse("00:00");
-    } else if (pattern.matcher(globalTimeInput).matches()) {
-      this.globalTime = LocalTime.parse(globalTimeInput);
-    } else {
-      this.globalTime = LocalTime.parse("00:00");
-    }
-
   }
 
   /**

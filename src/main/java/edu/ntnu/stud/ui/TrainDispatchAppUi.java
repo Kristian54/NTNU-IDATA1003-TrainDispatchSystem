@@ -1,17 +1,17 @@
-package edu.ntnu.stud;
+package edu.ntnu.stud.ui;
 
-import java.sql.SQLOutput;
+import edu.ntnu.stud.logic.TrainDeparture;
+import edu.ntnu.stud.entity.TrainStation;
+import edu.ntnu.stud.entity.TrainStationTime;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Comparator;
-import java.util.Iterator;
 import java.util.Scanner;
 
 // TODO: Fill in the main method and any other methods you need.
 
 public class TrainDispatchAppUi {
   private TrainStation trainStation;
-
+  private TrainStationTime trainStationTime;
   // Version
   private static final String version = "v0.1";
 
@@ -28,13 +28,21 @@ public class TrainDispatchAppUi {
    */
   public TrainDispatchAppUi() {
     this.trainStation = new TrainStation();
+    this.trainStationTime = new TrainStationTime();
+  }
+
+  /**
+   * Prints the global time.
+   */
+  public void printGlobalTime() {
+    System.out.println("Global time: " + trainStationTime.getTrainStationTime());
   }
 
   /**
    * Prints the information table.
    */
   public void printInfoTable() {
-    System.out.println(trainStation.getGlobalTime() + "   Avganger/Departures   " +
+    System.out.println(trainStationTime.getTrainStationTime() + "   Avganger/Departures   " +
         "Forventet/expected | "
         + "Track/Spor | Nummer/Number:");
     this.printDeparturesSortedByTime();
@@ -130,7 +138,6 @@ public class TrainDispatchAppUi {
    */
   public void printWelcomeScreen() {
     System.out.println("Welcome to trainDispatchApp" + version);
-    System.out.println("----------------------------------------------");
   }
 
   /**
@@ -138,6 +145,8 @@ public class TrainDispatchAppUi {
    */
   public void printMenu() {
     System.out.println("");
+    System.out.println("-------------------------------------------");
+    System.out.println("Main Menu                             "+trainStationTime.getTrainStationTime());
     System.out.println("-------------------------------------------");
     System.out.println("Please select one of the following choices:");
     System.out.println("1. Print info table");
@@ -163,25 +172,35 @@ public class TrainDispatchAppUi {
     System.out.println("Please select one of the following choices:");
     System.out.println("1. Search by train number");
     System.out.println("2. Search by destination");
+    System.out.println("3. Back");
   }
 
   /**
-   * Gets input from the user and verifies that the input is valid.
+   * Prints a goodbye message
+   */
+  public void printGoodbyeMessage() {
+    System.out.println("Thank you for using this fantastic A ;) application, goodbye.");
+  }
+
+
+  /**
+   * Gets input from the user in main menu and verifies that the input is valid.
    *
    * @return the menu choice by the user
    */
-  public int getUserChoice() {
-    int selectedMenu;
+  public int getUserMainMenuChoice() {
+    int selectedMenu = -1;
 
     Scanner userInput = new Scanner(System.in);
-    // TODO: Add validation of menu choice. Must be a number between 1 and 5, or 9.
-    if(userInput.hasNextInt()) {
+    if (userInput.hasNextInt()) {
       selectedMenu = userInput.nextInt();
     } else {
       selectedMenu = -1;
     }
     return selectedMenu;
   }
+
+
 
   public void userSetGlobalTime() {
     String newTime;
@@ -192,7 +211,7 @@ public class TrainDispatchAppUi {
     } else {
       newTime = "00:00";
     }
-    trainStation.setGlobalTime(newTime);
+    trainStationTime.setTrainStationTime(newTime);
   }
 
   /**
@@ -215,31 +234,39 @@ public class TrainDispatchAppUi {
         break;
 
       case EDIT_EXISTING_DEPARTURE:
+        this.printEditMenu();
 
       case SEARCH_EXISTING_DEPARTURES:
+        this.printSearchMenu();
 
       case UPDATE_CLOCK:
         this.userSetGlobalTime();
         break;
 
       case EXIT_APPLICATION:
+        printGoodbyeMessage();
         result = false;
         break;
     }
     return result;
   }
 
+  public void init() {
+    //TODO: Implement method
+    TrainStationTime trainStationTime = new TrainStationTime();
+  }
+
   /**
    * Start method where the application will be run.
    */
   public void start() {
-    trainStation.setGlobalTime("00:00");
+    trainStationTime.setTrainStationTime("00:00");
     this.printWelcomeScreen();
 
     boolean finished = false;
     while (!finished) {
       printMenu();
-      int selectedMenu = getUserChoice();
+      int selectedMenu = getUserMainMenuChoice();
 
       if (executeMainMenuChoice(selectedMenu) == false) {
         finished = true;
