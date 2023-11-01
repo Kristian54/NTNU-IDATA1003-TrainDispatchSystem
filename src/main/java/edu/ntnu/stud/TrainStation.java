@@ -77,23 +77,25 @@ public class TrainStation {
    * @param destination   the destination of the train departure.
    * @param track         the track number of the train departure.
    * @param delay         the delay of the train departure.
+   *
+   * @return trainNumberAdded True if added, false if train number is not unique
    */
 
   public boolean addDeparture(String departureTime, String trainLine, int trainNumber,
                            String destination, String track, String delay) {
-    boolean trainNumberAdded = true;
+    boolean trainDepartureAdded = true;
     for (TrainDeparture trainDeparture : trainStation) {
       if (trainDeparture.getTrainNumber() == trainNumber) {
-        trainNumberAdded = false;
+        trainDepartureAdded = false;
       }
     }
 
-    if (trainNumberAdded == true) {
+    if (trainDepartureAdded == true) {
       TrainDeparture departure =
           new TrainDeparture(departureTime, trainLine, trainNumber, destination, track, delay);
       this.trainStation.add(departure);
     }
-  return trainNumberAdded;
+  return trainDepartureAdded;
   }
 
   /**

@@ -29,6 +29,12 @@ public class TrainDepartureTest {
     assertEquals(LocalTime.parse("02:30"), trainDeparture.getDelayTime());
   }
 
+  @Test
+  public void testCreationOfTrainDepartureWithInvalidParameters() {
+    TrainDeparture trainDeparture = new TrainDeparture("test", "", -20, "", "", "100");
+    assertEquals();
+  }
+
 
 
 }

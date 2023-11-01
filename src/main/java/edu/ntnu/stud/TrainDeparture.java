@@ -32,12 +32,12 @@ public class TrainDeparture {
 
   public TrainDeparture(String departureTime, String trainLine, int number, String trainDestination,
                         String trackNum, String delay) {
-    setTime(departureTime);
-    setDelayTime(delay);
-    setTrainLine(trainLine);
-    setTrainNumber(number);
-    setDestination(trainDestination);
-    setTrackNumber(trackNum);
+    this.setTime(departureTime);
+    this.setDelayTime(delay);
+    this.setTrainLine(trainLine);
+    this.setTrainNumber(number);
+    this.setDestination(trainDestination);
+    this.setTrackNumber(trackNum);
   }
 
   /**
@@ -62,6 +62,7 @@ public class TrainDeparture {
    *
    * @return empty
    * */
+  // TODO: Move print functionality to UI class
   public String getDelayTimePrint() {
     String empty = "";
     if (delayTime.equals(LocalTime.parse("00:00"))) { // If delay is 00:00, return empty string
@@ -77,6 +78,7 @@ public class TrainDeparture {
    *
    * @return sumTime The expected time of the departure as a string in "hh:mm" format.
    */
+  // TODO: Move print functionality to UI class
   public String getExpectedTime() {
     String empty = "";
     LocalTime sumTime = time.plusHours(delayTime.getHour()).plusMinutes(delayTime.getMinute());
