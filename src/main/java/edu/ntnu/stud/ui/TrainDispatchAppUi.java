@@ -143,7 +143,7 @@ public class TrainDispatchAppUi {
   /**
    * Prints the main menu with choices
    */
-  public void printMenu() {
+  public void printMainMenu() {
     System.out.println("");
     System.out.println("-------------------------------------------");
     System.out.println("Main Menu                             "+trainStationTime.getTrainStationTime());
@@ -165,14 +165,16 @@ public class TrainDispatchAppUi {
     System.out.println("Please select one of the following choices:");
     System.out.println("1. Add track");
     System.out.println("2. Add delay");
-    System.out.println("3. Back");
+  }
+
+  public void printEditMessage() {
+    System.out.println("Enter the train number of the departure you would like to edit:");
   }
 
   public void printSearchMenu() {
     System.out.println("Please select one of the following choices:");
     System.out.println("1. Search by train number");
     System.out.println("2. Search by destination");
-    System.out.println("3. Back");
   }
 
   /**
@@ -188,7 +190,7 @@ public class TrainDispatchAppUi {
    *
    * @return the menu choice by the user
    */
-  public int getUserMainMenuChoice() {
+  public int getUserMenuChoice() {
     int selectedMenu = -1;
 
     Scanner userInput = new Scanner(System.in);
@@ -200,8 +202,9 @@ public class TrainDispatchAppUi {
     return selectedMenu;
   }
 
-
-
+  /**
+   * Lets the user set the new system time on the format hh:mm.
+   */
   public void userSetGlobalTime() {
     String newTime;
     System.out.println("Enter new time on the format hh:mm:");
@@ -223,6 +226,7 @@ public class TrainDispatchAppUi {
    */
   public boolean executeMainMenuChoice(int selectedMenu) {
     boolean result = true;
+    Scanner scanner = new Scanner(System.in);
 
     switch(selectedMenu) {
       case PRINT_INFO_TABLE:
@@ -234,10 +238,12 @@ public class TrainDispatchAppUi {
         break;
 
       case EDIT_EXISTING_DEPARTURE:
-        this.printEditMenu();
+        this.printEditMessage();
+        break;
 
       case SEARCH_EXISTING_DEPARTURES:
         this.printSearchMenu();
+        break;
 
       case UPDATE_CLOCK:
         this.userSetGlobalTime();
@@ -265,8 +271,8 @@ public class TrainDispatchAppUi {
 
     boolean finished = false;
     while (!finished) {
-      printMenu();
-      int selectedMenu = getUserMainMenuChoice();
+      printMainMenu();
+      int selectedMenu = getUserMenuChoice();
 
       if (executeMainMenuChoice(selectedMenu) == false) {
         finished = true;

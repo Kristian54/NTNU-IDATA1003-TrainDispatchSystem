@@ -37,6 +37,22 @@ public class TrainStation {
   }
 
   /**
+   * Returns the train departure with the given train number.
+   *
+   * @param trainNumber
+   * @return trainDeparture the train departure with the given train number.
+   */
+  public TrainDeparture getTrainDepartureByTrainNumber(int trainNumber) {
+    TrainDeparture trainDeparture = null;
+    for (TrainDeparture departure : trainStation) {
+      if (departure.getTrainNumber() == trainNumber) {
+        trainDeparture = departure;
+      }
+    }
+    return trainDeparture;
+  }
+
+  /**
    * Adds a train departure to the trainstation.
    *
    * @param departureTime the train departure to add.
