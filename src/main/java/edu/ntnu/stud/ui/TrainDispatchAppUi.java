@@ -1,7 +1,7 @@
 package edu.ntnu.stud.ui;
 
-import edu.ntnu.stud.logic.TrainDeparture;
-import edu.ntnu.stud.entity.TrainStation;
+import edu.ntnu.stud.entity.TrainDeparture;
+import edu.ntnu.stud.logic.TrainStation;
 import edu.ntnu.stud.entity.TrainStationTime;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -214,7 +214,16 @@ public class TrainDispatchAppUi {
     } else {
       newTime = "00:00";
     }
-    trainStationTime.setTrainStationTime(newTime);
+    boolean clockUpdated = trainStationTime.setTrainStationTime(newTime);
+    if (clockUpdated) {
+      System.out.println("Clock updates successfully");
+      System.out.println("New time: " + trainStationTime.getTrainStationTime());
+    }
+    else {
+      System.out.println("Clock update failed");
+      System.out.println("Please make sure the time is written in the format hh:mm and is after the current time");
+      System.out.println("You entered: " + newTime);
+    }
   }
 
   /**

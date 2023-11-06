@@ -1,4 +1,4 @@
-package edu.ntnu.stud.logic;
+package edu.ntnu.stud.entity;
 
 import java.time.LocalTime;
 import java.util.regex.Pattern;

@@ -1,10 +1,7 @@
-package edu.ntnu.stud.entity;
+package edu.ntnu.stud.logic;
 
-import edu.ntnu.stud.logic.TrainDeparture;
-import java.time.LocalTime;
+import edu.ntnu.stud.entity.TrainDeparture;
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.regex.Pattern;
 
 /**
  * Represents a trainstation with registered train departures.
@@ -14,7 +11,6 @@ import java.util.regex.Pattern;
  *   <li>Add a departure with a unique train number</li>
  *   <li>Remove a departure</li>
  *   <li>Change departure time of an existing departure</li>
- *   <li>Print all departures sorted by time</li>
  * </ul>
  */
 public class TrainStation {
@@ -28,9 +24,9 @@ public class TrainStation {
   }
 
   /**
-   * Returns the entire register
+   * Returns the train departure register
    *
-   * @return trainStation the entire register
+   * @return trainStation the train departure register
    */
   public ArrayList<TrainDeparture> getTrainStation() {
     return trainStation;
@@ -64,20 +60,26 @@ public class TrainStation {
    * @return trainNumberAdded True if added, false if train number is not unique
    */
 
+
   public boolean addDeparture(String departureTime, String trainLine, int trainNumber,
                               String destination, String track, String delay) {
+    // Saves paramteres in a local variable called departure
+    TrainDeparture departure =
+        new TrainDeparture(departureTime, trainLine, trainNumber, destination, track, delay);
+
+    // Checks if the train number is unique
     boolean trainDepartureAdded = true;
     for (TrainDeparture trainDeparture : trainStation) {
+      // If the train number isn´t unique, the train departure will not be added
       if (trainDeparture.getTrainNumber() == trainNumber) {
         trainDepartureAdded = false;
       }
     }
-
-    if (trainDepartureAdded == true) {
-      TrainDeparture departure =
-          new TrainDeparture(departureTime, trainLine, trainNumber, destination, track, delay);
+      // If the train number is unique, the train departure will be added
+    if (trainDepartureAdded && departure != null) {
       this.trainStation.add(departure);
     }
+    // True if added, false if not added
     return trainDepartureAdded;
   }
 

@@ -1,8 +1,8 @@
-package edu.ntnu.stud;
+package edu.ntnu.stud.entity;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import edu.ntnu.stud.logic.TrainDeparture;
+import edu.ntnu.stud.entity.TrainDeparture;
 import java.time.LocalTime;
 import org.junit.jupiter.api.Test;
 
@@ -33,7 +33,12 @@ public class TrainDepartureTest {
   @Test
   public void testCreationOfTrainDepartureWithInvalidParameters() {
     TrainDeparture trainDeparture = new TrainDeparture("test", "", -20, "", "", "100");
-    assertEquals();
+    assertEquals(LocalTime.parse("00:00"), trainDeparture.getTime());
+    assertEquals("", trainDeparture.getLine());
+    assertEquals(0, trainDeparture.getTrainNumber());
+    assertEquals("", trainDeparture.getDestination());
+    assertEquals("", trainDeparture.getTrackNumber());
+    assertEquals(LocalTime.parse("00:00"), trainDeparture.getDelayTime());
   }
 
 

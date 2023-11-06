@@ -36,18 +36,18 @@ public class TrainStationTime {
    *
    * @param globalTimeInput the updated time.
    */
-  public void setTrainStationTime(String globalTimeInput) {
+  public boolean setTrainStationTime(String globalTimeInput) {
+    boolean clockUpdated = false;
+
     String patternExample = "([01]?[0-9]|2[0-3]):[0-5][0-9]";
 
     Pattern pattern = Pattern.compile(patternExample);
 
-    if (globalTimeInput == null) {
-      this.trainStationTime = LocalTime.parse("00:00");
-    } else if (pattern.matcher(globalTimeInput).matches()) {
+    if (pattern.matcher(globalTimeInput).matches() &&
+        LocalTime.parse(globalTimeInput).isAfter(trainStationTime)) {
       this.trainStationTime = LocalTime.parse(globalTimeInput);
-    } else {
-      this.trainStationTime = LocalTime.parse("00:00");
+      clockUpdated = true;
     }
-
+  return clockUpdated;
   }
 }
