@@ -2,8 +2,10 @@ package edu.ntnu.stud.logic;
 
 import edu.ntnu.stud.entity.TrainDeparture;
 import edu.ntnu.stud.entity.TrainStationTime;
+import java.lang.reflect.Array;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Iterator;
 
 /**
@@ -39,6 +41,21 @@ public class TrainStation {
    * Returns an iterator over the train departure register.
    * @return iterator over the train departure register.
    */
+
+  /**
+   * Returns the register sorted by time.
+   * @return sortedDepartures the register sorted by time.
+   */
+  public ArrayList getSortedDepartureRegister() {
+    // Comparator for comparing train departures by time. Suggested by ChatGPT.
+    Comparator<TrainDeparture> byLocalTime = Comparator.comparing(TrainDeparture::getTime);
+
+    ArrayList<TrainDeparture> sortedDepartures = new ArrayList<>(this.getTrainStation());
+    sortedDepartures.sort(byLocalTime);
+
+    return sortedDepartures;
+  }
+
   public Iterator getTrainDepartureRegisterIterator() {
     return trainStation.iterator();
   }
@@ -59,6 +76,11 @@ public class TrainStation {
     return trainDeparture;
   }
 
+  public TrainDeparture getTrainDepartureByDestination() {
+    //TODO: Implement this method
+    return null;
+  }
+
   /**
    * Removes a given train departure from the trainstation.
    * @param trainDeparture the train departure to remove.
@@ -68,21 +90,25 @@ public class TrainStation {
   }
 
   /**
-   * Updates the register and removes any train departure with departure time before current time
+   * Updates the register and removes any train departure with departure time before current time.
    */
-  // TODO: Test this method
   public void updateTrainStation() {
     LocalTime currentTime = TrainStationTime.getTrainStationTime();
 
-    for (TrainDeparture trainDeparture : trainStation) {
-      LocalTime sumTime = trainDeparture.getTime().plusHours(trainDeparture.getDelayTime().
-          getHour()).plusMinutes(trainDeparture.getDelayTime().getMinute());
+    Iterator<TrainDeparture> iterator = trainStation.iterator();
+    while (iterator.hasNext()) {
+      TrainDeparture trainDeparture = iterator.next();
+      LocalTime departureTime = trainDeparture.getTime();
+      int delayHours = trainDeparture.getDelayTime().getHour();
+      int delayMinutes = trainDeparture.getDelayTime().getMinute();
+
+      LocalTime sumTime = departureTime.plusHours(delayHours).plusMinutes(delayMinutes);
+
       if (sumTime.isBefore(currentTime)) {
-        removeDeparture(trainDeparture);
+        iterator.remove();
       }
     }
   }
-
 
   /**
    * Adds a train departure to the trainstation.

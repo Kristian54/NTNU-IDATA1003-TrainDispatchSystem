@@ -57,28 +57,11 @@ public class TrainDeparture {
   }
 
   /**
-   * Returns the delaytime in a string format for printing to console.
-   * If the delaytime is 00:00, it will return an empty string.
-   *
-   * @return empty
-   * */
-  // TODO: Move print functionality to UI class
-  public String getDelayTimePrint() {
-    String empty = "";
-    if (delayTime.equals(LocalTime.parse("00:00"))) { // If delay is 00:00, return empty string
-      return empty;
-    } else {
-      return delayTime.toString();
-    }
-  }
-
-  /**
    * Returns the expected time of the departure including the delay. If delay is 00:00, it will
    * return an empty string
    *
    * @return sumTime The expected time of the departure as a string in "hh:mm" format.
    */
-  // TODO: Move print functionality to UI class
   public String getExpectedTime() {
     String empty = "";
     LocalTime sumTime = time.plusHours(delayTime.getHour()).plusMinutes(delayTime.getMinute());

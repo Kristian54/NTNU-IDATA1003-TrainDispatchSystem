@@ -65,16 +65,11 @@ public class TrainDispatchAppUi {
   }
 
   /**
-   * Comparator for comparing train departures by time. Suggested by ChatGPT.
-   */
-  Comparator<TrainDeparture> byLocalTime = Comparator.comparing(TrainDeparture::getTime);
-
-  /**
    * Prints the details of all departures in the train station sorted by time to the console.
    */
   public void printDeparturesSortedByTime() {
-    ArrayList<TrainDeparture> sortedDepartures = new ArrayList<>(trainStation.getTrainStation());
-    sortedDepartures.sort(byLocalTime);
+    ArrayList<TrainDeparture> sortedDepartures =
+        new ArrayList<>(trainStation.getSortedDepartureRegister());
 
     for (TrainDeparture trainDeparture : sortedDepartures) {
       printDeparture(trainDeparture);
@@ -204,6 +199,7 @@ public class TrainDispatchAppUi {
 
   /**
    * Lets the user set the new system time on the format hh:mm.
+   * TODO: Finish java doc
    */
   public void userSetGlobalTime() {
     String newTime;
@@ -239,7 +235,9 @@ public class TrainDispatchAppUi {
 
     switch(selectedMenu) {
       case PRINT_INFO_TABLE:
+        trainStation.updateTrainStation();
         this.printInfoTable();
+
         break;
 
       case ADD_TRAIN_DEPARTURE:
@@ -275,6 +273,7 @@ public class TrainDispatchAppUi {
    * Start method where the application will be run.
    */
   public void start() {
+    trainStation.fillTrainStationWithDummyDepartures();
     trainStationTime.setTrainStationTime("00:00");
     this.printWelcomeScreen();
 
