@@ -17,13 +17,13 @@ import java.util.Iterator;
  *   <li>Change departure time of an existing departure</li>
  * </ul>
  */
-public class TrainStation {
+public class TrainDepartureRegister {
   private ArrayList<TrainDeparture> departureRegister;
 
   /**
    * Creates an instance of TrainStation.
    */
-  public TrainStation() {
+  public TrainDepartureRegister() {
     this.departureRegister = new ArrayList<>();
   }
 

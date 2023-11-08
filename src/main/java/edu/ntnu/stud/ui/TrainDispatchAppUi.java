@@ -1,16 +1,15 @@
 package edu.ntnu.stud.ui;
 
 import edu.ntnu.stud.entity.TrainDeparture;
-import edu.ntnu.stud.logic.TrainStation;
+import edu.ntnu.stud.logic.TrainDepartureRegister;
 import edu.ntnu.stud.entity.TrainStationTime;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.Scanner;
 
 // TODO: Fill in the main method and any other methods you need.
 
 public class TrainDispatchAppUi {
-  private TrainStation trainStation;
+  private TrainDepartureRegister trainStation;
   private TrainStationTime trainStationTime;
   // Version
   private static final String version = "v0.2-SNAPSHOT";
@@ -27,7 +26,7 @@ public class TrainDispatchAppUi {
    * Creates an instance of TrainDispatchApp.
    */
   public TrainDispatchAppUi() {
-    this.trainStation = new TrainStation();
+    this.trainStation = new TrainDepartureRegister();
     this.trainStationTime = new TrainStationTime();
   }
 
