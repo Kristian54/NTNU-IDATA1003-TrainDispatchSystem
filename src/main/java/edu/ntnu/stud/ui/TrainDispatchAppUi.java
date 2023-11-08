@@ -235,7 +235,7 @@ public class TrainDispatchAppUi {
 
     switch(selectedMenu) {
       case PRINT_INFO_TABLE:
-        trainStation.updateTrainStation();
+        trainStation.removePassedDepartures();
         this.printInfoTable();
 
         break;

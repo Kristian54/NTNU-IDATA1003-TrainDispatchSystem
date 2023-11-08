@@ -2,7 +2,6 @@ package edu.ntnu.stud.logic;
 
 import edu.ntnu.stud.entity.TrainDeparture;
 import edu.ntnu.stud.entity.TrainStationTime;
-import java.lang.reflect.Array;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -19,13 +18,13 @@ import java.util.Iterator;
  * </ul>
  */
 public class TrainStation {
-  private ArrayList<TrainDeparture> trainStation;
+  private ArrayList<TrainDeparture> departureRegister;
 
   /**
    * Creates an instance of TrainStation.
    */
   public TrainStation() {
-    this.trainStation = new ArrayList<>();
+    this.departureRegister = new ArrayList<>();
   }
 
   /**
@@ -33,8 +32,8 @@ public class TrainStation {
    *
    * @return trainStation the train departure register
    */
-  public ArrayList<TrainDeparture> getTrainStation() {
-    return trainStation;
+  public ArrayList<TrainDeparture> getDepartureRegister() {
+    return departureRegister;
   }
 
   /**
@@ -50,14 +49,14 @@ public class TrainStation {
     // Comparator for comparing train departures by time. Suggested by ChatGPT.
     Comparator<TrainDeparture> byLocalTime = Comparator.comparing(TrainDeparture::getTime);
 
-    ArrayList<TrainDeparture> sortedDepartures = new ArrayList<>(this.getTrainStation());
+    ArrayList<TrainDeparture> sortedDepartures = new ArrayList<>(this.getDepartureRegister());
     sortedDepartures.sort(byLocalTime);
 
     return sortedDepartures;
   }
 
   public Iterator getTrainDepartureRegisterIterator() {
-    return trainStation.iterator();
+    return departureRegister.iterator();
   }
 
   /**
@@ -68,7 +67,7 @@ public class TrainStation {
    */
   public TrainDeparture getTrainDepartureByTrainNumber(int trainNumber) {
     TrainDeparture trainDeparture = null;
-    for (TrainDeparture departure : trainStation) {
+    for (TrainDeparture departure : departureRegister) {
       if (departure.getTrainNumber() == trainNumber) {
         trainDeparture = departure;
       }
@@ -86,16 +85,16 @@ public class TrainStation {
    * @param trainDeparture the train departure to remove.
    */
   public void removeDeparture(TrainDeparture trainDeparture) {
-    this.trainStation.remove(trainDeparture);
+    this.departureRegister.remove(trainDeparture);
   }
 
   /**
    * Updates the register and removes any train departure with departure time before current time.
    */
-  public void updateTrainStation() {
+  public void removePassedDepartures() {
     LocalTime currentTime = TrainStationTime.getTrainStationTime();
 
-    Iterator<TrainDeparture> iterator = trainStation.iterator();
+    Iterator<TrainDeparture> iterator = departureRegister.iterator();
     while (iterator.hasNext()) {
       TrainDeparture trainDeparture = iterator.next();
       LocalTime departureTime = trainDeparture.getTime();
@@ -132,7 +131,7 @@ public class TrainStation {
 
     // Checks if the train number is unique
     boolean trainDepartureAdded = true;
-    for (TrainDeparture trainDeparture : trainStation) {
+    for (TrainDeparture trainDeparture : departureRegister) {
       // If the train number isn´t unique, the train departure will not be added
       if (trainDeparture.getTrainNumber() == trainNumber) {
         trainDepartureAdded = false;
@@ -140,7 +139,7 @@ public class TrainStation {
     }
       // If the train number is unique, the train departure will be added
     if (trainDepartureAdded && departure != null) {
-      this.trainStation.add(departure);
+      this.departureRegister.add(departure);
     }
     // True if added, false if not added
     return trainDepartureAdded;
