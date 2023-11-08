@@ -1,7 +1,10 @@
 package edu.ntnu.stud.logic;
 
 import edu.ntnu.stud.entity.TrainDeparture;
+import edu.ntnu.stud.entity.TrainStationTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * Represents a trainstation with registered train departures.
@@ -33,9 +36,17 @@ public class TrainStation {
   }
 
   /**
+   * Returns an iterator over the train departure register.
+   * @return iterator over the train departure register.
+   */
+  public Iterator getTrainDepartureRegisterIterator() {
+    return trainStation.iterator();
+  }
+
+  /**
    * Returns the train departure with the given train number.
    *
-   * @param trainNumber
+   * @param trainNumber the train number of the train departure to return.
    * @return trainDeparture the train departure with the given train number.
    */
   public TrainDeparture getTrainDepartureByTrainNumber(int trainNumber) {
@@ -49,6 +60,31 @@ public class TrainStation {
   }
 
   /**
+   * Removes a given train departure from the trainstation.
+   * @param trainDeparture the train departure to remove.
+   */
+  public void removeDeparture(TrainDeparture trainDeparture) {
+    this.trainStation.remove(trainDeparture);
+  }
+
+  /**
+   * Updates the register and removes any train departure with departure time before current time
+   */
+  // TODO: Test this method
+  public void updateTrainStation() {
+    LocalTime currentTime = TrainStationTime.getTrainStationTime();
+
+    for (TrainDeparture trainDeparture : trainStation) {
+      LocalTime sumTime = trainDeparture.getTime().plusHours(trainDeparture.getDelayTime().
+          getHour()).plusMinutes(trainDeparture.getDelayTime().getMinute());
+      if (sumTime.isBefore(currentTime)) {
+        removeDeparture(trainDeparture);
+      }
+    }
+  }
+
+
+  /**
    * Adds a train departure to the trainstation.
    *
    * @param departureTime the train departure to add.
@@ -57,6 +93,7 @@ public class TrainStation {
    * @param destination   the destination of the train departure.
    * @param track         the track number of the train departure.
    * @param delay         the delay of the train departure.
+   *
    * @return trainNumberAdded True if added, false if train number is not unique
    */
 

@@ -13,7 +13,7 @@ public class TrainDispatchAppUi {
   private TrainStation trainStation;
   private TrainStationTime trainStationTime;
   // Version
-  private static final String version = "v0.1";
+  private static final String version = "v0.2-SNAPSHOT";
 
   // Menu choices:
   private static final int PRINT_INFO_TABLE = 1;
