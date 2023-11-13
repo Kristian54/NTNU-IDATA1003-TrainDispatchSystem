@@ -10,7 +10,7 @@ public class TrainDispatchAppUi {
   private TrainDepartureRegister trainDepartureRegister;
   private TrainStationTime trainStationTime;
   // Version
-  private static final String version = "v0.2-SNAPSHOT";
+  private static final String version = "v0.2";
 
   // Menu choices:
   private static final int PRINT_INFO_TABLE = 1;
@@ -250,11 +250,11 @@ public class TrainDispatchAppUi {
         break;
 
       case SEARCH_EXISTING_DEPARTURES_BY_TRAINNUMBER:
-        //this.userSearchByTrainNumber();
+        this.userSearchByTrainNumber();
         break;
 
       case SEARCH_EXISTING_DEPARTURES_BY_DESTINATION:
-        //this.userSearchByDestination();
+        this.userSearchByDestination();
         break;
 
       case UPDATE_CLOCK:
@@ -267,6 +267,40 @@ public class TrainDispatchAppUi {
         break;
     }
     return result;
+  }
+
+  /**
+   * TODO: Finish java doc
+   */
+  private void userSearchByDestination() {
+    Scanner scanner = new Scanner(System.in);
+    System.out.println("Enter the destination of the departures you would like to view:");
+    ArrayList<TrainDeparture> filteredDepartures = this.trainDepartureRegister.getTrainDepartureByDestination(scanner.nextLine());
+    System.out.println(trainStationTime.getTrainStationTime() + "   Avganger/Departures   " +
+        "Forventet/expected | "
+        + "Track/Spor | Nummer/Number:");
+    for (TrainDeparture trainDeparture : filteredDepartures) {
+      printDeparture(trainDeparture);
+    }
+  }
+
+  private void userSearchByTrainNumber() {
+    Scanner scanner = new Scanner(System.in);
+    System.out.println("Enter the train number of the departure you would like to view:");
+    int trainNumber = -1;
+    if (scanner.hasNextInt()) {
+      trainNumber = scanner.nextInt();
+    } else {
+      trainNumber = -1;
+    }
+    TrainDeparture departureToPrint =
+        trainDepartureRegister.getTrainDepartureByTrainNumber(trainNumber);
+
+    if (departureToPrint != null) {
+      printDeparture(departureToPrint);
+    } else {
+      System.out.println("Train departure not found");
+    }
   }
 
   /**

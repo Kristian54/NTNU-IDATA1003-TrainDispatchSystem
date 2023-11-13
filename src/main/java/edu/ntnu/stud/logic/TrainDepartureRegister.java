@@ -163,7 +163,7 @@ public class TrainDepartureRegister {
   }
 
   /**
-   * Fills the train station with 5 dummy departures for testing purposes only.
+   * Fills the train station with 10 dummy departures for testing purposes only.
    */
   public void fillTrainStationWithDummyDepartures() {
     addDeparture("10:00", "1", 8, "Stryn", "11", "00:00");
@@ -171,6 +171,11 @@ public class TrainDepartureRegister {
     addDeparture("10:00", "R", 8, "Moss", "34", "20:20");
     addDeparture("03:00", "403", 43, "Oslo", "4", "00:00");
     addDeparture("04:30", "20", 51, "Gursken", "52", "00:40");
+    addDeparture("10:00", "R", 11, "Moss", "34", "20:20");
+    addDeparture("03:00", "403", 4, "Oslo", "4", "00:00");
+    addDeparture("04:30", "20", 5, "Gursken", "52", "00:40");
+    addDeparture("10:00", "R", 9, "Moss", "34", "20:20");
+    addDeparture("03:00", "403", 3, "Oslo", "4", "00:00");
   }
 
 }
