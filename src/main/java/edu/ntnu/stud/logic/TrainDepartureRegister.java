@@ -26,26 +26,20 @@ public class TrainDepartureRegister {
   public TrainDepartureRegister() {
     this.departureRegister = new ArrayList<>();
   }
-
   /**
    * Returns the train departure register
    *
    * @return trainStation the train departure register
    */
-  public ArrayList<TrainDeparture> getDepartureRegister() {
+  private ArrayList<TrainDeparture> getDepartureRegister() {
     return departureRegister;
   }
-
-  /**
-   * Returns an iterator over the train departure register.
-   * @return iterator over the train departure register.
-   */
 
   /**
    * Returns the register sorted by time.
    * @return sortedDepartures the register sorted by time.
    */
-  public ArrayList getSortedDepartureRegister() {
+  public ArrayList getDepartureRegisterSortedByTime() {
     // Comparator for comparing train departures by time. Suggested by ChatGPT.
     Comparator<TrainDeparture> byLocalTime = Comparator.comparing(TrainDeparture::getTime);
 
@@ -55,7 +49,7 @@ public class TrainDepartureRegister {
     return sortedDepartures;
   }
 
-  public Iterator getTrainDepartureRegisterIterator() {
+  public Iterator getDepartureRegisterIterator() {
     return departureRegister.iterator();
   }
 
@@ -75,17 +69,40 @@ public class TrainDepartureRegister {
     return trainDeparture;
   }
 
-  public TrainDeparture getTrainDepartureByDestination() {
-    //TODO: Implement this method
-    return null;
+  /**
+   * TODO: Finish java doc
+   * @param destination
+   * @return
+   */
+  public ArrayList<TrainDeparture> getTrainDepartureByDestination(String destination) {
+    String destinationUppercase = destination.toUpperCase();
+    ArrayList<TrainDeparture> filteredDepartures = new ArrayList<>();
+    Iterator<TrainDeparture> iterator = getDepartureRegisterIterator();
+
+    while (iterator.hasNext()) {
+      TrainDeparture departure = iterator.next();
+      if (departure.getDestination().toUpperCase().equals(destinationUppercase)) {
+        filteredDepartures.add(departure);
+      }
+    }
+    return filteredDepartures;
   }
 
   /**
    * Removes a given train departure from the trainstation.
    * @param trainDeparture the train departure to remove.
    */
-  public void removeDeparture(TrainDeparture trainDeparture) {
-    this.departureRegister.remove(trainDeparture);
+  public boolean removeDeparture(TrainDeparture trainDeparture) {
+    boolean removed = false;
+    if (trainDeparture != null) {
+      for (TrainDeparture departure : departureRegister) {
+        if (departure.getTrainNumber() == trainDeparture.getTrainNumber()) {
+          removed = true;
+        }
+      }
+      departureRegister.remove(trainDeparture);
+    }
+    return removed;
   }
 
   /**

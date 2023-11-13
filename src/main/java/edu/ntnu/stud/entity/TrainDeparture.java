@@ -136,23 +136,26 @@ public class TrainDeparture {
    * Parts of the code used under was suggested by GitHub Copilot.
    * Check´s if the delay time provided is written in
    * valid hh:mm format. If it is not, the time will be set to 00:00.
-   *
+   * //TODO FINISH JAVA DOC (BOOLEAN)
    * @param delayedTime the time the train is delayed.
    */
-  public void setDelayTime(String delayedTime) {
+  public boolean setDelayTime(String delayedTime) {
     // Example pattern for a string in hh:mm format
     String patternExample = "([01]?[0-9]|2[0-3]):[0-5][0-9]";
 
     Pattern pattern = Pattern.compile(patternExample); // Compiles the pattern
+    boolean delayed = false;
 
     if (delayedTime == null) { // If the delay time is empty, set time to 00:00
       delayTime = LocalTime.parse("00:00");
       // Else if the delay time matches the pattern, set time to the delay time
     } else if (pattern.matcher(delayedTime).matches()) {
       delayTime = LocalTime.parse(delayedTime);
+        delayed = true;
     } else { // Else set time to 00:00
       delayTime = LocalTime.parse("00:00");
     }
+    return delayed;
   }
 
   /**
