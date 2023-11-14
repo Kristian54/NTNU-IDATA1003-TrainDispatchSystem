@@ -137,6 +137,7 @@ public class TrainDeparture {
    * Check´s if the delay time provided is written in
    * valid hh:mm format. If it is not, the time will be set to 00:00.
    * //TODO FINISH JAVA DOC (BOOLEAN)
+   *
    * @param delayedTime the time the train is delayed.
    */
   public boolean setDelayTime(String delayedTime) {
