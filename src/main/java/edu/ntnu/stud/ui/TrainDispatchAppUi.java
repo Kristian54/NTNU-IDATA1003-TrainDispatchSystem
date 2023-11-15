@@ -10,7 +10,7 @@ public class TrainDispatchAppUi {
   private TrainDepartureRegister trainDepartureRegister;
   private TrainStationTime trainStationTime;
   // Version
-  private static final String version = "v0.3";
+  private static final String version = "v0.4-SNAPSHOT";
 
   // Menu choices:
   private static final int PRINT_INFO_TABLE = 1;
