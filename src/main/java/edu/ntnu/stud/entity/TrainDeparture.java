@@ -162,7 +162,7 @@ public class TrainDeparture {
   /**
    * checks if the track number given is empty,
    * if it is empty it will be set as an empty string.
-   *
+   * TODO: Add validation, must be between 0 and 250
    * @param newTrackNumber the track number of the train.
    */
 

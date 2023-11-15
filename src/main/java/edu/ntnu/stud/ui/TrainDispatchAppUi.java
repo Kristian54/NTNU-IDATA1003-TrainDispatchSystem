@@ -55,14 +55,23 @@ public class TrainDispatchAppUi {
    * @param trainDeparture the train departure to print.
    */
   public void printDeparture(TrainDeparture trainDeparture) {
-    String departureTime = String.format("%-8s", trainDeparture.getTime())
-        + String.format("%-5s", trainDeparture.getLine())
-        + String.format("%-15s", trainDeparture.getDestination());
-    String line = String.format("%-18s", trainDeparture.getExpectedTime());
+    String departureTime = String.format("%-6s", trainDeparture.getTime());
+    String trainLine = String.format("%-5s", trainDeparture.getLine());
+    String destination = String.format("%-17s", trainDeparture.getDestination());
+    String expectedTime = String.format("%-18s", trainDeparture.getExpectedTime());
     String trackNumber = String.format("%-10s", trainDeparture.getTrackNumber());
-    String destination = String.format("%-13s", trainDeparture.getTrainNumber());
-    System.out.println(departureTime + "  "
-        + line + " | " + trackNumber + " | " + destination);
+    String number = String.format("%-13s", trainDeparture.getTrainNumber());
+
+    int destinationMaxLeght = 17;
+    if (destination.length() > destinationMaxLeght) {
+      destination = destination.substring(0, 13) + "..";
+    }
+    int trainLineMaxLenght = 5;
+    if (trainLine.length() > trainLineMaxLenght) {
+      trainLine = trainLine.substring(0,5);
+    }
+    System.out.println(departureTime + "  " + trainLine + destination
+        + expectedTime + " | " + trackNumber + " | " + number);
   }
 
   /**
@@ -142,17 +151,17 @@ public class TrainDispatchAppUi {
    * Prints the main menu with choices.
    */
   public void printMainMenu() {
-    System.out.println("");
-    System.out.println("-------------------------------------------");
-    System.out.println("Main Menu                             "
+    System.out.println();
+    System.out.println();
+    System.out.println("Main Menu                                   "
         + trainStationTime.getTrainStationTime());
-    System.out.println("-------------------------------------------");
+    System.out.println("-------------------------------------------------");
     System.out.println("Please select one of the following choices:");
-    System.out.println("1. Print info table");
+    System.out.println("1. Show info table");
     System.out.println("2. Add a train departure");
     System.out.println("3. Remove a train departure");
     System.out.println("4. Add delay to an existing departure");
-    System.out.println("5. Add a track to an existing departure");
+    System.out.println("5. Add track to an existing departure");
     System.out.println("6. Search for existing departures by train number");
     System.out.println("7. Search for existing departures by destination");
     System.out.println("8. Update Clock");
