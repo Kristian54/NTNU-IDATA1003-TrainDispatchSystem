@@ -154,7 +154,7 @@ public class TrainDepartureRegister {
 
 
   public boolean addDeparture(String departureTime, String trainLine, int trainNumber,
-                              String destination, String track, String delay) {
+                              String destination, int track, String delay) {
     // Saves paramteres in a local variable called departure
     TrainDeparture departure =
         new TrainDeparture(departureTime, trainLine, trainNumber, destination, track, delay);
@@ -179,16 +179,16 @@ public class TrainDepartureRegister {
    * Fills the train station with 10 dummy departures for testing purposes only.
    */
   public void fillTrainStationWithDummyDepartures() {
-    addDeparture("10:00", "1", 8, "Stryn", "11", "00:00");
-    addDeparture("01:40", "L21", 23, "Ålesund", "2", "00:10");
-    addDeparture("10:00", "R", 8, "Moss", "34", "20:20");
-    addDeparture("03:00", "403", 43, "Oslo", "4", "00:00");
-    addDeparture("04:30", "20", 51, "Gursken", "52", "00:40");
-    addDeparture("10:00", "R", 11, "Moss", "34", "20:20");
-    addDeparture("03:00", "403", 4, "Oslo", "4", "00:00");
-    addDeparture("04:30", "20", 5, "Gursken", "52", "00:40");
-    addDeparture("10:00", "R", 9, "Moss", "34", "20:20");
-    addDeparture("03:00", "403", 3, "Oslo", "4", "00:00");
+    addDeparture("10:00", "1", 8, "Stryn", 11, "00:00");
+    addDeparture("01:40", "L21", 23, "Ålesund", 2, "00:10");
+    addDeparture("10:00", "R", 8, "Moss", 34, "20:20");
+    addDeparture("03:00", "403", 43, "Oslo", 4, "00:00");
+    addDeparture("04:30", "20", 51, "Gursken", 52, "00:40");
+    addDeparture("10:00", "R", 11, "Moss", 0, "20:20");
+    addDeparture("03:00", "403", 4, "Oslo", 4, "00:00");
+    addDeparture("04:30", "20", 5, "Gursken", 52, "00:40");
+    addDeparture("10:00", "R", 9, "Moss", 34, "20:20");
+    addDeparture("03:00", "403", 3, "Oslo", 4, "00:00");
   }
 
 }

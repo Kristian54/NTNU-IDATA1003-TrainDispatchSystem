@@ -18,7 +18,7 @@ public class TrainDeparture {
   private String line; // Train line
   private int trainNumber; // Train number
   private String destination; // Train destination
-  private String trackNumber; // Track number
+  private int trackNumber; // Track number
 
   /**
    * Creates an instance of TrainDepature.
@@ -31,7 +31,7 @@ public class TrainDeparture {
    */
 
   public TrainDeparture(String departureTime, String trainLine, int number, String trainDestination,
-                        String trackNum, String delay) {
+                        int trackNum, String delay) {
     this.setTime(departureTime);
     this.setDelayTime(delay);
     this.setTrainLine(trainLine);
@@ -105,7 +105,7 @@ public class TrainDeparture {
    *
    * @return trackNumber
    */
-  public String getTrackNumber() {
+  public int getTrackNumber() {
     return trackNumber;
   }
 
@@ -164,14 +164,15 @@ public class TrainDeparture {
    * if it is empty it will be set as an empty string.
    * TODO: Add validation, must be between 0 and 250
    *
-   * @param newTrackNumber the track number of the train.
+   * @param trackNum the track number of the train.
    */
 
-  public void setTrackNumber(String newTrackNumber) {
-    if (newTrackNumber == null) { // If the track number is empty, set track number to -1
-      trackNumber = "-1";
+  public void setTrackNumber(int trackNum) {
+    if (trackNum > 0 && trackNum < 100) { // If the track number is less than 0 or bigger than 100,
+      // set track number to -1
+      trackNumber = trackNum;
     } else { // Else set track number to the track number
-      trackNumber = newTrackNumber;
+      trackNumber = -1;
     }
   }
 

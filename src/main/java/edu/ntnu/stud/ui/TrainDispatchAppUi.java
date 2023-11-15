@@ -119,7 +119,7 @@ public class TrainDispatchAppUi {
       }
     }
     System.out.println("Enter the track number:");
-    String trackNum = scanner.nextLine();
+    int trackNum = getUserInt();
     System.out.println("If there is a delay, enter it on the format hh:mm :");
     String delay = scanner.nextLine();
 
@@ -234,7 +234,7 @@ public class TrainDispatchAppUi {
   /**
    * Executes the selected menu choice by the user.
    * // TODO: Finish java doc
-   *
+   * @param selectedMenu users choice
    * @return result the users choice
    */
   public boolean executeMainMenuChoice(int selectedMenu) {
@@ -325,28 +325,30 @@ public class TrainDispatchAppUi {
   }
 
   /**
-   * TODO: Finish java doc.
+   * Lets the user add a track number to an existing departure.
+   * Track number must be between 1 and 99, if it isn't the user will be notified accordingly.
    */
   private void userAddTrack() {
     Scanner scanner = new Scanner(System.in);
     System.out.println("Enter the train number of the departure you would like to add a track to:");
-    int trainNumber = -1;
-    if (scanner.hasNextInt()) {
-      trainNumber = scanner.nextInt();
-    }
+    int trainNumber = getUserInt();
+
     TrainDeparture departureToAddTrack =
         trainDepartureRegister.getTrainDepartureByTrainNumber(trainNumber);
 
     if (departureToAddTrack != null) {
-      System.out.println("Please enter the track:");
-      String track = scanner.next();
+      System.out.println("Please enter a track number between 1 and 99");
+      int track = getUserInt();
+      if (track < 100 && track > 0) {
       departureToAddTrack.setTrackNumber(track);
       System.out.println("Track added");
+      } else {
+        System.out.println("Track must be between 1 and 99");
+      }
     } else {
       System.out.println("Train departure not found");
     }
 
-    scanner.nextLine(); // Consume the newline character from the previous input
     System.out.println("Press enter to return to the main menu");
     scanner.nextLine(); // Waits for enter press
   }
