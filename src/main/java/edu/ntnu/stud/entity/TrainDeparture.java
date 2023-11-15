@@ -152,7 +152,7 @@ public class TrainDeparture {
       // Else if the delay time matches the pattern, set time to the delay time
     } else if (pattern.matcher(delayedTime).matches()) {
       delayTime = LocalTime.parse(delayedTime);
-        delayed = true;
+      delayed = true;
     } else { // Else set time to 00:00
       delayTime = LocalTime.parse("00:00");
     }
@@ -163,6 +163,7 @@ public class TrainDeparture {
    * checks if the track number given is empty,
    * if it is empty it will be set as an empty string.
    * TODO: Add validation, must be between 0 and 250
+   *
    * @param newTrackNumber the track number of the train.
    */
 

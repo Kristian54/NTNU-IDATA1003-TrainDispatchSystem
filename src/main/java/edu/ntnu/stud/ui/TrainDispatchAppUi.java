@@ -30,16 +30,9 @@ public class TrainDispatchAppUi {
   }
 
   /**
-   * Prints the global time.
-   */
-  public void printGlobalTime() {
-    System.out.println("Global time: " + trainStationTime.getTrainStationTime());
-  }
-
-  /**
    * Prints the information table.
    */
-  public void printInfoTable() {
+  private void printInfoTable() {
     Scanner scanner = new Scanner(System.in);
     System.out.println(trainStationTime.getTrainStationTime() + "   Avganger/Departures   "
         + "Forventet/expected | "
@@ -51,10 +44,12 @@ public class TrainDispatchAppUi {
 
   /**
    * Prints the details of one train departure.
+   * If destination is longer than 17 characters or train line is longer than 4 characters they will
+   * be cut down to prevent stretching.
    *
    * @param trainDeparture the train departure to print.
    */
-  public void printDeparture(TrainDeparture trainDeparture) {
+  private void printDeparture(TrainDeparture trainDeparture) {
     String departureTime = String.format("%-6s", trainDeparture.getTime());
     String trainLine = String.format("%-5s", trainDeparture.getLine());
     String destination = String.format("%-17s", trainDeparture.getDestination());
@@ -66,9 +61,9 @@ public class TrainDispatchAppUi {
     if (destination.length() > destinationMaxLeght) {
       destination = destination.substring(0, 13) + "..";
     }
-    int trainLineMaxLenght = 5;
+    int trainLineMaxLenght = 4;
     if (trainLine.length() > trainLineMaxLenght) {
-      trainLine = trainLine.substring(0,5);
+      trainLine = trainLine.substring(0,trainLineMaxLenght);
     }
     System.out.println(departureTime + "  " + trainLine + destination
         + expectedTime + " | " + trackNumber + " | " + number);
@@ -77,7 +72,7 @@ public class TrainDispatchAppUi {
   /**
    * Prints the details of all departures in the train station sorted by time to the console.
    */
-  public void printDeparturesSortedByTime() {
+  private void printDeparturesSortedByTime() {
     ArrayList<TrainDeparture> sortedDepartures =
         new ArrayList<>(trainDepartureRegister.getDepartureRegisterSortedByTime());
 
@@ -130,11 +125,11 @@ public class TrainDispatchAppUi {
 
     boolean trainDepartureAdded = this.trainDepartureRegister.addDeparture(departureTime, trainLine,
         number, trainDestination, trackNum, delay);
-    if (trainDepartureAdded == true) {
+    if (trainDepartureAdded) {
       System.out.println("Train departure added");
     } else {
       System.out.println("Train number must be unique. Train departure not added");
-      System.out.println("");
+      System.out.println();
     }
     System.out.println("Press enter to return to main menu");
     scanner.nextLine();
@@ -143,18 +138,18 @@ public class TrainDispatchAppUi {
   /**
    * Prints the welcome screen for the application.
    */
-  public void printWelcomeScreen() {
+  private void printWelcomeScreen() {
     System.out.println("Welcome to trainDispatchApp" + version);
   }
 
   /**
    * Prints the main menu with choices.
    */
-  public void printMainMenu() {
+  private void printMainMenu() {
     System.out.println();
     System.out.println();
     System.out.println("Main Menu                                   "
-        + trainStationTime.getTrainStationTime());
+        + TrainStationTime.getTrainStationTime());
     System.out.println("-------------------------------------------------");
     System.out.println("Please select one of the following choices:");
     System.out.println("1. Show info table");
@@ -171,14 +166,14 @@ public class TrainDispatchAppUi {
   /**
    * TODO Remove or implement.
    */
-  public void printEditMessage() {
+  private void printEditMessage() {
     System.out.println("Enter the train number of the departure you would like to edit:");
   }
 
   /**
    * TODO Remove or implement.
    */
-  public void printSearchMenu() {
+  private void printSearchMenu() {
     System.out.println("Please select one of the following choices:");
     System.out.println("1. Search by train number");
     System.out.println("2. Search by destination");
@@ -187,9 +182,8 @@ public class TrainDispatchAppUi {
   /**
    * Prints a goodbye message.
    */
-  public void printGoodbyeMessage() {
-    //TODO: Finish message.
-    System.out.println("Thank you for using this fantastic A ;) application, goodbye.");
+  private void printGoodbyeMessage() {
+    System.out.println("Goodbye");
   }
 
 
@@ -198,21 +192,20 @@ public class TrainDispatchAppUi {
    *
    * @return the menu choice by the user
    */
-  public int getUserMenuChoice() {
+  private int getUserInt() {
     int selectedMenu = -1;
 
     Scanner userInput = new Scanner(System.in);
     if (userInput.hasNextInt()) {
       selectedMenu = userInput.nextInt();
-    } else {
-      selectedMenu = -1;
     }
     return selectedMenu;
   }
 
   /**
    * Lets the user set the new system time on the format hh:mm.
-   * TODO: Finish java doc
+   * If entered on incorrect format or is before the current time the user will be notified
+   * accordingly.
    */
   public void userUpdateClock() {
     String newTime;
@@ -226,16 +219,16 @@ public class TrainDispatchAppUi {
     boolean clockUpdated = trainStationTime.setTrainStationTime(newTime);
     if (clockUpdated) {
       System.out.println("Clock updates successfully");
-      System.out.println("New time: " + trainStationTime.getTrainStationTime());
+      System.out.println("New time: " + TrainStationTime.getTrainStationTime());
     } else {
       System.out.println("Clock update failed");
       System.out.println("Please make sure the time is written in the format hh:mm and is after "
           + "the current time");
       System.out.println("You entered: " + newTime);
     }
-    userInput.nextLine();
+    userInput.nextLine(); // Consumes the newLine character from the previous input.
     System.out.println("Press enter to return to main menu");
-    userInput.nextLine();
+    userInput.nextLine(); // Waits for enter press
   }
 
   /**
@@ -301,13 +294,13 @@ public class TrainDispatchAppUi {
     Scanner scanner = new Scanner(System.in);
     System.out.println("Enter the destination of the departures you would like to view:");
     ArrayList<TrainDeparture> filteredDepartures = this.trainDepartureRegister.getTrainDepartureByDestination(scanner.nextLine());
-    System.out.println(trainStationTime.getTrainStationTime() + "   Avganger/Departures   "
+    System.out.println(TrainStationTime.getTrainStationTime() + "   Avganger/Departures   "
         + "Forventet/expected | " + "Track/Spor | Nummer/Number:");
     for (TrainDeparture trainDeparture : filteredDepartures) {
       printDeparture(trainDeparture);
     }
     System.out.println("Press enter to return to main menu");
-    scanner.nextLine();
+    scanner.nextLine(); // Waits for enter press
   }
 
   /**
@@ -316,12 +309,8 @@ public class TrainDispatchAppUi {
   private void userSearchByTrainNumber() {
     Scanner scanner = new Scanner(System.in);
     System.out.println("Enter the train number of the departure you would like to view:");
-    int trainNumber = -1;
-    if (scanner.hasNextInt()) {
-      trainNumber = scanner.nextInt();
-    } else {
-      trainNumber = -1;
-    }
+    int trainNumber = getUserInt();
+
     TrainDeparture departureToPrint =
         trainDepartureRegister.getTrainDepartureByTrainNumber(trainNumber);
 
@@ -331,7 +320,6 @@ public class TrainDispatchAppUi {
       System.out.println("Train departure not found");
     }
 
-    scanner.nextLine();
     System.out.println("Press enter to return to main menu");
     scanner.nextLine();
   }
@@ -345,8 +333,6 @@ public class TrainDispatchAppUi {
     int trainNumber = -1;
     if (scanner.hasNextInt()) {
       trainNumber = scanner.nextInt();
-    } else {
-      trainNumber = -1;
     }
     TrainDeparture departureToAddTrack =
         trainDepartureRegister.getTrainDepartureByTrainNumber(trainNumber);
@@ -355,29 +341,27 @@ public class TrainDispatchAppUi {
       System.out.println("Please enter the track:");
       String track = scanner.next();
       departureToAddTrack.setTrackNumber(track);
+      System.out.println("Track added");
     } else {
       System.out.println("Train departure not found");
     }
-    System.out.println("Track added");
-    scanner.nextLine(); // Consume the newline character from the previous input
 
-    // Wait for Enter key press
+    scanner.nextLine(); // Consume the newline character from the previous input
     System.out.println("Press enter to return to the main menu");
-    scanner.nextLine(); // This will wait until the user presses Enter
+    scanner.nextLine(); // Waits for enter press
   }
 
   /**
-   * //TODO: Finish java doc.
+   * Lets the user add a delay to an existing departure.
+   * If it is not written on the format "hh:mm" or no train departure is found with the given train
+   * number the user will be notified accordingly.
+   *
    */
   private void userAddDelay() {
     Scanner scanner = new Scanner(System.in);
     System.out.println("Enter the train number of the departure you would like to add a delay to:");
-    int trainNumber = -1;
-    if (scanner.hasNextInt()) {
-      trainNumber = scanner.nextInt();
-    } else {
-      trainNumber = -1;
-    }
+    int trainNumber = getUserInt();
+
     TrainDeparture departureToDelay =
         trainDepartureRegister.getTrainDepartureByTrainNumber(trainNumber);
     if (departureToDelay == null) {
@@ -388,31 +372,27 @@ public class TrainDispatchAppUi {
       boolean delayAdded = departureToDelay.setDelayTime(delay);
       if (delayAdded) {
         System.out.println("Delay added successfully");
+        scanner.nextLine();
       } else {
         System.out.println("Delay not added");
         System.out.println("Please make sure the time is written in the format hh:mm");
         System.out.println("You entered: " + delay);
       }
     }
-    scanner.nextLine(); // Consume the newline character from the previous input
 
-    // Wait for Enter key press
     System.out.println("Press enter to return to the main menu");
-    scanner.nextLine(); // This will wait until the user presses Enter
+    scanner.nextLine(); // Waits for enter press
   }
 
   /**
-   * TODO: FINISH JAVA DOC
+   * Lets the user remove a departure by selecting it´s train number.
+   * If no departure is found with the given train number it will notify the user of that.
    */
   private void userRemoveDeparture() {
     Scanner scanner = new Scanner(System.in);
     System.out.println("Enter the train number of the departure you would like to remove:");
-    int trainNumber = -1;
-    if (scanner.hasNextInt()) {
-      trainNumber = scanner.nextInt();
-    } else {
-      trainNumber = -1;
-    }
+    int trainNumber = getUserInt();
+
     TrainDeparture departureToRemove =
         trainDepartureRegister.getTrainDepartureByTrainNumber(trainNumber);
 
@@ -421,15 +401,16 @@ public class TrainDispatchAppUi {
       System.out.println("Train departure removed");
     } else {
       System.out.println("Train departure not found");
-      System.out.println("You entered:" + trainNumber);
+      System.out.println("You entered: " + trainNumber);
     }
-    scanner.nextLine();
     System.out.println("Press enter to return to main menu");
     scanner.nextLine();
   }
 
+  /**
+   * Prepares the application to be run.
+   */
   public void init() {
-    //TODO: Implement method
     TrainStationTime trainStationTime = new TrainStationTime();
     this.trainDepartureRegister = new TrainDepartureRegister();
     this.trainStationTime = new TrainStationTime();
@@ -446,7 +427,7 @@ public class TrainDispatchAppUi {
     boolean finished = false;
     while (!finished) {
       printMainMenu();
-      int selectedMenu = getUserMenuChoice();
+      int selectedMenu = getUserInt();
 
       if (executeMainMenuChoice(selectedMenu) == false) {
         finished = true;
