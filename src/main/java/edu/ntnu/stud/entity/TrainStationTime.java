@@ -17,7 +17,7 @@ public class TrainStationTime {
    * Creates an instance of TrainStationTime.
    */
   public TrainStationTime() {
-    this.trainStationTime = LocalTime.parse("00:00");
+    trainStationTime = LocalTime.parse("00:00");
   }
 
   /**
@@ -47,7 +47,7 @@ public class TrainStationTime {
     // parameter globalTimeInput.
     if (pattern.matcher(globalTimeInput).matches() &&
         LocalTime.parse(globalTimeInput).isAfter(trainStationTime)) {
-      this.trainStationTime = LocalTime.parse(globalTimeInput);
+      trainStationTime = LocalTime.parse(globalTimeInput);
       clockUpdated = true;
     }
   return clockUpdated;

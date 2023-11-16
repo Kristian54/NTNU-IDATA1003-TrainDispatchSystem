@@ -6,7 +6,7 @@ import java.util.regex.Pattern;
 /**
  * Represents a train departure with:.
  * Departure time
- * Line
+ * Departure line
  * Train Number
  * Destination
  * Track Number

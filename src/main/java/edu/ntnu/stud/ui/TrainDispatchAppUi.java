@@ -12,6 +12,17 @@ public class TrainDispatchAppUi {
   // Version
   private static final String version = "v0.4-SNAPSHOT";
 
+  // Ui Color
+
+  // Color reset
+  public static final String ANSI_RESET = "\u001B[0m";
+
+  public static final String ANSI_GREEN = "\u001B[32m";
+  public static final String ANSI_YELLOW = "\u001B[33m";
+  public static final String ANSI_RED = "\u001B[31m";
+  public static final String ANSI_CYAN = "\u001B[36m";
+
+
   // Menu choices:
   private static final int PRINT_INFO_TABLE = 1;
   private static final int ADD_TRAIN_DEPARTURE = 2;
@@ -34,10 +45,13 @@ public class TrainDispatchAppUi {
    */
   private void printInfoTable() {
     Scanner scanner = new Scanner(System.in);
-    System.out.println(trainStationTime.getTrainStationTime() + "   Avganger/Departures   "
-        + "Forventet/expected | "
-        + "Track/Spor | Nummer/Number:");
+    System.out.println(TrainStationTime.getTrainStationTime() +
+        "   Avganger/" + ANSI_YELLOW + "Departures  " + ANSI_RESET
+        + "Forventet/" + ANSI_YELLOW + "expected " + ANSI_RESET + "| "
+        + "Track/" + ANSI_YELLOW + "Spor "
+        + ANSI_RESET + "|" + " Nummer/" + ANSI_YELLOW + "Number:" + ANSI_RESET);
     this.printDeparturesSortedByTime();
+    System.out.println();
     System.out.println("Press enter to return to main menu");
     scanner.nextLine();
   }
@@ -52,21 +66,22 @@ public class TrainDispatchAppUi {
   private void printDeparture(TrainDeparture trainDeparture) {
     String departureTime = String.format("%-6s", trainDeparture.getTime());
     String trainLine = String.format("%-5s", trainDeparture.getLine());
-    String destination = String.format("%-17s", trainDeparture.getDestination());
-    String expectedTime = String.format("%-18s", trainDeparture.getExpectedTime());
+    String destination = String.format("%-16s", trainDeparture.getDestination());
+    String expectedTime = String.format(ANSI_YELLOW + "%-18s", trainDeparture.getExpectedTime()
+        + ANSI_RESET);
     String trackNumber = String.format("%-10s", trainDeparture.getTrackNumber());
     String number = String.format("%-13s", trainDeparture.getTrainNumber());
 
-    int destinationMaxLeght = 17;
+    int destinationMaxLeght = 16;
     if (destination.length() > destinationMaxLeght) {
-      destination = destination.substring(0, 13) + "..";
+      destination = destination.substring(0, 15) + "..";
     }
-    int trainLineMaxLenght = 4;
+    int trainLineMaxLenght = 5;
     if (trainLine.length() > trainLineMaxLenght) {
       trainLine = trainLine.substring(0,trainLineMaxLenght);
     }
     System.out.println(departureTime + "  " + trainLine + destination
-        + expectedTime + " | " + trackNumber + " | " + number);
+        + expectedTime + "     | " + trackNumber + " | " + number);
   }
 
   /**
@@ -110,12 +125,13 @@ public class TrainDispatchAppUi {
           number = inputNumber;
           validInput = true; // Set validInput to true if parsing and validation succeed
         } else {
-          System.out.println("Train number must be between 0 and 99");
+          System.out.println(ANSI_RED + "Train number must be between 0 and 99" + ANSI_RESET);
           System.out.println("You entered: " + inputNumber);
         }
 
       } catch (NumberFormatException e) {
-        System.out.println("Invalid input. Train number must be unique and between 0 and 99");
+        System.out.println(ANSI_RED
+            + "Invalid input. Train number must be unique and between 0 and 99" + ANSI_RESET);
       }
     }
     System.out.println("Enter the track number:");
@@ -126,9 +142,10 @@ public class TrainDispatchAppUi {
     boolean trainDepartureAdded = this.trainDepartureRegister.addDeparture(departureTime, trainLine,
         number, trainDestination, trackNum, delay);
     if (trainDepartureAdded) {
-      System.out.println("Train departure added");
+      System.out.println(ANSI_GREEN + "Train departure added" + ANSI_RESET);
     } else {
-      System.out.println("Train number must be unique. Train departure not added");
+      System.out.println(ANSI_RED
+          + "Train number must be unique. Train departure not added" + ANSI_RESET);
       System.out.println();
     }
     System.out.println("Press enter to return to main menu");
@@ -139,7 +156,7 @@ public class TrainDispatchAppUi {
    * Prints the welcome screen for the application.
    */
   private void printWelcomeScreen() {
-    System.out.println("Welcome to trainDispatchApp" + version);
+    System.out.println(ANSI_CYAN + "Welcome to trainDispatchApp " + ANSI_RESET + version);
   }
 
   /**
@@ -183,7 +200,7 @@ public class TrainDispatchAppUi {
    * Prints a goodbye message.
    */
   private void printGoodbyeMessage() {
-    System.out.println("Goodbye");
+    System.out.println(ANSI_GREEN + "Goodbye" + ANSI_RESET);
   }
 
 
@@ -218,15 +235,16 @@ public class TrainDispatchAppUi {
     }
     boolean clockUpdated = trainStationTime.setTrainStationTime(newTime);
     if (clockUpdated) {
-      System.out.println("Clock updates successfully");
-      System.out.println("New time: " + TrainStationTime.getTrainStationTime());
+      System.out.println(ANSI_GREEN + "Clock updated successfully");
+      System.out.println("New time: " + ANSI_RESET + TrainStationTime.getTrainStationTime());
     } else {
-      System.out.println("Clock update failed");
+      System.out.println(ANSI_RED + "Clock update failed");
       System.out.println("Please make sure the time is written in the format hh:mm and is after "
           + "the current time");
-      System.out.println("You entered: " + newTime);
+      System.out.println("You entered: " + ANSI_RESET + newTime);
     }
     userInput.nextLine(); // Consumes the newLine character from the previous input.
+    System.out.println();
     System.out.println("Press enter to return to main menu");
     userInput.nextLine(); // Waits for enter press
   }
@@ -274,6 +292,7 @@ public class TrainDispatchAppUi {
 
       case UPDATE_CLOCK:
         this.userUpdateClock();
+        trainDepartureRegister.removePassedDepartures();
         break;
 
       case EXIT_APPLICATION:
@@ -293,12 +312,14 @@ public class TrainDispatchAppUi {
   private void userSearchByDestination() {
     Scanner scanner = new Scanner(System.in);
     System.out.println("Enter the destination of the departures you would like to view:");
-    ArrayList<TrainDeparture> filteredDepartures = this.trainDepartureRegister.getTrainDepartureByDestination(scanner.nextLine());
-    System.out.println(TrainStationTime.getTrainStationTime() + "   Avganger/Departures   "
+    ArrayList<TrainDeparture> filteredDepartures =
+        this.trainDepartureRegister.getTrainDepartureByDestination(scanner.nextLine());
+    System.out.println(TrainStationTime.getTrainStationTime() + "   Avganger/Departures  "
         + "Forventet/expected | " + "Track/Spor | Nummer/Number:");
     for (TrainDeparture trainDeparture : filteredDepartures) {
       printDeparture(trainDeparture);
     }
+    System.out.println();
     System.out.println("Press enter to return to main menu");
     scanner.nextLine(); // Waits for enter press
   }
@@ -317,9 +338,11 @@ public class TrainDispatchAppUi {
     if (departureToPrint != null) {
       printDeparture(departureToPrint);
     } else {
-      System.out.println("Train departure not found");
+
+      System.out.println(ANSI_RED + "Train departure not found" + ANSI_RESET);
     }
 
+    System.out.println();
     System.out.println("Press enter to return to main menu");
     scanner.nextLine();
   }
@@ -341,14 +364,15 @@ public class TrainDispatchAppUi {
       int track = getUserInt();
       if (track < 100 && track > 0) {
       departureToAddTrack.setTrackNumber(track);
-      System.out.println("Track added");
+      System.out.println(ANSI_GREEN + "Track added" + ANSI_RESET);
       } else {
-        System.out.println("Track must be between 1 and 99");
+        System.out.println(ANSI_RED + "Track must be between 1 and 99" + ANSI_RESET);
       }
     } else {
-      System.out.println("Train departure not found");
+      System.out.println(ANSI_RED + "Train departure not found" + ANSI_RESET);
     }
 
+    System.out.println();
     System.out.println("Press enter to return to the main menu");
     scanner.nextLine(); // Waits for enter press
   }
@@ -367,21 +391,23 @@ public class TrainDispatchAppUi {
     TrainDeparture departureToDelay =
         trainDepartureRegister.getTrainDepartureByTrainNumber(trainNumber);
     if (departureToDelay == null) {
-        System.out.println("Train departure not found");
+        System.out.println(ANSI_RED + "Train departure not found" + ANSI_RESET);
     } else {
       System.out.println("Enter the delay time on the format hh:mm:");
       String delay = scanner.next();
       boolean delayAdded = departureToDelay.setDelayTime(delay);
       if (delayAdded) {
-        System.out.println("Delay added successfully");
+        System.out.println(ANSI_GREEN + "Delay added successfully" + ANSI_RESET);
         scanner.nextLine();
       } else {
-        System.out.println("Delay not added");
+        System.out.println(ANSI_RED + "Delay not added");
         System.out.println("Please make sure the time is written in the format hh:mm");
-        System.out.println("You entered: " + delay);
+        System.out.println("You entered: " + ANSI_RESET + delay);
+        scanner.nextLine();
       }
     }
 
+    System.out.println();
     System.out.println("Press enter to return to the main menu");
     scanner.nextLine(); // Waits for enter press
   }
@@ -400,11 +426,13 @@ public class TrainDispatchAppUi {
 
     boolean trainDepartureRemoved = trainDepartureRegister.removeDeparture(departureToRemove);
     if (trainDepartureRemoved) {
-      System.out.println("Train departure removed");
+      System.out.println(ANSI_GREEN + "Train departure removed" + ANSI_RESET);
     } else {
-      System.out.println("Train departure not found");
-      System.out.println("You entered: " + trainNumber);
+      System.out.println(ANSI_RED + "Train departure not found");
+      System.out.println("You entered: " + ANSI_RESET + trainNumber);
     }
+
+    System.out.println();
     System.out.println("Press enter to return to main menu");
     scanner.nextLine();
   }
