@@ -6,17 +6,17 @@ import edu.ntnu.stud.logic.TrainDepartureRegister;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+
 public class TrainDispatchAppUi {
   private TrainDepartureRegister trainDepartureRegister;
   private TrainStationTime trainStationTime;
   // Version
   private static final String version = "v0.4-SNAPSHOT";
 
-  // Ui Color
 
   // Color reset
   public static final String ANSI_RESET = "\u001B[0m";
-
+  // Ui Color
   public static final String ANSI_GREEN = "\u001B[32m";
   public static final String ANSI_YELLOW = "\u001B[33m";
   public static final String ANSI_RED = "\u001B[31m";
@@ -44,15 +44,15 @@ public class TrainDispatchAppUi {
    * Prints the information table.
    */
   private void printInfoTable() {
-    Scanner scanner = new Scanner(System.in);
-    System.out.println(TrainStationTime.getTrainStationTime() +
-        "   Avganger/" + ANSI_YELLOW + "Departures  " + ANSI_RESET
+    System.out.println(TrainStationTime.getTrainStationTime()
+        + "   Avganger/" + ANSI_YELLOW + "Departures  " + ANSI_RESET
         + "Forventet/" + ANSI_YELLOW + "expected " + ANSI_RESET + "| "
         + "Track/" + ANSI_YELLOW + "Spor "
         + ANSI_RESET + "|" + " Nummer/" + ANSI_YELLOW + "Number:" + ANSI_RESET);
     this.printDeparturesSortedByTime();
     System.out.println();
     System.out.println("Press enter to return to main menu");
+    Scanner scanner = new Scanner(System.in);
     scanner.nextLine();
   }
 
@@ -78,7 +78,10 @@ public class TrainDispatchAppUi {
     }
     int trainLineMaxLenght = 5;
     if (trainLine.length() > trainLineMaxLenght) {
-      trainLine = trainLine.substring(0,trainLineMaxLenght);
+      trainLine = trainLine.substring(0, trainLineMaxLenght);
+    }
+    if (trainDeparture.getTrackNumber() == -1) {
+      trackNumber = ANSI_RED + "Invalid   " + ANSI_RESET;
     }
     System.out.println(departureTime + "  " + trainLine + destination
         + expectedTime + "     | " + trackNumber + " | " + number);
@@ -101,11 +104,12 @@ public class TrainDispatchAppUi {
    * Lets a user add a train departure. Train number must be unique and between 0 and 99. If it
    * isn't unique the train departure will not be added.
    */
+  //TODO: Re-write this method to adhere to checkstyle.
   private void userAddDeparture() {
     // Creates an instance of scanner
-    Scanner scanner = new Scanner(System.in);
     // Asks the user for train destination
     System.out.println("Enter the train destination:");
+    Scanner scanner = new Scanner(System.in);
     String trainDestination = scanner.nextLine();
     // Asks the user for the time of the departure
     System.out.println("Enter the time of the departure on the format hh:mm :");
@@ -210,13 +214,13 @@ public class TrainDispatchAppUi {
    * @return the menu choice by the user
    */
   private int getUserInt() {
-    int selectedMenu = -1;
+    int inputInt = -1;
 
     Scanner userInput = new Scanner(System.in);
     if (userInput.hasNextInt()) {
-      selectedMenu = userInput.nextInt();
+      inputInt = userInput.nextInt();
     }
-    return selectedMenu;
+    return inputInt;
   }
 
   /**
@@ -251,7 +255,7 @@ public class TrainDispatchAppUi {
 
   /**
    * Executes the selected menu choice by the user.
-   * // TODO: Finish java doc
+   *
    * @param selectedMenu users choice
    * @return result the users choice
    */
@@ -307,7 +311,7 @@ public class TrainDispatchAppUi {
   }
 
   /**
-   * Lets the user search for all train departures with the given location
+   * Lets the user search for all train departures with the given location.
    */
   private void userSearchByDestination() {
     Scanner scanner = new Scanner(System.in);
@@ -363,8 +367,8 @@ public class TrainDispatchAppUi {
       System.out.println("Please enter a track number between 1 and 99");
       int track = getUserInt();
       if (track < 100 && track > 0) {
-      departureToAddTrack.setTrackNumber(track);
-      System.out.println(ANSI_GREEN + "Track added" + ANSI_RESET);
+        departureToAddTrack.setTrackNumber(track);
+        System.out.println(ANSI_GREEN + "Track added" + ANSI_RESET);
       } else {
         System.out.println(ANSI_RED + "Track must be between 1 and 99" + ANSI_RESET);
       }
@@ -391,7 +395,7 @@ public class TrainDispatchAppUi {
     TrainDeparture departureToDelay =
         trainDepartureRegister.getTrainDepartureByTrainNumber(trainNumber);
     if (departureToDelay == null) {
-        System.out.println(ANSI_RED + "Train departure not found" + ANSI_RESET);
+      System.out.println(ANSI_RED + "Train departure not found" + ANSI_RESET);
     } else {
       System.out.println("Enter the delay time on the format hh:mm:");
       String delay = scanner.next();
