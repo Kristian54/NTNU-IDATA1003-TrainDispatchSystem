@@ -178,7 +178,7 @@ public class TrainDeparture {
   /**
    * Checks if the train number provided is:
    * Positive and either a 1 or 2 digit number.
-   * If both conditions aren't met, the train number will be set to 0.
+   * If both conditions aren't met, the train number will be set to -1.
    *
    * @param trainNum the train number of the train.
    */
@@ -188,7 +188,7 @@ public class TrainDeparture {
     if (trainNum > 0 && trainNum < 100) {
       trainNumber = trainNum;
     } else { // Else set train number to 0
-      trainNumber = 0;
+      trainNumber = -1;
     }
   }
 

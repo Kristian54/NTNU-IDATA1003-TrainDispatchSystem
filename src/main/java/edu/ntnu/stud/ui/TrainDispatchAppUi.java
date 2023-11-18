@@ -70,7 +70,7 @@ public class TrainDispatchAppUi {
     String expectedTime = String.format(ANSI_YELLOW + "%-18s", trainDeparture.getExpectedTime()
         + ANSI_RESET);
     String trackNumber = String.format("%-10s", trainDeparture.getTrackNumber());
-    String number = String.format("%-13s", trainDeparture.getTrainNumber());
+    String trainNumber = String.format("%-13s", trainDeparture.getTrainNumber());
 
     int destinationMaxLeght = 16;
     if (destination.length() > destinationMaxLeght) {
@@ -84,7 +84,7 @@ public class TrainDispatchAppUi {
       trackNumber = ANSI_RED + "Invalid   " + ANSI_RESET;
     }
     System.out.println(departureTime + "  " + trainLine + destination
-        + expectedTime + "     | " + trackNumber + " | " + number);
+        + expectedTime + "     | " + trackNumber + " | " + trainNumber);
   }
 
   /**
@@ -101,58 +101,41 @@ public class TrainDispatchAppUi {
 
   /**
    * Parts of the trainNumber validation was suggested by ChatGPT.
-   * Lets a user add a train departure. Train number must be unique and between 0 and 99. If it
+   * Lets a user add a train departure. Train number must be unique and between 0 and 100. If it
    * isn't unique the train departure will not be added.
+   * TODO: Rewrite doc
    */
-  //TODO: Re-write this method to adhere to checkstyle.
   private void userAddDeparture() {
-    // Creates an instance of scanner
-    // Asks the user for train destination
-    System.out.println("Enter the train destination:");
-    Scanner scanner = new Scanner(System.in);
-    String trainDestination = scanner.nextLine();
-    // Asks the user for the time of the departure
-    System.out.println("Enter the time of the departure on the format hh:mm :");
-    String departureTime = scanner.nextLine();
-    // Asks the user for the train line
-    System.out.println("Enter the train line:");
-    String trainLine = scanner.nextLine();
-    // Asks the user for train number. Must be an int between 0 and 99 or it will not be accepted
-    int number = 0; // Initialize train number as 0
-    boolean validInput = false; // Initialize validInput as false
-    // While valid input is false, keep trying to get a valid input from the user
-    while (!validInput) {
-      try {
-        System.out.println("Enter the train number:");
-        int inputNumber = Integer.parseInt(scanner.nextLine());
-        if (inputNumber >= 0 && inputNumber <= 99) {
-          number = inputNumber;
-          validInput = true; // Set validInput to true if parsing and validation succeed
-        } else {
-          System.out.println(ANSI_RED + "Train number must be between 0 and 99" + ANSI_RESET);
-          System.out.println("You entered: " + inputNumber);
-        }
+    System.out.println("Enter the train departure´s destination");
+    String trainDestination = getUserString();
+    System.out.println("Enter the train departure´s departure time on the format hh:mm");
+    String departureTime = getUserString();
+    System.out.println("Enter the train departure´s unique number");
+    int trainNumber = getUserInt();
+    System.out.println("Enter the departure´s line");
+    String trainLine = getUserString();
+    System.out.println("Enter the track where the train will depart from");
+    int trainTrack = getUserInt();
+    String amountDelayed = "";
 
-      } catch (NumberFormatException e) {
-        System.out.println(ANSI_RED
-            + "Invalid input. Train number must be unique and between 0 and 99" + ANSI_RESET);
-      }
+    boolean departureAdded = false;
+
+    if (trainNumber > 0 && trainNumber < 100) {
+      departureAdded = this.trainDepartureRegister.addDeparture(departureTime, trainLine,
+          trainNumber, trainDestination, trainTrack, amountDelayed);
     }
-    System.out.println("Enter the track number:");
-    int trackNum = getUserInt();
-    System.out.println("If there is a delay, enter it on the format hh:mm :");
-    String delay = scanner.nextLine();
 
-    boolean trainDepartureAdded = this.trainDepartureRegister.addDeparture(departureTime, trainLine,
-        number, trainDestination, trackNum, delay);
-    if (trainDepartureAdded) {
-      System.out.println(ANSI_GREEN + "Train departure added" + ANSI_RESET);
+    if (!departureAdded) {
+      System.out.println(ANSI_RED + "Adding train departure failed");
+      System.out.println("Please make sure the train number is unique, not assigned to another "
+          + "departure and is between 1 and 99");
+      System.out.println("Entered departure: " + ANSI_RESET + trainNumber);
     } else {
-      System.out.println(ANSI_RED
-          + "Train number must be unique. Train departure not added" + ANSI_RESET);
-      System.out.println();
+      System.out.println(ANSI_GREEN + "Train departure added successfully" + ANSI_RESET);
     }
+    System.out.println();
     System.out.println("Press enter to return to main menu");
+    Scanner scanner = new Scanner(System.in);
     scanner.nextLine();
   }
 
@@ -207,11 +190,11 @@ public class TrainDispatchAppUi {
     System.out.println(ANSI_GREEN + "Goodbye" + ANSI_RESET);
   }
 
-
   /**
-   * Gets input from the user in main menu and verifies that the input is valid.
+   * Get´s an int from the user.
+   * If the user enters an invalid int -1 will be returned.
    *
-   * @return the menu choice by the user
+   * @return user´s int. If invalid -1 is returned
    */
   private int getUserInt() {
     int inputInt = -1;
@@ -221,6 +204,22 @@ public class TrainDispatchAppUi {
       inputInt = userInput.nextInt();
     }
     return inputInt;
+  }
+
+  /**
+   * Get´s a string from the user.
+   * If no input is given, an empty string will be returned
+   *
+   * @return inputString user´s string. If empty an empty string will be returned.
+   */
+  private String getUserString() {
+    String inputString = "";
+
+    Scanner userInput = new Scanner(System.in);
+    if (userInput.hasNext()) {
+      inputString = userInput.next();
+    }
+    return inputString;
   }
 
   /**
@@ -314,17 +313,21 @@ public class TrainDispatchAppUi {
    * Lets the user search for all train departures with the given location.
    */
   private void userSearchByDestination() {
-    Scanner scanner = new Scanner(System.in);
     System.out.println("Enter the destination of the departures you would like to view:");
     ArrayList<TrainDeparture> filteredDepartures =
-        this.trainDepartureRegister.getTrainDepartureByDestination(scanner.nextLine());
-    System.out.println(TrainStationTime.getTrainStationTime() + "   Avganger/Departures  "
-        + "Forventet/expected | " + "Track/Spor | Nummer/Number:");
-    for (TrainDeparture trainDeparture : filteredDepartures) {
-      printDeparture(trainDeparture);
+        this.trainDepartureRegister.getTrainDepartureByDestination(getUserString());
+    if (filteredDepartures.isEmpty()) {
+      System.out.println(ANSI_RED + "No departures found" + ANSI_RESET);
+    } else {
+      System.out.println(TrainStationTime.getTrainStationTime() + "   Avganger/Departures  "
+          + "Forventet/expected | " + "Track/Spor | Nummer/Number:");
+      for (TrainDeparture trainDeparture : filteredDepartures) {
+        printDeparture(trainDeparture);
+      }
     }
     System.out.println();
     System.out.println("Press enter to return to main menu");
+    Scanner scanner = new Scanner(System.in);
     scanner.nextLine(); // Waits for enter press
   }
 
@@ -332,7 +335,6 @@ public class TrainDispatchAppUi {
    * Lets the user search for a train departure with the given train number.
    */
   private void userSearchByTrainNumber() {
-    Scanner scanner = new Scanner(System.in);
     System.out.println("Enter the train number of the departure you would like to view:");
     int trainNumber = getUserInt();
 
@@ -348,6 +350,7 @@ public class TrainDispatchAppUi {
 
     System.out.println();
     System.out.println("Press enter to return to main menu");
+    Scanner scanner = new Scanner(System.in);
     scanner.nextLine();
   }
 
@@ -356,7 +359,6 @@ public class TrainDispatchAppUi {
    * Track number must be between 1 and 99, if it isn't the user will be notified accordingly.
    */
   private void userAddTrack() {
-    Scanner scanner = new Scanner(System.in);
     System.out.println("Enter the train number of the departure you would like to add a track to:");
     int trainNumber = getUserInt();
 
@@ -378,6 +380,7 @@ public class TrainDispatchAppUi {
 
     System.out.println();
     System.out.println("Press enter to return to the main menu");
+    Scanner scanner = new Scanner(System.in);
     scanner.nextLine(); // Waits for enter press
   }
 
@@ -421,7 +424,6 @@ public class TrainDispatchAppUi {
    * If no departure is found with the given train number it will notify the user of that.
    */
   private void userRemoveDeparture() {
-    Scanner scanner = new Scanner(System.in);
     System.out.println("Enter the train number of the departure you would like to remove:");
     int trainNumber = getUserInt();
 
@@ -438,6 +440,7 @@ public class TrainDispatchAppUi {
 
     System.out.println();
     System.out.println("Press enter to return to main menu");
+    Scanner scanner = new Scanner(System.in);
     scanner.nextLine();
   }
 
