@@ -2,7 +2,6 @@ package edu.ntnu.stud.entity;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import edu.ntnu.stud.entity.TrainDeparture;
 import java.time.LocalTime;
 import org.junit.jupiter.api.Test;
 
@@ -11,11 +10,11 @@ public class TrainDepartureTest {
   @Test
   public void testCreationOfTrainDepartureWithValidInputWithoutDelay() {
     TrainDeparture trainDeparture = new TrainDeparture("20:30", "L21", 19, "Oslo S", 10, "00:00");
-    assertEquals(LocalTime.parse("20:30"), trainDeparture.getTime());
+    assertEquals(LocalTime.parse("20:30"), trainDeparture.getDepartureTime());
     assertEquals("L21", trainDeparture.getLine());
     assertEquals(19, trainDeparture.getTrainNumber());
     assertEquals("Oslo S", trainDeparture.getDestination());
-    assertEquals("10", trainDeparture.getTrackNumber());
+    assertEquals(10, trainDeparture.getTrackNumber());
     assertEquals(LocalTime.parse("00:00"), trainDeparture.getDelayTime());
   }
 
@@ -26,18 +25,18 @@ public class TrainDepartureTest {
     assertEquals("L21", trainDeparture.getLine());
     assertEquals(19, trainDeparture.getTrainNumber());
     assertEquals("Oslo S", trainDeparture.getDestination());
-    assertEquals("10", trainDeparture.getTrackNumber());
+    assertEquals(10, trainDeparture.getTrackNumber());
     assertEquals(LocalTime.parse("02:30"), trainDeparture.getDelayTime());
   }
 
   @Test
   public void testCreationOfTrainDepartureWithInvalidParameters() {
     TrainDeparture trainDeparture = new TrainDeparture("test", "", -20, "", 999, "100");
-    assertEquals(LocalTime.parse("00:00"), trainDeparture.getTime());
+    assertEquals(LocalTime.parse("00:00"), trainDeparture.getDepartureTime());
     assertEquals("", trainDeparture.getLine());
-    assertEquals(0, trainDeparture.getTrainNumber());
+    assertEquals(-1, trainDeparture.getTrainNumber());
     assertEquals("", trainDeparture.getDestination());
-    assertEquals("", trainDeparture.getTrackNumber());
+    assertEquals(-1, trainDeparture.getTrackNumber());
     assertEquals(LocalTime.parse("00:00"), trainDeparture.getDelayTime());
   }
 

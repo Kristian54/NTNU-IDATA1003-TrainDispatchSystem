@@ -5,6 +5,7 @@ import edu.ntnu.stud.entity.TrainStationTime;
 import edu.ntnu.stud.logic.TrainDepartureRegister;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.regex.Pattern;
 
 
 public class TrainDispatchAppUi {
@@ -15,12 +16,12 @@ public class TrainDispatchAppUi {
 
 
   // Color reset
-  public static final String ANSI_RESET = "\u001B[0m";
+  public static final String COLOR_RESET = "\u001B[0m";
   // Ui Color
-  public static final String ANSI_GREEN = "\u001B[32m";
-  public static final String ANSI_YELLOW = "\u001B[33m";
-  public static final String ANSI_RED = "\u001B[31m";
-  public static final String ANSI_CYAN = "\u001B[36m";
+  public static final String GREEN = "\u001B[32m";
+  public static final String YELLOW = "\u001B[33m";
+  public static final String RED = "\u001B[31m";
+  public static final String CYAN = "\u001B[36m";
 
 
   // Menu choices:
@@ -35,7 +36,7 @@ public class TrainDispatchAppUi {
   private static final int EXIT_APPLICATION = 9;
 
   /**
-   * Creates an instance of TrainDispatchApp.
+   * Creates an instance of TrainDispatchAppUi.
    */
   public TrainDispatchAppUi() {
   }
@@ -45,10 +46,10 @@ public class TrainDispatchAppUi {
    */
   private void printInfoTable() {
     System.out.println(TrainStationTime.getTrainStationTime()
-        + "   Avganger/" + ANSI_YELLOW + "Departures  " + ANSI_RESET
-        + "Forventet/" + ANSI_YELLOW + "expected " + ANSI_RESET + "| "
-        + "Track/" + ANSI_YELLOW + "Spor "
-        + ANSI_RESET + "|" + " Nummer/" + ANSI_YELLOW + "Number:" + ANSI_RESET);
+        + "   Avganger/" + YELLOW + "Departures  " + COLOR_RESET
+        + "Forventet/" + YELLOW + "expected " + COLOR_RESET + "| "
+        + "Track/" + YELLOW + "Spor "
+        + COLOR_RESET + "|" + " Nummer/" + YELLOW + "Number:" + COLOR_RESET);
     this.printDeparturesSortedByTime();
     System.out.println();
     System.out.println("Press enter to return to main menu");
@@ -60,15 +61,17 @@ public class TrainDispatchAppUi {
    * Prints the details of one train departure.
    * If destination is longer than 17 characters or train line is longer than 4 characters they will
    * be cut down to prevent stretching.
+   * Minimum string length is implemented for all variables for the departure to fit in the
+   * info table.
    *
    * @param trainDeparture the train departure to print.
    */
   private void printDeparture(TrainDeparture trainDeparture) {
-    String departureTime = String.format("%-6s", trainDeparture.getTime());
+    String departureTime = String.format("%-6s", trainDeparture.getDepartureTime());
     String trainLine = String.format("%-5s", trainDeparture.getLine());
     String destination = String.format("%-16s", trainDeparture.getDestination());
-    String expectedTime = String.format(ANSI_YELLOW + "%-18s", trainDeparture.getExpectedTime()
-        + ANSI_RESET);
+    String expectedTime = String.format(YELLOW + "%-18s", trainDeparture.getExpectedTime()
+        + COLOR_RESET);
     String trackNumber = String.format("%-10s", trainDeparture.getTrackNumber());
     String trainNumber = String.format("%-13s", trainDeparture.getTrainNumber());
 
@@ -81,7 +84,7 @@ public class TrainDispatchAppUi {
       trainLine = trainLine.substring(0, trainLineMaxLenght);
     }
     if (trainDeparture.getTrackNumber() == -1) {
-      trackNumber = ANSI_RED + "Invalid   " + ANSI_RESET;
+      trackNumber = RED + "Invalid   " + COLOR_RESET;
     }
     System.out.println(departureTime + "  " + trainLine + destination
         + expectedTime + "     | " + trackNumber + " | " + trainNumber);
@@ -100,38 +103,59 @@ public class TrainDispatchAppUi {
   }
 
   /**
-   * Parts of the trainNumber validation was suggested by ChatGPT.
-   * Lets a user add a train departure. Train number must be unique and between 0 and 100. If it
+   * Lets the user add a train departure.
+   * Train number must be unique and between 0 and 100. If it
    * isn't unique the train departure will not be added.
-   * TODO: Rewrite doc
    */
   private void userAddDeparture() {
+    String patternExample = "([01]?[0-9]|2[0-3]):[0-5][0-9]";
+
+    Pattern pattern = Pattern.compile(patternExample);
+
     System.out.println("Enter the train departure´s destination");
     String trainDestination = getUserString();
     System.out.println("Enter the train departure´s departure time on the format hh:mm");
     String departureTime = getUserString();
+    while (!pattern.matcher(departureTime).matches()) {
+      System.out.println(RED + "Please make sure the departure " +
+          "time is written in correct hh:mm format");
+      System.out.println("You entered: " + COLOR_RESET + departureTime);
+      System.out.println();
+      System.out.println("Please enter a new departure time");
+      departureTime = getUserString();
+    }
+
     System.out.println("Enter the train departure´s unique number");
     int trainNumber = getUserInt();
+    while (trainNumber < 1 || trainNumber > 99) {
+      System.out.println(RED + "Train number must be between 1 and 99");
+      System.out.println("You entered: " + COLOR_RESET + trainNumber);
+      System.out.println();
+      System.out.println("Please enter a new unique train number");
+      trainNumber = getUserInt();
+    }
     System.out.println("Enter the departure´s line");
     String trainLine = getUserString();
     System.out.println("Enter the track where the train will depart from");
     int trainTrack = getUserInt();
+    while (trainTrack > 100 || trainTrack < 1) {
+      System.out.println(RED + "Track number must be between 1 and 99" + COLOR_RESET);
+      System.out.println();
+      System.out.println("Please enter a new track");
+      trainTrack = getUserInt();
+    }
     String amountDelayed = "";
 
-    boolean departureAdded = false;
+    boolean departureAdded = this.trainDepartureRegister.addDeparture(departureTime, trainLine,
+        trainNumber, trainDestination, trainTrack, amountDelayed);
 
-    if (trainNumber > 0 && trainNumber < 100) {
-      departureAdded = this.trainDepartureRegister.addDeparture(departureTime, trainLine,
-          trainNumber, trainDestination, trainTrack, amountDelayed);
-    }
 
     if (!departureAdded) {
-      System.out.println(ANSI_RED + "Adding train departure failed");
+      System.out.println(RED + "Adding train departure failed");
       System.out.println("Please make sure the train number is unique, not assigned to another "
-          + "departure and is between 1 and 99");
-      System.out.println("Entered departure: " + ANSI_RESET + trainNumber);
+          + "departure and is between 1 and 99" + COLOR_RESET);
     } else {
-      System.out.println(ANSI_GREEN + "Train departure added successfully" + ANSI_RESET);
+      System.out.println(GREEN + "Train departure added successfully" + COLOR_RESET);
     }
     System.out.println();
     System.out.println("Press enter to return to main menu");
@@ -143,7 +167,7 @@ public class TrainDispatchAppUi {
    * Prints the welcome screen for the application.
    */
   private void printWelcomeScreen() {
-    System.out.println(ANSI_CYAN + "Welcome to trainDispatchApp " + ANSI_RESET + version);
+    System.out.println(CYAN + "Welcome to trainDispatchApp " + COLOR_RESET + version);
   }
 
   /**
@@ -187,7 +211,7 @@ public class TrainDispatchAppUi {
    * Prints a goodbye message.
    */
   private void printGoodbyeMessage() {
-    System.out.println(ANSI_GREEN + "Goodbye" + ANSI_RESET);
+    System.out.println(CYAN + "Goodbye" + COLOR_RESET);
   }
 
   /**
@@ -238,13 +262,13 @@ public class TrainDispatchAppUi {
     }
     boolean clockUpdated = trainStationTime.setTrainStationTime(newTime);
     if (clockUpdated) {
-      System.out.println(ANSI_GREEN + "Clock updated successfully");
-      System.out.println("New time: " + ANSI_RESET + TrainStationTime.getTrainStationTime());
+      System.out.println(GREEN + "Clock updated successfully");
+      System.out.println("New time: " + COLOR_RESET + TrainStationTime.getTrainStationTime());
     } else {
-      System.out.println(ANSI_RED + "Clock update failed");
+      System.out.println(RED + "Clock update failed");
       System.out.println("Please make sure the time is written in the format hh:mm and is after "
           + "the current time");
-      System.out.println("You entered: " + ANSI_RESET + newTime);
+      System.out.println("You entered: " + COLOR_RESET + newTime);
     }
     userInput.nextLine(); // Consumes the newLine character from the previous input.
     System.out.println();
@@ -311,13 +335,14 @@ public class TrainDispatchAppUi {
 
   /**
    * Lets the user search for all train departures with the given location.
+   * If no departures with the given destination is found, the user will be notified.
    */
   private void userSearchByDestination() {
     System.out.println("Enter the destination of the departures you would like to view:");
     ArrayList<TrainDeparture> filteredDepartures =
         this.trainDepartureRegister.getTrainDepartureByDestination(getUserString());
     if (filteredDepartures.isEmpty()) {
-      System.out.println(ANSI_RED + "No departures found" + ANSI_RESET);
+      System.out.println(RED + "No departures found" + COLOR_RESET);
     } else {
       System.out.println(TrainStationTime.getTrainStationTime() + "   Avganger/Departures  "
           + "Forventet/expected | " + "Track/Spor | Nummer/Number:");
@@ -333,6 +358,7 @@ public class TrainDispatchAppUi {
 
   /**
    * Lets the user search for a train departure with the given train number.
+   * If no train departure is found with the given train number the user will be notified.
    */
   private void userSearchByTrainNumber() {
     System.out.println("Enter the train number of the departure you would like to view:");
@@ -344,8 +370,7 @@ public class TrainDispatchAppUi {
     if (departureToPrint != null) {
       printDeparture(departureToPrint);
     } else {
-
-      System.out.println(ANSI_RED + "Train departure not found" + ANSI_RESET);
+      System.out.println(RED + "Train departure not found" + COLOR_RESET);
     }
 
     System.out.println();
@@ -370,12 +395,12 @@ public class TrainDispatchAppUi {
       int track = getUserInt();
       if (track < 100 && track > 0) {
         departureToAddTrack.setTrackNumber(track);
-        System.out.println(ANSI_GREEN + "Track added" + ANSI_RESET);
+        System.out.println(GREEN + "Track added" + COLOR_RESET);
       } else {
-        System.out.println(ANSI_RED + "Track must be between 1 and 99" + ANSI_RESET);
+        System.out.println(RED + "Track must be between 1 and 99" + COLOR_RESET);
       }
     } else {
-      System.out.println(ANSI_RED + "Train departure not found" + ANSI_RESET);
+      System.out.println(RED + "Train departure not found" + COLOR_RESET);
     }
 
     System.out.println();
@@ -388,7 +413,6 @@ public class TrainDispatchAppUi {
    * Lets the user add a delay to an existing departure.
    * If it is not written on the format "hh:mm" or no train departure is found with the given train
    * number the user will be notified accordingly.
-   *
    */
   private void userAddDelay() {
     Scanner scanner = new Scanner(System.in);
@@ -398,18 +422,18 @@ public class TrainDispatchAppUi {
     TrainDeparture departureToDelay =
         trainDepartureRegister.getTrainDepartureByTrainNumber(trainNumber);
     if (departureToDelay == null) {
-      System.out.println(ANSI_RED + "Train departure not found" + ANSI_RESET);
+      System.out.println(RED + "Train departure not found" + COLOR_RESET);
     } else {
       System.out.println("Enter the delay time on the format hh:mm:");
       String delay = scanner.next();
       boolean delayAdded = departureToDelay.setDelayTime(delay);
       if (delayAdded) {
-        System.out.println(ANSI_GREEN + "Delay added successfully" + ANSI_RESET);
+        System.out.println(GREEN + "Delay added successfully" + COLOR_RESET);
         scanner.nextLine();
       } else {
-        System.out.println(ANSI_RED + "Delay not added");
+        System.out.println(RED + "Delay not added");
         System.out.println("Please make sure the time is written in the format hh:mm");
-        System.out.println("You entered: " + ANSI_RESET + delay);
+        System.out.println("You entered: " + COLOR_RESET + delay);
         scanner.nextLine();
       }
     }
@@ -421,7 +445,8 @@ public class TrainDispatchAppUi {
 
   /**
    * Lets the user remove a departure by selecting it´s train number.
-   * If no departure is found with the given train number it will notify the user of that.
+   * If no departure is found with the given train number it will notify the user of that and
+   * nothing will be removed.
    */
   private void userRemoveDeparture() {
     System.out.println("Enter the train number of the departure you would like to remove:");
@@ -432,10 +457,10 @@ public class TrainDispatchAppUi {
 
     boolean trainDepartureRemoved = trainDepartureRegister.removeDeparture(departureToRemove);
     if (trainDepartureRemoved) {
-      System.out.println(ANSI_GREEN + "Train departure removed" + ANSI_RESET);
+      System.out.println(GREEN + "Train departure removed" + COLOR_RESET);
     } else {
-      System.out.println(ANSI_RED + "Train departure not found");
-      System.out.println("You entered: " + ANSI_RESET + trainNumber);
+      System.out.println(RED + "Train departure not found");
+      System.out.println("You entered: " + COLOR_RESET + trainNumber);
     }
 
     System.out.println();

@@ -32,7 +32,7 @@ public class TrainDeparture {
 
   public TrainDeparture(String departureTime, String trainLine, int number, String trainDestination,
                         int trackNum, String delay) {
-    this.setTime(departureTime);
+    this.setDepartureTime(departureTime);
     this.setDelayTime(delay);
     this.setTrainLine(trainLine);
     this.setTrainNumber(number);
@@ -52,7 +52,7 @@ public class TrainDeparture {
   /**
    * Returns the initial departure time in "hh:mm" format.
    */
-  public LocalTime getTime() {
+  public LocalTime getDepartureTime() {
     return time;
   }
 
@@ -116,7 +116,7 @@ public class TrainDeparture {
    *
    * @param initialTime the initial time of the train departure.
    */
-  private void setTime(String initialTime) {
+  private void setDepartureTime(String initialTime) {
     // Example pattern for a string in hh:mm format
     String patternExample = "([01]?[0-9]|2[0-3]):[0-5][0-9]";
 

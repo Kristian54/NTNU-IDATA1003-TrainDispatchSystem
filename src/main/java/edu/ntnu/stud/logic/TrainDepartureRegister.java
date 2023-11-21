@@ -43,9 +43,9 @@ public class TrainDepartureRegister {
    * @return sortedDepartures the register sorted by time.
    */
 
-  public ArrayList getDepartureRegisterSortedByTime() {
+  public ArrayList<TrainDeparture> getDepartureRegisterSortedByTime() {
     // Comparator for comparing train departures by time. Suggested by ChatGPT.
-    Comparator<TrainDeparture> byLocalTime = Comparator.comparing(TrainDeparture::getTime);
+    Comparator<TrainDeparture> byLocalTime = Comparator.comparing(TrainDeparture::getDepartureTime);
 
     ArrayList<TrainDeparture> sortedDepartures = new ArrayList<>(this.getDepartureRegister());
     sortedDepartures.sort(byLocalTime);
@@ -58,7 +58,7 @@ public class TrainDepartureRegister {
    *
    * @return the departureRegisters´s iterator
    */
-  public Iterator getDepartureRegisterIterator() {
+  public Iterator<TrainDeparture> getDepartureRegisterIterator() {
     return departureRegister.iterator();
   }
 
@@ -127,7 +127,7 @@ public class TrainDepartureRegister {
     Iterator<TrainDeparture> iterator = departureRegister.iterator();
     while (iterator.hasNext()) {
       TrainDeparture trainDeparture = iterator.next();
-      LocalTime departureTime = trainDeparture.getTime();
+      LocalTime departureTime = trainDeparture.getDepartureTime();
       int delayHours = trainDeparture.getDelayTime().getHour();
       int delayMinutes = trainDeparture.getDelayTime().getMinute();
 
@@ -151,7 +151,7 @@ public class TrainDepartureRegister {
    *
    * @return trainNumberAdded True if added, false if train number is not unique
    */
-
+//TODO: Change from individual parameters to whole object?
 
   public boolean addDeparture(String departureTime, String trainLine, int trainNumber,
                               String destination, int track, String delay) {
