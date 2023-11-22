@@ -12,7 +12,7 @@ public class TrainDispatchAppUi {
   private TrainDepartureRegister trainDepartureRegister;
   private TrainStationTime trainStationTime;
   // Version
-  private static final String version = "v0.4";
+  private static final String version = "v0.5-SNAPSHOT";
 
 
   // Color reset
