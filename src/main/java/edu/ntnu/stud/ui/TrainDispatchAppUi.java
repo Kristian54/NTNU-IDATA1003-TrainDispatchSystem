@@ -12,7 +12,7 @@ public class TrainDispatchAppUi {
   private TrainDepartureRegister trainDepartureRegister;
   private TrainStationTime trainStationTime;
   // Version
-  private static final String version = "v0.4-SNAPSHOT";
+  private static final String version = "v0.4";
 
 
   // Color reset
@@ -109,16 +109,17 @@ public class TrainDispatchAppUi {
    */
   private void userAddDeparture() {
     String patternExample = "([01]?[0-9]|2[0-3]):[0-5][0-9]";
-
     Pattern pattern = Pattern.compile(patternExample);
 
     System.out.println("Enter the train departure´s destination");
     String trainDestination = getUserString();
+
     System.out.println("Enter the train departure´s departure time on the format hh:mm");
     String departureTime = getUserString();
+
     while (!pattern.matcher(departureTime).matches()) {
-      System.out.println(RED + "Please make sure the departure " +
-          "time is written in correct hh:mm format");
+      System.out.println(RED + "Please make sure the departure "
+          + "time is written in correct hh:mm format");
       System.out.println("You entered: " + COLOR_RESET + departureTime);
       System.out.println();
       System.out.println("Please enter a new departure time");
@@ -127,15 +128,17 @@ public class TrainDispatchAppUi {
 
     System.out.println("Enter the train departure´s unique number");
     int trainNumber = getUserInt();
+
     while (trainNumber < 1 || trainNumber > 99) {
-      System.out.println(RED + "Train number must be between 1 and 99");
-      System.out.println("You entered: " + COLOR_RESET + trainNumber);
+      System.out.println(RED + "Train number must be between 1 and 99" + COLOR_RESET);
       System.out.println();
       System.out.println("Please enter a new unique train number");
       trainNumber = getUserInt();
     }
+
     System.out.println("Enter the departure´s line");
     String trainLine = getUserString();
+
     System.out.println("Enter the track where the train will depart from");
     int trainTrack = getUserInt();
     while (trainTrack > 100 || trainTrack < 1) {
@@ -144,6 +147,7 @@ public class TrainDispatchAppUi {
       System.out.println("Please enter a new track");
       trainTrack = getUserInt();
     }
+
     String amountDelayed = "";
 
     boolean departureAdded = this.trainDepartureRegister.addDeparture(departureTime, trainLine,

@@ -6,7 +6,7 @@
 
     <groupId>edu.ntnu.stud</groupId>
     <artifactId>TrainDispatchSystem</artifactId>
-    <version>0.4-SNAPSHOT</version>
+    <version>0.4</version>
 
     <properties>
         <!-- Java version. Always use the latest LTS version. Pr September 2023 v17 is the latest LTS -->
