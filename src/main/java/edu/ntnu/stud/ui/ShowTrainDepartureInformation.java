@@ -23,7 +23,6 @@ public class ShowTrainDepartureInformation {
   public void printDeparturesSortedByTime() {
     ArrayList<TrainDeparture> sortedDepartures =
         new ArrayList<>(trainDepartureRegister.getDepartureRegisterSortedByTime());
-
     for (TrainDeparture trainDeparture : sortedDepartures) {
       printDeparture(trainDeparture);
     }
@@ -47,13 +46,13 @@ public class ShowTrainDepartureInformation {
     String trackNumber = String.format("%-10s", trainDeparture.getTrackNumber());
     String trainNumber = String.format("%-13s", trainDeparture.getTrainNumber());
 
-    int destinationMaxLeght = 16;
-    if (destination.length() > destinationMaxLeght) {
+    int destinationMaxLegth = 16;
+    if (destination.length() > destinationMaxLegth) {
       destination = destination.substring(0, 15) + "..";
     }
-    int trainLineMaxLenght = 5;
-    if (trainLine.length() > trainLineMaxLenght) {
-      trainLine = trainLine.substring(0, trainLineMaxLenght);
+    int trainLineMaxLength = 5;
+    if (trainLine.length() > trainLineMaxLength) {
+      trainLine = trainLine.substring(0, trainLineMaxLength);
     }
     if (trainDeparture.getTrackNumber() == -1) {
       trackNumber = TrainDispatchAppUi.RED + "Invalid   " + TrainDispatchAppUi.COLOR_RESET;

@@ -9,12 +9,15 @@ public class UserEditTrainDeparture {
 
   private TrainDepartureRegister trainDepartureRegister;
   private UserInputReader userInputReader;
+
   /**
    * Creates an instance of UserEditTrainDeparture
+   *
+   * @param trainDepartureRegister trainDepartureRegister
    */
-  public UserEditTrainDeparture(TrainDepartureRegister trainDepartureRegister, UserInputReader userInputReader) {
+  public UserEditTrainDeparture(TrainDepartureRegister trainDepartureRegister) {
     this.trainDepartureRegister = trainDepartureRegister;
-    this.userInputReader = userInputReader;
+    this.userInputReader = new UserInputReader();
   }
 
   /**

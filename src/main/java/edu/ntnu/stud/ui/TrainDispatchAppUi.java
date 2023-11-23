@@ -13,7 +13,9 @@ public class TrainDispatchAppUi {
   private TrainStationTime trainStationTime;
   private UserInputReader userInputReader;
   private UserEditTrainDeparture userEditTrainDeparture;
+  private UserSearchForTrainDeparture userSearchForTrainDeparture;
   private ShowTrainDepartureInformation showTrainDepartureInformation;
+  private UserAddRemoveTrainDeparture userAddRemoveTrainDeparture;
   // Version
   private static final String version = "v0.5-SNAPSHOT";
 
@@ -42,71 +44,6 @@ public class TrainDispatchAppUi {
    * Creates an instance of TrainDispatchAppUi.
    */
   public TrainDispatchAppUi() {
-  }
-
-  /**
-   * Lets the user add a train departure.
-   * Train number must be unique and between 0 and 100. If it
-   * isn't unique the train departure will not be added.
-   */
-  private void userAddDeparture() {
-    String patternExample = "([01]?[0-9]|2[0-3]):[0-5][0-9]";
-    Pattern pattern = Pattern.compile(patternExample);
-
-    System.out.println("Enter the train departure´s destination");
-    String trainDestination = userInputReader.getUserString();
-
-    System.out.println("Enter the train departure´s departure time on the format hh:mm");
-    String departureTime = userInputReader.getUserString();
-
-    while (!pattern.matcher(departureTime).matches()) {
-      System.out.println(RED + "Please make sure the departure "
-          + "time is written in correct hh:mm format");
-      System.out.println("You entered: " + COLOR_RESET + departureTime);
-      System.out.println();
-      System.out.println("Please enter a new departure time");
-      departureTime = userInputReader.getUserString();
-    }
-
-    System.out.println("Enter the train departure´s unique number");
-    int trainNumber = userInputReader.getUserInt();
-
-    while (trainNumber < 1 || trainNumber > 99) {
-      System.out.println(RED + "Train number must be between 1 and 99" + COLOR_RESET);
-      System.out.println();
-      System.out.println("Please enter a new unique train number");
-      trainNumber = userInputReader.getUserInt();
-    }
-
-    System.out.println("Enter the departure´s line");
-    String trainLine = userInputReader.getUserString();
-
-    System.out.println("Enter the track where the train will depart from");
-    int trainTrack = userInputReader.getUserInt();
-    while (trainTrack > 100 || trainTrack < 1) {
-      System.out.println(RED + "Track number must be between 1 and 99" + COLOR_RESET);
-      System.out.println();
-      System.out.println("Please enter a new track");
-      trainTrack = userInputReader.getUserInt();
-    }
-
-    String amountDelayed = "";
-
-    boolean departureAdded = this.trainDepartureRegister.addDeparture(departureTime, trainLine,
-        trainNumber, trainDestination, trainTrack, amountDelayed);
-
-
-    if (!departureAdded) {
-      System.out.println(RED + "Adding train departure failed");
-      System.out.println("Please make sure the train number is unique, not assigned to another "
-          + "departure and is between 1 and 99" + COLOR_RESET);
-    } else {
-      System.out.println(GREEN + "Train departure added successfully" + COLOR_RESET);
-    }
-    System.out.println();
-    System.out.println("Press enter to return to main menu");
-    Scanner scanner = new Scanner(System.in);
-    scanner.nextLine();
   }
 
   /**
@@ -204,31 +141,30 @@ public class TrainDispatchAppUi {
       case PRINT_INFO_TABLE:
         trainDepartureRegister.removePassedDepartures();
         this.showTrainDepartureInformation.printInfoTable();
-
         break;
 
       case ADD_TRAIN_DEPARTURE:
-        this.userAddDeparture();
+        userAddRemoveTrainDeparture.userAddDeparture();
         break;
 
       case REMOVE_EXISTING_DEPARTURE:
-        this.userRemoveDeparture();
+        userAddRemoveTrainDeparture.userRemoveDeparture();
         break;
 
       case ADD_DELAY_TO_EXISTING_DEPARTURE:
-        this.userEditTrainDeparture.userAddDelay();
+        userEditTrainDeparture.userAddDelay();
         break;
 
       case ADD_TRACK_TO_EXISTING_DEPARTURE:
-        this.userEditTrainDeparture.userAddTrack();
+        userEditTrainDeparture.userAddTrack();
         break;
 
       case SEARCH_EXISTING_DEPARTURES_BY_TRAINNUMBER:
-        this.userSearchByTrainNumber();
+        userSearchForTrainDeparture.userSearchByTrainNumber();
         break;
 
       case SEARCH_EXISTING_DEPARTURES_BY_DESTINATION:
-        this.userSearchByDestination();
+        userSearchForTrainDeparture.userSearchByDestination();
         break;
 
       case UPDATE_CLOCK:
@@ -248,88 +184,18 @@ public class TrainDispatchAppUi {
   }
 
   /**
-   * Lets the user search for all train departures with the given location.
-   * If no departures with the given destination is found, the user will be notified.
-   */
-  private void userSearchByDestination() {
-    System.out.println("Enter the destination of the departures you would like to view:");
-    ArrayList<TrainDeparture> filteredDepartures =
-        this.trainDepartureRegister.getTrainDepartureByDestination(userInputReader.getUserString());
-    if (filteredDepartures.isEmpty()) {
-      System.out.println(RED + "No departures found" + COLOR_RESET);
-    } else {
-      System.out.println(TrainStationTime.getTrainStationTime() + "   Avganger/Departures  "
-          + "Forventet/expected | " + "Track/Spor | Nummer/Number:");
-      for (TrainDeparture trainDeparture : filteredDepartures) {
-        showTrainDepartureInformation.printDeparture(trainDeparture);
-      }
-    }
-    System.out.println();
-    System.out.println("Press enter to return to main menu");
-    Scanner scanner = new Scanner(System.in);
-    scanner.nextLine(); // Waits for enter press
-  }
-
-  /**
-   * Lets the user search for a train departure with the given train number.
-   * If no train departure is found with the given train number the user will be notified.
-   */
-  private void userSearchByTrainNumber() {
-    System.out.println("Enter the train number of the departure you would like to view:");
-    int trainNumber = userInputReader.getUserInt();
-
-    TrainDeparture departureToPrint =
-        trainDepartureRegister.getTrainDepartureByTrainNumber(trainNumber);
-
-    if (departureToPrint != null) {
-      showTrainDepartureInformation.printDeparture(departureToPrint);
-    } else {
-      System.out.println(RED + "Train departure not found" + COLOR_RESET);
-    }
-
-    System.out.println();
-    System.out.println("Press enter to return to main menu");
-    Scanner scanner = new Scanner(System.in);
-    scanner.nextLine();
-  }
-
-  /**
-   * Lets the user remove a departure by selecting it´s train number.
-   * If no departure is found with the given train number it will notify the user of that and
-   * nothing will be removed.
-   */
-  private void userRemoveDeparture() {
-    System.out.println("Enter the train number of the departure you would like to remove:");
-    int trainNumber = userInputReader.getUserInt();
-
-    TrainDeparture departureToRemove =
-        trainDepartureRegister.getTrainDepartureByTrainNumber(trainNumber);
-
-    boolean trainDepartureRemoved = trainDepartureRegister.removeDeparture(departureToRemove);
-    if (trainDepartureRemoved) {
-      System.out.println(GREEN + "Train departure removed" + COLOR_RESET);
-    } else {
-      System.out.println(RED + "Train departure not found");
-      System.out.println("You entered: " + COLOR_RESET + trainNumber);
-    }
-
-    System.out.println();
-    System.out.println("Press enter to return to main menu");
-    Scanner scanner = new Scanner(System.in);
-    scanner.nextLine();
-  }
-
-  /**
    * Prepares the application to be run.
    */
   public void init() {
-    this.userEditTrainDeparture =
-        new UserEditTrainDeparture(trainDepartureRegister, userInputReader);
-    TrainStationTime trainStationTime = new TrainStationTime();
     this.trainDepartureRegister = new TrainDepartureRegister();
+    this.userEditTrainDeparture = new UserEditTrainDeparture(trainDepartureRegister);
+    this.userAddRemoveTrainDeparture = new UserAddRemoveTrainDeparture(trainDepartureRegister);
+    this.userSearchForTrainDeparture =
+        new UserSearchForTrainDeparture(trainDepartureRegister);
+    TrainStationTime trainStationTime = new TrainStationTime();
     this.trainStationTime = new TrainStationTime();
     this.userInputReader = new UserInputReader();
-    this.showTrainDepartureInformation = new ShowTrainDepartureInformation(trainDepartureRegister);
+    this.showTrainDepartureInformation = new ShowTrainDepartureInformation(this.trainDepartureRegister);
     trainStationTime.setTrainStationTime("00:00");
     trainDepartureRegister.fillTrainStationWithDummyDepartures();
   }
