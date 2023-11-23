@@ -13,6 +13,7 @@ public class TrainDispatchAppUi {
   private TrainStationTime trainStationTime;
   private UserInputReader userInputReader;
   private UserEditTrainDeparture userEditTrainDeparture;
+  private ShowTrainDepartureInformation showTrainDepartureInformation;
   // Version
   private static final String version = "v0.5-SNAPSHOT";
 
@@ -41,67 +42,6 @@ public class TrainDispatchAppUi {
    * Creates an instance of TrainDispatchAppUi.
    */
   public TrainDispatchAppUi() {
-  }
-
-  /**
-   * Prints the information table.
-   */
-  private void printInfoTable() {
-    System.out.println(TrainStationTime.getTrainStationTime()
-        + "   Avganger/" + YELLOW + "Departures  " + COLOR_RESET
-        + "Forventet/" + YELLOW + "expected " + COLOR_RESET + "| "
-        + "Track/" + YELLOW + "Spor "
-        + COLOR_RESET + "|" + " Nummer/" + YELLOW + "Number:" + COLOR_RESET);
-    this.printDeparturesSortedByTime();
-    System.out.println();
-    System.out.println("Press enter to return to main menu");
-    Scanner scanner = new Scanner(System.in);
-    scanner.nextLine();
-  }
-
-  /**
-   * Prints the details of one train departure.
-   * If destination is longer than 17 characters or train line is longer than 4 characters they will
-   * be cut down to prevent stretching.
-   * Minimum string length is implemented for all variables for the departure to fit in the
-   * info table.
-   *
-   * @param trainDeparture the train departure to print.
-   */
-  private void printDeparture(TrainDeparture trainDeparture) {
-    String departureTime = String.format("%-6s", trainDeparture.getDepartureTime());
-    String trainLine = String.format("%-5s", trainDeparture.getLine());
-    String destination = String.format("%-16s", trainDeparture.getDestination());
-    String expectedTime = String.format(YELLOW + "%-18s", trainDeparture.getExpectedTime()
-        + COLOR_RESET);
-    String trackNumber = String.format("%-10s", trainDeparture.getTrackNumber());
-    String trainNumber = String.format("%-13s", trainDeparture.getTrainNumber());
-
-    int destinationMaxLeght = 16;
-    if (destination.length() > destinationMaxLeght) {
-      destination = destination.substring(0, 15) + "..";
-    }
-    int trainLineMaxLenght = 5;
-    if (trainLine.length() > trainLineMaxLenght) {
-      trainLine = trainLine.substring(0, trainLineMaxLenght);
-    }
-    if (trainDeparture.getTrackNumber() == -1) {
-      trackNumber = RED + "Invalid   " + COLOR_RESET;
-    }
-    System.out.println(departureTime + "  " + trainLine + destination
-        + expectedTime + "     | " + trackNumber + " | " + trainNumber);
-  }
-
-  /**
-   * Prints the details of all departures in the train station sorted by time to the console.
-   */
-  private void printDeparturesSortedByTime() {
-    ArrayList<TrainDeparture> sortedDepartures =
-        new ArrayList<>(trainDepartureRegister.getDepartureRegisterSortedByTime());
-
-    for (TrainDeparture trainDeparture : sortedDepartures) {
-      printDeparture(trainDeparture);
-    }
   }
 
   /**
@@ -263,7 +203,7 @@ public class TrainDispatchAppUi {
     switch (selectedMenu) {
       case PRINT_INFO_TABLE:
         trainDepartureRegister.removePassedDepartures();
-        this.printInfoTable();
+        this.showTrainDepartureInformation.printInfoTable();
 
         break;
 
@@ -321,7 +261,7 @@ public class TrainDispatchAppUi {
       System.out.println(TrainStationTime.getTrainStationTime() + "   Avganger/Departures  "
           + "Forventet/expected | " + "Track/Spor | Nummer/Number:");
       for (TrainDeparture trainDeparture : filteredDepartures) {
-        printDeparture(trainDeparture);
+        showTrainDepartureInformation.printDeparture(trainDeparture);
       }
     }
     System.out.println();
@@ -342,7 +282,7 @@ public class TrainDispatchAppUi {
         trainDepartureRegister.getTrainDepartureByTrainNumber(trainNumber);
 
     if (departureToPrint != null) {
-      printDeparture(departureToPrint);
+      showTrainDepartureInformation.printDeparture(departureToPrint);
     } else {
       System.out.println(RED + "Train departure not found" + COLOR_RESET);
     }
@@ -389,6 +329,7 @@ public class TrainDispatchAppUi {
     this.trainDepartureRegister = new TrainDepartureRegister();
     this.trainStationTime = new TrainStationTime();
     this.userInputReader = new UserInputReader();
+    this.showTrainDepartureInformation = new ShowTrainDepartureInformation(trainDepartureRegister);
     trainStationTime.setTrainStationTime("00:00");
     trainDepartureRegister.fillTrainStationWithDummyDepartures();
   }
