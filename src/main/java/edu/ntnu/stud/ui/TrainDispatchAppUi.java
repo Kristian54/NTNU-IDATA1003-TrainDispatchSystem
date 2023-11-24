@@ -3,21 +3,19 @@ package edu.ntnu.stud.ui;
 import edu.ntnu.stud.entity.TrainDeparture;
 import edu.ntnu.stud.entity.TrainStationTime;
 import edu.ntnu.stud.logic.TrainDepartureRegister;
-import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.regex.Pattern;
 
 
 public class TrainDispatchAppUi {
   private TrainDepartureRegister trainDepartureRegister;
   private TrainStationTime trainStationTime;
   private UserInputReader userInputReader;
-  private UserEditTrainDeparture userEditTrainDeparture;
+  private UserModifyTrainDeparture userModifyTrainDeparture;
   private UserSearchForTrainDeparture userSearchForTrainDeparture;
   private ShowTrainDepartureInformation showTrainDepartureInformation;
   private UserAddRemoveTrainDeparture userAddRemoveTrainDeparture;
   // Version
-  private static final String version = "v0.5-SNAPSHOT";
+  private static final String version = "v0.5.1";
 
 
   // Color reset
@@ -33,11 +31,9 @@ public class TrainDispatchAppUi {
   private static final int PRINT_INFO_TABLE = 1;
   private static final int ADD_TRAIN_DEPARTURE = 2;
   private static final int REMOVE_EXISTING_DEPARTURE = 3;
-  private static final int ADD_DELAY_TO_EXISTING_DEPARTURE = 4;
-  private static final int ADD_TRACK_TO_EXISTING_DEPARTURE = 5;
-  private static final int SEARCH_EXISTING_DEPARTURES_BY_TRAINNUMBER = 6;
-  private static final int SEARCH_EXISTING_DEPARTURES_BY_DESTINATION = 7;
-  private static final int UPDATE_CLOCK = 8;
+  private static final int MODIFY_EXISTING_DEPARTURE = 4;
+  private static final int USER_SEARCH_EXISTING_DEPARTURE = 5;
+  private static final int UPDATE_CLOCK = 6;
   private static final int EXIT_APPLICATION = 9;
 
   /**
@@ -64,13 +60,11 @@ public class TrainDispatchAppUi {
     System.out.println("-------------------------------------------------");
     System.out.println("Please select one of the following choices:");
     System.out.println("1. Show info table");
-    System.out.println("2. Add a train departure");
-    System.out.println("3. Remove a train departure");
-    System.out.println("4. Add delay to an existing departure");
-    System.out.println("5. Add track to an existing departure");
-    System.out.println("6. Search for existing departures by train number");
-    System.out.println("7. Search for existing departures by destination");
-    System.out.println("8. Update Clock");
+    System.out.println("2. Add train departure");
+    System.out.println("3. Remove train departure");
+    System.out.println("4. Modify existing departure");
+    System.out.println("5. Search for existing departure(s)");
+    System.out.println("6. Update Clock");
     System.out.println("9. Exit application");
   }
 
@@ -79,15 +73,6 @@ public class TrainDispatchAppUi {
    */
   private void printEditMessage() {
     System.out.println("Enter the train number of the departure you would like to edit:");
-  }
-
-  /**
-   * TODO Remove or implement.
-   */
-  private void printSearchMenu() {
-    System.out.println("Please select one of the following choices:");
-    System.out.println("1. Search by train number");
-    System.out.println("2. Search by destination");
   }
 
   /**
@@ -133,9 +118,8 @@ public class TrainDispatchAppUi {
    * @param selectedMenu users choice
    * @return result the users choice
    */
-  public boolean executeMainMenuChoice(int selectedMenu) {
+  private boolean executeMainMenuChoice(int selectedMenu) {
     boolean result = true;
-    Scanner scanner = new Scanner(System.in);
 
     switch (selectedMenu) {
       case PRINT_INFO_TABLE:
@@ -151,20 +135,19 @@ public class TrainDispatchAppUi {
         userAddRemoveTrainDeparture.userRemoveDeparture();
         break;
 
-      case ADD_DELAY_TO_EXISTING_DEPARTURE:
-        userEditTrainDeparture.userAddDelay();
+      case MODIFY_EXISTING_DEPARTURE:
+        TrainDeparture departureToModify = userModifyTrainDeparture.userSelectDeparture();
+        if (departureToModify != null) {
+          userModifyTrainDeparture.printModifyMenu();
+          userModifyTrainDeparture.executeModifyMenuChoice(userInputReader.getUserInt(),
+              departureToModify);
+        }
+
         break;
 
-      case ADD_TRACK_TO_EXISTING_DEPARTURE:
-        userEditTrainDeparture.userAddTrack();
-        break;
-
-      case SEARCH_EXISTING_DEPARTURES_BY_TRAINNUMBER:
-        userSearchForTrainDeparture.userSearchByTrainNumber();
-        break;
-
-      case SEARCH_EXISTING_DEPARTURES_BY_DESTINATION:
-        userSearchForTrainDeparture.userSearchByDestination();
+      case USER_SEARCH_EXISTING_DEPARTURE:
+        userSearchForTrainDeparture.printSearchMenu();
+        userSearchForTrainDeparture.executeSearchMenuChoice(userInputReader.getUserInt());
         break;
 
       case UPDATE_CLOCK:
@@ -188,14 +171,15 @@ public class TrainDispatchAppUi {
    */
   public void init() {
     this.trainDepartureRegister = new TrainDepartureRegister();
-    this.userEditTrainDeparture = new UserEditTrainDeparture(trainDepartureRegister);
+    this.userModifyTrainDeparture = new UserModifyTrainDeparture(trainDepartureRegister);
     this.userAddRemoveTrainDeparture = new UserAddRemoveTrainDeparture(trainDepartureRegister);
     this.userSearchForTrainDeparture =
         new UserSearchForTrainDeparture(trainDepartureRegister);
     TrainStationTime trainStationTime = new TrainStationTime();
     this.trainStationTime = new TrainStationTime();
     this.userInputReader = new UserInputReader();
-    this.showTrainDepartureInformation = new ShowTrainDepartureInformation(this.trainDepartureRegister);
+    this.showTrainDepartureInformation =
+        new ShowTrainDepartureInformation(this.trainDepartureRegister);
     trainStationTime.setTrainStationTime("00:00");
     trainDepartureRegister.fillTrainStationWithDummyDepartures();
   }
@@ -211,7 +195,7 @@ public class TrainDispatchAppUi {
       printMainMenu();
       int selectedMenu = userInputReader.getUserInt();
 
-      if (executeMainMenuChoice(selectedMenu) == false) {
+      if (!executeMainMenuChoice(selectedMenu)) {
         finished = true;
       }
     }

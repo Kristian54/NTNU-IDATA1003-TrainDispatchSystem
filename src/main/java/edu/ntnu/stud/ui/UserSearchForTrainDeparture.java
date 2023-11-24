@@ -11,6 +11,11 @@ public class UserSearchForTrainDeparture {
   private UserInputReader userInputReader;
   private ShowTrainDepartureInformation showTrainDepartureInformation;
 
+  // Menu Choices:
+  private static final int SEARCH_BY_TRAINNUMBER = 1;
+  private static final int SEARCH_BY_DESTINATION = 2;
+  private static final int RETURN_TO_MAIN_MENU = 9;
+
   /**
    * Creates an instance of UserSearchForTrainDeparture
    *
@@ -70,5 +75,32 @@ public class UserSearchForTrainDeparture {
     Scanner scanner = new Scanner(System.in);
     scanner.nextLine(); // Waits for enter press
   }
+
+  /**
+   * TODO Remove or implement.
+   */
+  public void printSearchMenu() {
+    System.out.println("Please select one of the following choices:");
+    System.out.println("1. Search by train number");
+    System.out.println("2. Search by destination");
+    System.out.println("9. Return to main menu");
+  }
+
+  public void executeSearchMenuChoice(int selectedChoice) {
+
+    switch (selectedChoice) {
+      case SEARCH_BY_TRAINNUMBER:
+        userSearchByTrainNumber();
+        break;
+
+      case SEARCH_BY_DESTINATION:
+        userSearchByDestination();
+        break;
+
+      default:
+    }
+  }
+
+
 
 }
