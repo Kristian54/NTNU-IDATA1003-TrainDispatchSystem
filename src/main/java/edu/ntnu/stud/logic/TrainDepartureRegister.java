@@ -124,7 +124,7 @@ public class TrainDepartureRegister {
   public void removePassedDepartures() {
     LocalTime currentTime = TrainStationTime.getTrainStationTime();
 
-    Iterator<TrainDeparture> iterator = departureRegister.iterator();
+    Iterator<TrainDeparture> iterator = getDepartureRegisterIterator();
     while (iterator.hasNext()) {
       TrainDeparture trainDeparture = iterator.next();
       LocalTime departureTime = trainDeparture.getDepartureTime();

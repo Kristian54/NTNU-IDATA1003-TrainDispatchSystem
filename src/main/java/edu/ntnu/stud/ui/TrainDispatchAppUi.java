@@ -126,6 +126,7 @@ public class TrainDispatchAppUi {
     switch (selectedMenu) {
       case PRINT_INFO_TABLE:
         this.showTrainDepartureInformation.printInfoTable();
+        this.trainDepartureRegister.removePassedDepartures();
         break;
 
       case ADD_TRAIN_DEPARTURE:
