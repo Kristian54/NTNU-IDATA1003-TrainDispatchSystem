@@ -60,7 +60,7 @@ public class TrainDispatchAppUi {
     System.out.println("Main Menu                                   "
         + TrainStationTime.getTrainStationTime());
     System.out.println("-------------------------------------------------");
-    System.out.println("Please select one of the following choices:");
+    System.out.println("Select one of the following choices:");
     System.out.println("1. Show info table");
     System.out.println("2. Add departure");
     System.out.println("3. Remove existing departure");

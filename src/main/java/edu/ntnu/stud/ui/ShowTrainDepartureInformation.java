@@ -42,27 +42,29 @@ public class ShowTrainDepartureInformation {
    */
   //TODO: Adhere to checkstyle variable declaration/usage distance
   public void printDeparture(TrainDeparture trainDeparture) {
-    String departureTime = String.format("%-6s", trainDeparture.getDepartureTime());
-    String trainLine = String.format("%-5s", trainDeparture.getLine());
-    String destination = String.format("%-16s", trainDeparture.getDestination());
-    String expectedTime = String.format(TrainDispatchAppUi.YELLOW + "%-18s",
-         trainDeparture.getExpectedTime() + TrainDispatchAppUi.COLOR_RESET);
-    String trackNumber = String.format("%-10s", trainDeparture.getTrackNumber());
-    String trainNumber = String.format("%-13s", trainDeparture.getTrainNumber());
+    if (trainDeparture != null) {
+      String departureTime = String.format("%-6s", trainDeparture.getDepartureTime());
+      String trainLine = String.format("%-5s", trainDeparture.getLine());
+      String destination = String.format("%-16s", trainDeparture.getDestination());
+      String expectedTime = String.format(TrainDispatchAppUi.YELLOW + "%-18s",
+          trainDeparture.getExpectedTime() + TrainDispatchAppUi.COLOR_RESET);
+      String trackNumber = String.format("%-10s", trainDeparture.getTrackNumber());
+      String trainNumber = String.format("%-13s", trainDeparture.getTrainNumber());
 
-    int destinationMaxLegth = 16;
-    if (destination.length() > destinationMaxLegth) {
-      destination = destination.substring(0, 14) + "..";
+      int destinationMaxLegth = 16;
+      if (destination.length() > destinationMaxLegth) {
+        destination = destination.substring(0, 14) + "..";
+      }
+      int trainLineMaxLength = 5;
+      if (trainLine.length() > trainLineMaxLength) {
+        trainLine = trainLine.substring(0, trainLineMaxLength);
+      }
+      if (trainDeparture.getTrackNumber() == -1) {
+        trackNumber = TrainDispatchAppUi.RED + "Invalid   " + TrainDispatchAppUi.COLOR_RESET;
+      }
+      System.out.println(departureTime + "  " + trainLine + destination
+          + expectedTime + "     | " + trackNumber + " | " + trainNumber);
     }
-    int trainLineMaxLength = 5;
-    if (trainLine.length() > trainLineMaxLength) {
-      trainLine = trainLine.substring(0, trainLineMaxLength);
-    }
-    if (trainDeparture.getTrackNumber() == -1) {
-      trackNumber = TrainDispatchAppUi.RED + "Invalid   " + TrainDispatchAppUi.COLOR_RESET;
-    }
-    System.out.println(departureTime + "  " + trainLine + destination
-        + expectedTime + "     | " + trackNumber + " | " + trainNumber);
   }
 
   /**

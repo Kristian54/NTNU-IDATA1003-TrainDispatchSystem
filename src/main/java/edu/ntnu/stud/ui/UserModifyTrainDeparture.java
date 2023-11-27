@@ -88,7 +88,7 @@ public class UserModifyTrainDeparture {
         departureTime = userInputReader.getUserString();
       }
       departureToModify.setDepartureTime(departureTime);
-      System.out.println(TrainDispatchAppUi.GREEN + "Delay updated"
+      System.out.println(TrainDispatchAppUi.GREEN + "Departure time updated"
           + TrainDispatchAppUi.COLOR_RESET);
     }
 
@@ -189,6 +189,7 @@ public class UserModifyTrainDeparture {
    * Prints modify menu with choices.
    */
   public void printModifyMenu() {
+    System.out.println();
     System.out.println("Select one of the following choices");
     System.out.println("1. Update departure time");
     System.out.println("2. Update departure Destination");

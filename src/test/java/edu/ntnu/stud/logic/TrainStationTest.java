@@ -10,7 +10,6 @@ class TrainStationTest {
 
   private TrainDepartureRegister trainStation;
 
-
   @BeforeEach
   public void setupTestFixture() {
     this.trainStation = new TrainDepartureRegister();
@@ -23,8 +22,6 @@ class TrainStationTest {
   public void addStudentWithValidParameters() {
     TrainDeparture trainDeparture = trainStation.getTrainDepartureByTrainNumber(19);
     assertEquals(trainDeparture.getDepartureTime().toString(), "20:30");
-    assertEquals();
-
   }
 
 

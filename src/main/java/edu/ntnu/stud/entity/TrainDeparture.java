@@ -21,7 +21,7 @@ public class TrainDeparture {
   private int trackNumber; // Track number
 
   /**
-   * Creates an instance of TrainDepature.
+   * Creates an instance of TrainDeparture.
    *
    * @param departureTime    Time of the departure
    * @param trainLine        Train line

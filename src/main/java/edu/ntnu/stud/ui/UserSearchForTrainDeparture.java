@@ -87,6 +87,7 @@ public class UserSearchForTrainDeparture {
    * Prints search menu with choices.
    */
   public void printSearchMenu() {
+    System.out.println();
     System.out.println("Please select one of the following choices:");
     System.out.println("1. Search by train number");
     System.out.println("2. Search by destination");
