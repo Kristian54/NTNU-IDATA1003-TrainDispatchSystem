@@ -12,6 +12,7 @@ public class UserModifyTrainDeparture {
 
   private TrainDepartureRegister trainDepartureRegister;
   private UserInputReader userInputReader;
+  private ShowTrainDepartureInformation showTrainDepartureInformation;
 
   // Modify Menu Choices:
   private static final int USER_UPDATE_DEPARTURE_TIME = 1;
@@ -27,6 +28,7 @@ public class UserModifyTrainDeparture {
    */
   public UserModifyTrainDeparture(TrainDepartureRegister trainDepartureRegister) {
     this.trainDepartureRegister = trainDepartureRegister;
+    this.showTrainDepartureInformation = new ShowTrainDepartureInformation(trainDepartureRegister);
     this.userInputReader = new UserInputReader();
   }
 
@@ -170,8 +172,9 @@ public class UserModifyTrainDeparture {
     TrainDeparture selectedDeparture =
         trainDepartureRegister.getTrainDepartureByTrainNumber(userInputReader.getUserInt());
     if (selectedDeparture != null) {
-      System.out.println(TrainDispatchAppUi.GREEN + "Departure selected"
+      System.out.println(TrainDispatchAppUi.GREEN + "Departure selected:"
           + TrainDispatchAppUi.COLOR_RESET);
+      showTrainDepartureInformation.printDeparture(selectedDeparture);
       System.out.println();
     } else {
       System.out.println(TrainDispatchAppUi.RED + "Departure not found"
