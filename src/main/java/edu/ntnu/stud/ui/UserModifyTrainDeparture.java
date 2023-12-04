@@ -11,8 +11,8 @@ import java.util.regex.Pattern;
 public class UserModifyTrainDeparture {
 
   private TrainDepartureRegister trainDepartureRegister;
-  private UserInputReader userInputReader;
   private ShowTrainDepartureInformation showTrainDepartureInformation;
+  private UserInputReader userInputReader;
 
   // Modify Menu Choices:
   private static final int USER_UPDATE_DEPARTURE_TIME = 1;

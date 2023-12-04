@@ -71,6 +71,13 @@ public class TrainDispatchAppUi {
   }
 
   /**
+   * TODO Remove or implement.
+   */
+  private void printEditMessage() {
+    System.out.println("Enter the train number of the departure you would like to edit:");
+  }
+
+  /**
    * Prints a goodbye message.
    */
   private void printGoodbyeMessage() {
