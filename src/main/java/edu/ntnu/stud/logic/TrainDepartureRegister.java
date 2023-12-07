@@ -164,7 +164,7 @@ public class TrainDepartureRegister {
       }
     }
     // If the train number is unique, the train departure will be added
-    if (trainDepartureAdded && departure != null) {
+    if (trainDepartureAdded) {
       this.departureRegister.add(departure);
     }
     // True if added, false if not added

@@ -1,7 +1,9 @@
 package edu.ntnu.stud.ui;
 
 import edu.ntnu.stud.entity.TrainDeparture;
+import edu.ntnu.stud.entity.TrainStationTime;
 import edu.ntnu.stud.logic.TrainDepartureRegister;
+import java.time.LocalTime;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
@@ -94,18 +96,33 @@ public class UserAddRemoveTrainDeparture {
    */
   private String userAddDepartureDepartureTime() {
     System.out.println("Enter the train departure´s departure time on the format hh:mm");
-    String departureTime = userInputReader.getUserString();
+
+    LocalTime currentTime = TrainStationTime.getTrainStationTime();
+    boolean validDepartureTime = false;
 
     String patternExample = "([01]?[0-9]|2[0-3]):[0-5][0-9]";
     Pattern pattern = Pattern.compile(patternExample);
 
-    while (!pattern.matcher(departureTime).matches()) {
-      System.out.println(TrainDispatchAppUi.RED + "Please make sure the departure "
-          + "time is written in correct hh:mm format");
-      System.out.println("You entered: " + TrainDispatchAppUi.COLOR_RESET + departureTime);
-      System.out.println();
-      System.out.println("Please enter a new departure time");
+    String departureTime = null;
+
+    while (!validDepartureTime) {
       departureTime = userInputReader.getUserString();
+      if (pattern.matcher(departureTime).matches()) {
+        LocalTime time = LocalTime.parse(departureTime);
+        if (time.isBefore(currentTime)) {
+          System.out.println(TrainDispatchAppUi.RED + "Please make sure the departure time is " +
+              "after the current time" + TrainDispatchAppUi.COLOR_RESET);
+          System.out.println();
+          System.out.println("Please enter a new departure time");
+        } else {
+          validDepartureTime = true;
+        }
+      } else {
+        System.out.println(TrainDispatchAppUi.RED + "Please make sure the departure time is " +
+            "written in correct hh:mm format" + TrainDispatchAppUi.COLOR_RESET);
+        System.out.println();
+        System.out.println("Please enter a new departure time");
+      }
     }
     return departureTime;
   }
