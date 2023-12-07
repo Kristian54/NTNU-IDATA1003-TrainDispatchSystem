@@ -6,7 +6,30 @@ import edu.ntnu.stud.logic.TrainDepartureRegister;
 import java.util.Scanner;
 
 /**
- * Main UI class for the application.
+ * Represents the UI of the TrainDispatch application.
+ * The UI is a text based menu system.
+ *
+ * <p>Through the menu, the user should be able to:</p>
+ * <ul>
+ *   <li>Show info table</li>
+ *   <li>Add departure</li>
+ *   <li>Remove existing departure</li>
+ *   <li>Modify existing departure</li>
+ *    <ul>
+ *     <li>Update departure time</li>
+ *     <li>Update departure destination</li>
+ *     <li>Update train line</li>
+ *     <li>Add/Update delay</li>
+ *     <li>Add/Update track</li>
+ *   </ul>
+ *   <li>Search for existing departure(s)</li>
+ *   <ul>
+ *     <li>Search by train number</li>
+ *     <li>Search by destination</li>
+ *   </ul>
+ *   <li>Update clock</li>
+ *   <li>Exit application</li>
+ *  </ul>
  */
 public class TrainDispatchAppUi {
   private TrainDepartureRegister trainDepartureRegister;
@@ -71,13 +94,6 @@ public class TrainDispatchAppUi {
   }
 
   /**
-   * TODO Remove or implement.
-   */
-  private void printEditMessage() {
-    System.out.println("Enter the train number of the departure you would like to edit:");
-  }
-
-  /**
    * Prints a goodbye message.
    */
   private void printGoodbyeMessage() {
@@ -118,7 +134,8 @@ public class TrainDispatchAppUi {
    * Executes the selected menu choice by the user.
    *
    * @param selectedMenu users choice
-   * @return result the users choice
+   *
+   * @return result true if the application hold, false if it should return to main menu.
    */
   private boolean executeMainMenuChoice(int selectedMenu) {
     boolean result = true;
@@ -169,7 +186,15 @@ public class TrainDispatchAppUi {
   }
 
   /**
-   * Prepares the application to be run.
+   * Initializes the application.
+   *
+   * <p>Creates an instance of TrainDepartureRegister</p>
+   * <p>Creates an instance of UserModifyTrainDeparture</p>
+   * <p>Creates an instance of UserAddRemoveTrainDeparture</p>
+   * <p>Creates an instance of UserSearchForTrainDeparture</p>
+   * <p>Creates an instance of TrainStationTime and sets the time to "00:00"</p>
+   * <p>Creates an instance of UserInputReader</p>
+   * <p>Creates an instance of ShowTrainDepartureInformation</p>
    */
   public void init() {
     this.trainDepartureRegister = new TrainDepartureRegister();
@@ -187,7 +212,7 @@ public class TrainDispatchAppUi {
   }
 
   /**
-   * Start method where the application will be run.
+   * Starts the application. This is the main entrypoint for the instance of TrainDispatchAppUi.
    */
   public void start() {
     this.printWelcomeScreen();

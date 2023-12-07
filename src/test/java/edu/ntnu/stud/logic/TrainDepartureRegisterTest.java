@@ -3,7 +3,6 @@ package edu.ntnu.stud.logic;
 import static org.junit.jupiter.api.Assertions.*;
 import edu.ntnu.stud.entity.TrainDeparture;
 import edu.ntnu.stud.entity.TrainStationTime;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -51,7 +50,7 @@ class TrainDepartureRegisterTest {
   void addTrainDepartureWithExistingTrainNumber() {
     assertFalse(this.trainDepartureRegister.addDeparture("20:30", "Test", 1, "1", 1, "00:00"));
     TrainDeparture departure = trainDepartureRegister.getTrainDepartureByTrainNumber(1);
-    assertEquals(departure.getLine(), "L1");
+    assertEquals(departure.getTrainLine(), "L1");
   }
 
   /**

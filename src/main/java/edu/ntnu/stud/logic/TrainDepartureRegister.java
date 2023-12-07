@@ -12,9 +12,12 @@ import java.util.Iterator;
  *
  * <p>The following functionality is implemented:
  * <ul>
- *   <li>Add a departure with a unique train number</li>
- *   <li>Remove a departure</li>
- *   <li>Change departure time of an existing departure</li>
+ *   <li>Add a departure to the register with a unique train number</li>
+ *   <li>Remove a departure based on train number</li>
+ *   <li>Return departure(s) based on destination</li>
+ *   <li>Return all departures sorted by departure time</li>
+ *   <li>Remove passed departures</li>
+ *   <li>Return the register's iterator</li>
  * </ul>
  */
 public class TrainDepartureRegister {
@@ -28,26 +31,16 @@ public class TrainDepartureRegister {
   }
 
   /**
-   * Returns the train departure register.
-   *
-   * @return trainStation the train departure register
-   */
-
-  private ArrayList<TrainDeparture> getDepartureRegister() {
-    return departureRegister;
-  }
-
-  /**
    * Returns the register sorted by time.
    *
-   * @return sortedDepartures the register sorted by time.
+   * @return sortedDepartures the register sorted by time. Null if empty.
    */
 
   public ArrayList<TrainDeparture> getDepartureRegisterSortedByTime() {
     // Comparator for comparing train departures by time. Suggested by ChatGPT.
     Comparator<TrainDeparture> byLocalTime = Comparator.comparing(TrainDeparture::getDepartureTime);
 
-    ArrayList<TrainDeparture> sortedDepartures = new ArrayList<>(this.getDepartureRegister());
+    ArrayList<TrainDeparture> sortedDepartures = new ArrayList<>(departureRegister);
     sortedDepartures.sort(byLocalTime);
 
     return sortedDepartures;
@@ -67,6 +60,7 @@ public class TrainDepartureRegister {
    * is found null is returned.
    *
    * @param trainNumber the train number of the train departure to return.
+   *
    * @return trainDeparture the train departure with the given train number.
    */
   public TrainDeparture getTrainDepartureByTrainNumber(int trainNumber) {
@@ -83,16 +77,17 @@ public class TrainDepartureRegister {
    * Returns a filtered register containing the departures with the given destination.
    *
    * @param destination the given destination for the train departures to return
-   * @return train departures with the given destination
+   *
+   * @return train departures with the given destination. Null if empty.
    */
   public ArrayList<TrainDeparture> getTrainDepartureByDestination(String destination) {
-    String destinationUppercase = destination.toUpperCase();
+    String destinationUppercase = destination;
     ArrayList<TrainDeparture> filteredDepartures = new ArrayList<>();
     Iterator<TrainDeparture> iterator = getDepartureRegisterIterator();
 
     while (iterator.hasNext()) {
       TrainDeparture departure = iterator.next();
-      if (departure.getDestination().toUpperCase().equals(destinationUppercase)) {
+      if (departure.getDestination().equalsIgnoreCase(destinationUppercase)) {
         filteredDepartures.add(departure);
       }
     }
@@ -103,7 +98,8 @@ public class TrainDepartureRegister {
    * Removes a given train departure from the trainstation.
    *
    * @param trainDeparture the train departure to remove.
-   * @return removed true if removed, false if otherwise.
+   *
+   * @return removed true if removed, false if no departure is found.
    */
   public boolean removeDeparture(TrainDeparture trainDeparture) {
     boolean removed = false;
@@ -119,6 +115,7 @@ public class TrainDepartureRegister {
   }
 
   /**
+   * Removes passed departures.
    * Updates the register and removes any train departure with departure time before current time.
    */
   public void removePassedDepartures() {
@@ -142,21 +139,21 @@ public class TrainDepartureRegister {
   /**
    * Adds a train departure to the trainstation.
    *
-   * @param departureTime the train departure to add.
-   * @param trainLine     the train line of the train departure.
-   * @param trainNumber   train number (unique)
-   * @param destination   the destination of the train departure.
-   * @param track         the track number of the train departure.
-   * @param delay         the delay of the train departure.
+   * @param departureTime the train departure to add
+   * @param trainLine     the train line of the train departure
+   * @param trainNumber   train number. Must be unique
+   * @param destination   the destination of the train departure
+   * @param trainTrack    the track number of the train departure
+   * @param delay         the delay of the train departure
    *
-   * @return trainNumberAdded True if added, false if train number is not unique
+   * @return trainNumberAdded True if added, false if not added
    */
 
   public boolean addDeparture(String departureTime, String trainLine, int trainNumber,
-                              String destination, int track, String delay) {
+                              String destination, int trainTrack, String delay) {
     // Saves paramteres in a local variable called departure
     TrainDeparture departure =
-        new TrainDeparture(departureTime, trainLine, trainNumber, destination, track, delay);
+        new TrainDeparture(departureTime, trainLine, trainNumber, destination, trainTrack, delay);
 
     // Checks if the train number is unique
     boolean trainDepartureAdded = true;
@@ -189,5 +186,4 @@ public class TrainDepartureRegister {
     addDeparture("20:00", "R", 9, "Moss", 34, "20:20");
     addDeparture("03:00", "403", 3, "Oslo", 4, "00:00");
   }
-
 }

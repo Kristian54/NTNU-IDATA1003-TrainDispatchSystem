@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
- * Lets the user search for existing departure(s).
+ * Lets the user search for existing departure(s) in the register by train number or destination.
  */
 public class UserSearchForTrainDeparture {
   private TrainDepartureRegister trainDepartureRegister;
@@ -21,7 +21,7 @@ public class UserSearchForTrainDeparture {
   /**
    * Creates an instance of UserSearchForTrainDeparture.
    *
-   * @param trainDepartureRegister trainDepartureRegister
+   * @param trainDepartureRegister trainDepartureRegister to search in.
    */
   public UserSearchForTrainDeparture(TrainDepartureRegister trainDepartureRegister) {
     this.trainDepartureRegister = trainDepartureRegister;

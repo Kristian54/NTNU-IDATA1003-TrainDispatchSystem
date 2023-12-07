@@ -7,7 +7,14 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
- * Shows information about a train departure.
+ * Prints the details of a train departure to the user.
+ *
+ * <p>The following functionality is implemented:</p>
+ * <ul>
+ *   <li>Print a single train departure</li>
+ *   <li>Print all departures sorted by departure time</li>
+ *   <li>Print the information table</li>
+ * </ul>
  */
 public class ShowTrainDepartureInformation {
 
@@ -15,13 +22,15 @@ public class ShowTrainDepartureInformation {
 
   /**
    * Creates an instance of ShowTrainDepartureInformation.
+   *
+   * @param trainDepartureRegister trainDepartureRegister to print information from.
    */
   public ShowTrainDepartureInformation(TrainDepartureRegister trainDepartureRegister) {
     this.trainDepartureRegister = trainDepartureRegister;
   }
 
   /**
-   * Prints the details of all departures in the train station sorted by time to the console.
+   * Prints the details of all departures in the departure register sorted by time to the console.
    */
   public void printDeparturesSortedByTime() {
     ArrayList<TrainDeparture> sortedDepartures =
@@ -40,19 +49,18 @@ public class ShowTrainDepartureInformation {
    *
    * @param trainDeparture the train departure to print.
    */
-  //TODO: Adhere to checkstyle variable declaration/usage distance
   public void printDeparture(TrainDeparture trainDeparture) {
     if (trainDeparture != null) {
       String departureTime = String.format("%-6s", trainDeparture.getDepartureTime());
-      String trainLine = String.format("%-5s", trainDeparture.getLine());
+      String trainLine = String.format("%-5s", trainDeparture.getTrainLine());
       String destination = String.format("%-16s", trainDeparture.getDestination());
       String expectedTime = String.format(TrainDispatchAppUi.YELLOW + "%-18s",
           trainDeparture.getExpectedTime() + TrainDispatchAppUi.COLOR_RESET);
       String trackNumber = String.format("%-10s", trainDeparture.getTrackNumber());
       String trainNumber = String.format("%-13s", trainDeparture.getTrainNumber());
 
-      int destinationMaxLegth = 16;
-      if (destination.length() > destinationMaxLegth) {
+      int destinationMaxLength = 16;
+      if (destination.length() > destinationMaxLength) {
         destination = destination.substring(0, 14) + "..";
       }
       int trainLineMaxLength = 5;
@@ -68,7 +76,7 @@ public class ShowTrainDepartureInformation {
   }
 
   /**
-   * Prints the information table.
+   * Prints the information table containing all departures.
    */
   public void printInfoTable() {
     System.out.println(TrainStationTime.getTrainStationTime()

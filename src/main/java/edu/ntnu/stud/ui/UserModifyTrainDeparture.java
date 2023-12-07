@@ -195,10 +195,10 @@ public class UserModifyTrainDeparture {
     System.out.println();
     System.out.println("Select one of the following choices");
     System.out.println("1. Update departure time");
-    System.out.println("2. Update departure Destination");
+    System.out.println("2. Update departure destination");
     System.out.println("3. Update train line");
-    System.out.println("4. Add/Update Delay");
-    System.out.println("5. Add/Update Track");
+    System.out.println("4. Add/Update delay");
+    System.out.println("5. Add/Update track");
     System.out.println("9. Return to main menu");
   }
 

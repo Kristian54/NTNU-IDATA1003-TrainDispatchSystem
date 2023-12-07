@@ -3,7 +3,7 @@ package edu.ntnu.stud.ui;
 import java.util.Scanner;
 
 /**
- * User Input Reader.
+ * Represents the user input reader.
  *
  * <p>The following functionality is implemented:
  * <ul>
@@ -17,7 +17,7 @@ public class UserInputReader {
   }
 
   /**
-   * Get´s a string from the user.
+   * Gets a string from the user.
    * If no input is given, an empty string will be returned
    *
    * @return inputString user´s string. If empty an empty string will be returned.
@@ -33,7 +33,7 @@ public class UserInputReader {
   }
 
   /**
-   * Get´s an int from the user.
+   * Gets an int from the user.
    * If the user enters an invalid int -1 will be returned.
    *
    * @return user´s int. If invalid -1 is returned

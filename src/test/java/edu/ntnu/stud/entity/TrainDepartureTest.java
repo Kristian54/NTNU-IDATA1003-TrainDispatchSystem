@@ -66,7 +66,7 @@ private TrainDeparture trainDepartureInvalid;
   @Test
   void testObjectCreationWithValidParametersAndGetMethods() {
     assertEquals(LocalTime.of(10, 30), trainDepartureValid.getDepartureTime());
-    assertEquals("L21", trainDepartureValid.getLine());
+    assertEquals("L21", trainDepartureValid.getTrainLine());
     assertEquals(10, trainDepartureValid.getTrainNumber());
     assertEquals("Destination", trainDepartureValid.getDestination());
     assertEquals(1, trainDepartureValid.getTrackNumber());
@@ -82,7 +82,7 @@ private TrainDeparture trainDepartureInvalid;
   @Test
   void testObjectCreationWithInvalidParametersAndGetMethods() {
     assertEquals(LocalTime.of(0,0), trainDepartureInvalid.getDepartureTime());
-    assertEquals("", trainDepartureInvalid.getLine());
+    assertEquals("", trainDepartureInvalid.getTrainLine());
     assertEquals(-1, trainDepartureInvalid.getTrainNumber());
     assertEquals("", trainDepartureInvalid.getDestination());
     assertEquals(-1, trainDepartureInvalid.getTrackNumber());

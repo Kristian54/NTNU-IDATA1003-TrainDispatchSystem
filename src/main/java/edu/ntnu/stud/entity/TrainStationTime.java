@@ -4,13 +4,13 @@ import java.time.LocalTime;
 import java.util.regex.Pattern;
 
 /**
- * Represents the current time in the system.
+ * Represents the current time in the application in "hh:mm" format.
+ *
+ * @author kristiangarder
  */
 public class TrainStationTime {
 
-  /**
-   * The time in "hh:mm" format.
-   */
+  // The current time in the application.
   private static LocalTime trainStationTime;
 
   /**
@@ -30,12 +30,14 @@ public class TrainStationTime {
   }
 
   /**
+   * Sets the time in "hh:mm" format.
+   * The given time must be written in hh:mm format and after the current time. If it isn't it will
+   * not be updated.
    * Parts of the code used under was suggested by GitHub Copilot.
-   * Check´s if the initial time provided is written in valid hh:mm format and if the given time is
-   * after the current time.
-   * If it is not, the time will be set to 00:00.
    *
-   * @param globalTimeInput the updated time.
+   * @param globalTimeInput the time to be set in "hh:mm" format.
+   *
+   * @return clockUpdated true if the clock was updated, false if not.
    */
   public boolean setTrainStationTime(String globalTimeInput) {
     boolean clockUpdated = false;
