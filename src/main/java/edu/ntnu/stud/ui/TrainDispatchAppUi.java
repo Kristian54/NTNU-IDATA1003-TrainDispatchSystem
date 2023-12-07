@@ -40,7 +40,7 @@ public class TrainDispatchAppUi {
   private ShowTrainDepartureInformation showTrainDepartureInformation;
   private UserAddRemoveTrainDeparture userAddRemoveTrainDeparture;
   // Version
-  private static final String version = "v0.6";
+  private static final String version = "v0.7-SNAPSHOT";
 
 
   // Color reset
