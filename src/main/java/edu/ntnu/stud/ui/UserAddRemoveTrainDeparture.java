@@ -58,6 +58,41 @@ public class UserAddRemoveTrainDeparture {
     System.out.println("Enter the train departure´s destination");
     String trainDestination = userInputReader.getUserString();
 
+    String departureTime = userAddDepartureDepartureTime();
+
+    int trainNumber = userAddDepartureTrainNumber();
+
+    System.out.println("Enter the departure´s line");
+    String trainLine = userInputReader.getUserString();
+
+    int trainTrack = userAddDepartureTrainTrack();
+
+    String amountDelayed = "";
+
+    boolean departureAdded = this.trainDepartureRegister.addDeparture(departureTime, trainLine,
+        trainNumber, trainDestination, trainTrack, amountDelayed);
+
+    if (!departureAdded) {
+      System.out.println(TrainDispatchAppUi.RED + "Adding train departure failed");
+      System.out.println("Please make sure the train number is unique, not assigned to another "
+          + "departure and is between 1 and 99" + TrainDispatchAppUi.COLOR_RESET);
+    } else {
+      System.out.println(TrainDispatchAppUi.GREEN + "Train departure added successfully"
+          + TrainDispatchAppUi.COLOR_RESET);
+    }
+    System.out.println();
+    System.out.println("Press enter to return to main menu");
+    Scanner scanner = new Scanner(System.in);
+    scanner.nextLine();
+  }
+
+
+  /**
+   * This method is a sub method to the userAddDeparture method and handles the departure time part.
+   *
+   * @return departureTime the departure time to assign to departure
+   */
+  private String userAddDepartureDepartureTime() {
     System.out.println("Enter the train departure´s departure time on the format hh:mm");
     String departureTime = userInputReader.getUserString();
 
@@ -72,21 +107,46 @@ public class UserAddRemoveTrainDeparture {
       System.out.println("Please enter a new departure time");
       departureTime = userInputReader.getUserString();
     }
+    return departureTime;
+  }
 
-    System.out.println("Enter the train departure´s unique number");
+
+  /**
+   * This method is a sub method to the userAddDeparture method and handles the train number part.
+   *
+   * @return trainNumber the train number to assign to departure
+   */
+  private int userAddDepartureTrainNumber() {
+    System.out.println("Enter the train departure's unique number");
     int trainNumber = userInputReader.getUserInt();
 
-    while (trainNumber < 1 || trainNumber > 99) {
-      System.out.println(TrainDispatchAppUi.RED + "Train number must be between 1 and 99"
-          + TrainDispatchAppUi.COLOR_RESET);
+    TrainDeparture existingDeparture =
+        trainDepartureRegister.getTrainDepartureByTrainNumber(trainNumber);
+
+    while (existingDeparture != null || trainNumber > 99 || trainNumber < 1) {
+      if (existingDeparture != null) {
+        System.out.println(TrainDispatchAppUi.RED + "Train number must be unique");
+        System.out.println("You entered: " + TrainDispatchAppUi.COLOR_RESET + trainNumber);
+      } else {
+        System.out.println(TrainDispatchAppUi.RED + "Train number must be between 1 and 99" +
+            TrainDispatchAppUi.COLOR_RESET);
+      }
+
       System.out.println();
       System.out.println("Please enter a new unique train number");
       trainNumber = userInputReader.getUserInt();
+      existingDeparture = trainDepartureRegister.getTrainDepartureByTrainNumber(trainNumber);
     }
 
-    System.out.println("Enter the departure´s line");
-    String trainLine = userInputReader.getUserString();
+    return trainNumber;
+  }
 
+  /**
+   * This is a sub method to the userAddDeparture method nad handles the train track part.
+   *
+   * @return trainTrack the track to assign to departure
+   */
+  private int userAddDepartureTrainTrack() {
     System.out.println("Enter the track where the train will depart from");
     int trainTrack = userInputReader.getUserInt();
     while (trainTrack > 100 || trainTrack < 1) {
@@ -96,24 +156,6 @@ public class UserAddRemoveTrainDeparture {
       System.out.println("Please enter a new track");
       trainTrack = userInputReader.getUserInt();
     }
-
-    String amountDelayed = "";
-
-    boolean departureAdded = this.trainDepartureRegister.addDeparture(departureTime, trainLine,
-        trainNumber, trainDestination, trainTrack, amountDelayed);
-
-
-    if (!departureAdded) {
-      System.out.println(TrainDispatchAppUi.RED + "Adding train departure failed");
-      System.out.println("Please make sure the train number is unique, not assigned to another "
-          + "departure and is between 1 and 99" + TrainDispatchAppUi.COLOR_RESET);
-    } else {
-      System.out.println(TrainDispatchAppUi.GREEN + "Train departure added successfully"
-          + TrainDispatchAppUi.COLOR_RESET);
-    }
-    System.out.println();
-    System.out.println("Press enter to return to main menu");
-    Scanner scanner = new Scanner(System.in);
-    scanner.nextLine();
+    return trainTrack;
   }
 }
