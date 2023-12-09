@@ -206,7 +206,8 @@ public class TrainDispatchAppUi {
     this.showTrainDepartureInformation =
         new ShowTrainDepartureInformation(this.trainDepartureRegister);
     trainStationTime.setTrainStationTime("00:00");
-    trainDepartureRegister.fillTrainStationWithDummyDepartures();
+    //Fills the register with 10 dummy departures. Can be uncommented for testing purposes.
+    //trainDepartureRegister.fillTrainStationWithDummyDepartures();
   }
 
   /**
