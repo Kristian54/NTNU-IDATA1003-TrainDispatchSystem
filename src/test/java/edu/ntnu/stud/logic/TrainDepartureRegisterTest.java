@@ -9,14 +9,21 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Tests the TrainDepartureRegister class.
- *
  * The following functionality must be tested:
  * <ul>
  *   <li>
  *     Positive tests:
+ *     <li>Adding a departure with valid parameters should return true.</li>
+ *     <li>Register should be returned sorted by initial departure time.</li>
+ *     <li>Register should return all departures with given destination.</li>
+ *     <li>Register should return departure with given train number.</li>
+ *     <li>Register should be able to remove a departure and return true if removed.</li>
  *   </li>
  *   <li>
  *     Negative tests:
+ *     <li>Adding a departure with non-unique train number shouldn't be added and return false.</li>
+ *     <li>Register should return false if no departure with given train number is found when
+ *     removing a departure.</li>
  *   </li>
  * </ul>
  */
@@ -31,6 +38,25 @@ class TrainDepartureRegisterTest {
     this.trainDepartureRegister.addDeparture("20:30", "L1", 1, "test", 1, "00:00");
     this.trainDepartureRegister.addDeparture("01:30", "L2", 2, "tEst", 2, "01:00");
     this.trainDepartureRegister.addDeparture("09:30", "L3", 3, "1", 3, "02:00");
+  }
+
+  /**
+   * Tests that a departure can be successfully removed from the register and return true.
+   */
+  @Test
+  public void removeExistingDeparture() {
+    assertTrue(trainDepartureRegister.removeDeparture
+        (trainDepartureRegister.getTrainDepartureByTrainNumber(1)));
+    assertNull(trainDepartureRegister.getTrainDepartureByTrainNumber(1));
+  }
+
+  /**
+   * Tests that false is returned if no departure is found with the given train number to remove.
+   */
+  @Test
+  public void removeNonExistingDeparture() {
+    assertFalse(trainDepartureRegister.removeDeparture
+        (trainDepartureRegister.getTrainDepartureByTrainNumber(10)));
   }
 
   /**

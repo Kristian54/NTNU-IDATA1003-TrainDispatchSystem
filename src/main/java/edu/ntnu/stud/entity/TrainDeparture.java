@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
 
 public class TrainDeparture {
   private LocalTime departureTime; // Initial departure time
-  private LocalTime delayTime; // Delay time
+  private LocalTime amountDelayed; // Delay time
   private String trainLine; // Train line
   private int trainNumber; // Train number
   private String destination; // Train destination
@@ -29,13 +29,13 @@ public class TrainDeparture {
    * @param trainDestination Train destination. If it is empty it will be set to an empty string.
    * @param trackNum         Track where the departure leaves from. If it is not a positive 1 or
    *                         2-digit number it will be set to -1.
-   * @param delayTime        Delay time of the departure. Must be written in hh:mm format. If it
+   * @param amountDelayed        Delay time of the departure. Must be written in hh:mm format. If it
    *                         isn't it will be set to 00:00.
    */
   public TrainDeparture(String departureTime, String trainLine, int trainNumber,
-                        String trainDestination, int trackNum, String delayTime) {
+                        String trainDestination, int trackNum, String amountDelayed) {
     this.setDepartureTime(departureTime);
-    this.setDelayTime(delayTime);
+    this.setAmountDelayed(amountDelayed);
     this.setTrainLine(trainLine);
     this.setTrainNumber(trainNumber);
     this.setDestination(trainDestination);
@@ -43,12 +43,12 @@ public class TrainDeparture {
   }
 
   /**
-   * Returns the delay time in "hh:mm" format.
+   * Returns the amount the departure is delayed in "hh:mm" format.
    *
-   * @return delayTime The delay time in "hh:mm" format.
+   * @return delayTime The amount delayed in "hh:mm" format.
    */
-  public LocalTime getDelayTime() {
-    return delayTime;
+  public LocalTime getAmountDelayed() {
+    return amountDelayed;
   }
 
   /**
@@ -69,8 +69,8 @@ public class TrainDeparture {
   public String getExpectedTime() {
     String empty = "";
     LocalTime sumTime =
-        departureTime.plusHours(delayTime.getHour()).plusMinutes(delayTime.getMinute());
-    if (delayTime.equals(LocalTime.parse("00:00"))) { // If delay is 00:00, return empty string
+        departureTime.plusHours(amountDelayed.getHour()).plusMinutes(amountDelayed.getMinute());
+    if (amountDelayed.equals(LocalTime.parse("00:00"))) { // If delay is 00:00, return empty string
 
       return empty;
     } else {
@@ -144,19 +144,19 @@ public class TrainDeparture {
    *
    * @param delayedTime the amount delayed in hh:mm format.
    */
-  public void setDelayTime(String delayedTime) {
+  public void setAmountDelayed(String delayedTime) {
     // Example pattern for a string in hh:mm format
     String patternExample = "([01]?[0-9]|2[0-3]):[0-5][0-9]";
 
     Pattern pattern = Pattern.compile(patternExample); // Compiles the pattern
 
     if (delayedTime == null) { // If the delay time is empty, set time to 00:00
-      delayTime = LocalTime.parse("00:00");
+      amountDelayed = LocalTime.parse("00:00");
       // Else if the delay time matches the pattern, set time to the delay time
     } else if (pattern.matcher(delayedTime).matches()) {
-      delayTime = LocalTime.parse(delayedTime);
+      amountDelayed = LocalTime.parse(delayedTime);
     } else { // Else set time to 00:00
-      delayTime = LocalTime.parse("00:00");
+      amountDelayed = LocalTime.parse("00:00");
     }
   }
 

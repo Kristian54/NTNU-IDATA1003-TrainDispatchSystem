@@ -55,7 +55,7 @@ public class UserModifyTrainDeparture {
         System.out.println("Please enter a new delay");
         departureTime = userInputReader.getUserString();
       }
-      departureToModify.setDelayTime(departureTime);
+      departureToModify.setAmountDelayed(departureTime);
       System.out.println(TrainDispatchAppUi.GREEN + "Delay updated"
           + TrainDispatchAppUi.COLOR_RESET);
     }

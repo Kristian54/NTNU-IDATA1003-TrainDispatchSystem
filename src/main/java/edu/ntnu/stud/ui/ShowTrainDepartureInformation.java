@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
- * Prints the details of a train departure to the user.
+ * Prints the details of a train departure to the console.
  *
  * <p>The following functionality is implemented:</p>
  * <ul>
@@ -41,7 +41,7 @@ public class ShowTrainDepartureInformation {
   }
 
   /**
-   * Prints the details of one train departure.
+   * Prints the details of one train departure to the console.
    * If destination is longer than 17 characters or train line is longer than 4 characters they will
    * be cut down to prevent stretching.
    * Minimum string length is implemented for all variables for the departure to fit in the
@@ -76,7 +76,7 @@ public class ShowTrainDepartureInformation {
   }
 
   /**
-   * Prints the information table containing all departures.
+   * Prints the information table containing all departures to the console.
    */
   public void printInfoTable() {
     System.out.println(TrainStationTime.getTrainStationTime()

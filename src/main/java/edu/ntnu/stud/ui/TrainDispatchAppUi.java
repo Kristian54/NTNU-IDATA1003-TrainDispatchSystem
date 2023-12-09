@@ -39,9 +39,9 @@ public class TrainDispatchAppUi {
   private UserSearchForTrainDeparture userSearchForTrainDeparture;
   private ShowTrainDepartureInformation showTrainDepartureInformation;
   private UserAddRemoveTrainDeparture userAddRemoveTrainDeparture;
-  // Version
-  private static final String version = "v0.7-SNAPSHOT";
 
+  // Version
+  private static final String version = "v0.7";
 
   // Color reset
   public static final String COLOR_RESET = "\u001B[0m";
@@ -50,7 +50,6 @@ public class TrainDispatchAppUi {
   public static final String YELLOW = "\u001B[33m";
   public static final String RED = "\u001B[31m";
   public static final String CYAN = "\u001B[36m";
-
 
   // Menu choices:
   private static final int PRINT_INFO_TABLE = 1;
@@ -134,7 +133,6 @@ public class TrainDispatchAppUi {
    * Executes the selected menu choice by the user.
    *
    * @param selectedMenu users choice
-   *
    * @return result true if the application hold, false if it should return to main menu.
    */
   private boolean executeMainMenuChoice(int selectedMenu) {

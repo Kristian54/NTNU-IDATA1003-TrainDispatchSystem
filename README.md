@@ -6,27 +6,27 @@ STUDENT NAME = "Kristian Nærum Garder"
 STUDENT ID = ""
 
 ## Project description
-
-[//]: # (TODO: Write a short description of your project/product here.)
-
+[//]: #
+This project is an assignment in the subject IDATA1003. The task was to build an application that can handle train departures at a trainstation. All the functionality requirements is met with some extra functionality added. The application can currently handle up to 99 train departures departing from the train station.
 ## Project structure
-
-[//]: # (TODO: Describe the structure of your project here. How have you used packages in your structure. Where are all sourcefiles stored. Where are all JUnit-test classes stored. etc.)
+[//]: #
+This project is built as a maven structured application. All sourcecode files are stored under src.main.java.edu.ntnu.stud-entity/logic/ui.
+The entity package contains the classes that store information. The logic package contains the classes that handles the information stored in entity classes. The ui package contains the classes that handles all input and output from/to the user.
 
 ## Link to repository
-
-[//]: # (TODO: Include a link to your repository here.)
+[//]: #
+https://github.com/NTNU-IE-IIR/mappe-idata1003-traindispatchsystem-Kristian54
 
 ## How to run the project
-
-[//]: # (TODO: Describe how to run your project here. What is the main class? What is the main method?
-What is the input and output of the program? What is the expected behaviour of the program?)
-
+[//]: #
+To run the application you should run the TrainDispatchApp class located outside of the packages. This is the class containing the main method. When running the program you should be presented with the main menu in the console with 7 choices. When you see the main menu the application is ready for use.
 ## How to run the tests
-
-[//]: # (TODO: Describe how to run the tests here.)
+[//]: #
+To run the tests you need to run the classes under test.java.edu.ntnu.stud-entity/logic one by one manually. Expected behaviour is all tests to pass.
 
 ## References
 
 [//]: # (TODO: Include references here, if any. For example, if you have used code from the course book, include a reference to the chapter.
 Or if you have used code from a website or other source, include a link to the source.)
+<p>https://stackoverflow.com/	<p>https://www.w3schools.com/java/java_regex.asp <p>ChatGPT <p>GitHub Copilot
+

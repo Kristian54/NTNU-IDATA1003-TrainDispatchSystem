@@ -8,30 +8,29 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Tests the TrainDeparture class.
- *
  * The following functionality must be tested:
  * <ul>
  *   <li>
- *     Positive tests:
- *     Test creation of TrainDeparture object with valid parameters.
- *     departureTime must be a valid 24h timestamp written on the hh:mm format
- *     trainLine must be a valid String, not null.
- *     number must be an int between 0 and 100.
- *     trainDestination must be a valid String, not null.
- *     trackNum must be an int between 0 and 100.
- *     delay departureTime must be a valid 24h timestamp written on the hh:mm format.
+ *     <li>Positive tests:
+ *     <li>Test creation of TrainDeparture object with valid parameters.
+ *     <li>departureTime must be a valid 24h timestamp written on the hh:mm format
+ *     <li>trainLine must be a valid String, not null.
+ *     <li>number must be an int between 0 and 100.
+ *     <li>trainDestination must be a valid String, not null.
+ *     <li>trackNum must be an int between 0 and 100.
+ *     <li>delay departureTime must be a valid 24h timestamp written on the hh:mm format.
  *   </li>
  *   <li>
- *     Negative tests:
- *     Test that the class is able to deal with all possible invalid parameters when creating an
+ *     <li>Negative tests:
+ *     <li>Test that the class is able to deal with all possible invalid parameters when creating an
  *     instance.
- *     If departure time is written any other way than
+ *     <li>If departure time is written any other way than
  *     valid hh:mm format it should be set to "00:00"
- *     If trainLine isn´t a valid String or null, it will be set to an empty String "".
- *     If number isn´t an int between 0 and 100 it will be set to -1.
- *     If trainDestination isn´t a valid string or null it will be set to an empty string "".
- *     If trackNum isn´t an int between 0 and 100 it will be set to -1.
- *     If delay isn´t written on the correct hh:mm format it will be set to "00:00"
+ *     <li>If trainLine isn´t a valid String or null, it will be set to an empty String "".
+ *     <li>If number isn´t an int between 0 and 100 it will be set to -1.
+ *     <li>If trainDestination isn´t a valid string or null it will be set to an empty string "".
+ *     <li>If trackNum isn´t an int between 0 and 100 it will be set to -1.
+ *     <li>If delay isn´t written on the correct hh:mm format it will be set to "00:00"
  *   </li>
  * </ul>
  */
@@ -60,7 +59,7 @@ private TrainDeparture trainDepartureInvalid;
   }
 
   /**
-   * Tests that all the values was set to the correct values given by the parameters. ALso
+   * Tests that all the values was set to the correct values given by the parameters. Also
    * tests all get/set methods.
    */
   @Test
@@ -70,7 +69,7 @@ private TrainDeparture trainDepartureInvalid;
     assertEquals(10, trainDepartureValid.getTrainNumber());
     assertEquals("Destination", trainDepartureValid.getDestination());
     assertEquals(1, trainDepartureValid.getTrackNumber());
-    assertEquals(LocalTime.of(0, 10), trainDepartureValid.getDelayTime());
+    assertEquals(LocalTime.of(0, 10), trainDepartureValid.getAmountDelayed());
     assertEquals("10:40", trainDepartureValid.getExpectedTime());
   }
 
@@ -86,7 +85,7 @@ private TrainDeparture trainDepartureInvalid;
     assertEquals(-1, trainDepartureInvalid.getTrainNumber());
     assertEquals("", trainDepartureInvalid.getDestination());
     assertEquals(-1, trainDepartureInvalid.getTrackNumber());
-    assertEquals(LocalTime.of(0,0), trainDepartureInvalid.getDelayTime());
+    assertEquals(LocalTime.of(0,0), trainDepartureInvalid.getAmountDelayed());
     assertEquals("", trainDepartureInvalid.getExpectedTime());
   }
 }

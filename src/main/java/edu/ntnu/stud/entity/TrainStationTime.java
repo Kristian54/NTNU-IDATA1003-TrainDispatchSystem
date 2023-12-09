@@ -15,6 +15,7 @@ public class TrainStationTime {
 
   /**
    * Creates an instance of TrainStationTime.
+   * When an instance is created the initial time of the application will be set to "00:00"
    */
   public TrainStationTime() {
     trainStationTime = LocalTime.parse("00:00");
@@ -32,7 +33,7 @@ public class TrainStationTime {
   /**
    * Sets the time in "hh:mm" format.
    * The given time must be written in hh:mm format and after the current time. If it isn't it will
-   * not be updated.
+   * not be updated and return false.
    * Parts of the code used under was suggested by GitHub Copilot.
    *
    * @param globalTimeInput the time to be set in "hh:mm" format.

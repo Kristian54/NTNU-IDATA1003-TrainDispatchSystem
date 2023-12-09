@@ -32,6 +32,8 @@ public class TrainDepartureRegister {
 
   /**
    * Returns the register sorted by time.
+   * This method does not account for expected time, and will sort by initial departure time. If the
+   * register is empty null is returned.
    *
    * @return sortedDepartures the register sorted by time. Null if empty.
    */
@@ -56,11 +58,10 @@ public class TrainDepartureRegister {
   }
 
   /**
-   * Returns the train departure with the given train number. If no train departure
-   * is found null is returned.
+   * Returns the train departure with the given train number.
+   * If no train departure is found with the given train number null is returned.
    *
    * @param trainNumber the train number of the train departure to return.
-   *
    * @return trainDeparture the train departure with the given train number.
    */
   public TrainDeparture getTrainDepartureByTrainNumber(int trainNumber) {
@@ -77,7 +78,6 @@ public class TrainDepartureRegister {
    * Returns a filtered register containing the departures with the given destination.
    *
    * @param destination the given destination for the train departures to return
-   *
    * @return train departures with the given destination. Null if empty.
    */
   public ArrayList<TrainDeparture> getTrainDepartureByDestination(String destination) {
@@ -95,10 +95,11 @@ public class TrainDepartureRegister {
   }
 
   /**
-   * Removes a given train departure from the trainstation.
+   * Removes a given train departure from the register.
+   * If no departure with the given train number is found the register will remain unchanged and
+   * false is returned.
    *
    * @param trainDeparture the train departure to remove.
-   *
    * @return removed true if removed, false if no departure is found.
    */
   public boolean removeDeparture(TrainDeparture trainDeparture) {
@@ -125,8 +126,8 @@ public class TrainDepartureRegister {
     while (iterator.hasNext()) {
       TrainDeparture trainDeparture = iterator.next();
       LocalTime departureTime = trainDeparture.getDepartureTime();
-      int delayHours = trainDeparture.getDelayTime().getHour();
-      int delayMinutes = trainDeparture.getDelayTime().getMinute();
+      int delayHours = trainDeparture.getAmountDelayed().getHour();
+      int delayMinutes = trainDeparture.getAmountDelayed().getMinute();
 
       LocalTime sumTime = departureTime.plusHours(delayHours).plusMinutes(delayMinutes);
 
@@ -139,14 +140,15 @@ public class TrainDepartureRegister {
   /**
    * Adds a train departure to the trainstation.
    *
-   * @param departureTime the train departure to add
+   * @param departureTime the initial time of the departure written in "hh:mm" format.
    * @param trainLine     the train line of the train departure
    * @param trainNumber   train number. Must be unique
    * @param destination   the destination of the train departure
    * @param trainTrack    the track number of the train departure
-   * @param delay         the delay of the train departure
+   * @param delay         the amount a departure is delayed by written in "hh:mm" format. If there
+   *                      is no current delay this should be set to an empty string or 00:00.
    *
-   * @return trainNumberAdded True if added, false if not added
+   * @return trainDepartureAdded True if added, false if not added
    */
 
   public boolean addDeparture(String departureTime, String trainLine, int trainNumber,

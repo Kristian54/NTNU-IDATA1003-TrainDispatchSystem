@@ -95,7 +95,7 @@ public class UserSearchForTrainDeparture {
   }
 
   /**
-   * Executes the sleected menu choice by the user.
+   * Executes the selected menu choice by the user.
    *
    * @param selectedChoice users choice
    */

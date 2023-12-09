@@ -1,5 +1,5 @@
 ### A "Standard" .gitignore file suitable for most Java projects. ###
-
+JavaDoc/
 target/
 !.mvn/wrapper/maven-wrapper.jar
 
