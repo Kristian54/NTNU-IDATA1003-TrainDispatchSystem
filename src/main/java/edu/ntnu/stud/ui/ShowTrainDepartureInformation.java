@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
- * Prints the details of a train departure to the console.
+ * <h5>Prints the details of a train departure to the console.</h5>
  *
  * <p>The following functionality is implemented:</p>
  * <ul>
@@ -15,6 +15,8 @@ import java.util.Scanner;
  *   <li>Print all departures sorted by departure time</li>
  *   <li>Print the information table</li>
  * </ul>
+ *
+ * @author kristiangarder
  */
 public class ShowTrainDepartureInformation {
 

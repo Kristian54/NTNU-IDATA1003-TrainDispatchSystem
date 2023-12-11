@@ -8,7 +8,9 @@ import java.util.Scanner;
 import java.util.regex.Pattern;
 
 /**
- * Lets the user add or remove a departure to/from the register.
+ * <h5>Lets the user add or remove a departure to/from the register.</h5>
+ *
+ * @author kristiangarder
  */
 public class UserAddRemoveTrainDeparture {
   private TrainDepartureRegister trainDepartureRegister;

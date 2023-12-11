@@ -8,6 +8,8 @@ import java.util.Scanner;
 
 /**
  * Lets the user search for existing departure(s) in the register by train number or destination.
+ *
+ * @author kristiangarder
  */
 public class UserSearchForTrainDeparture {
   private TrainDepartureRegister trainDepartureRegister;
@@ -95,7 +97,7 @@ public class UserSearchForTrainDeparture {
   }
 
   /**
-   * Executes the selected menu choice by the user.
+   * <h>Executes the selected menu choice by the user.</h5>
    *
    * @param selectedChoice users choice
    */

@@ -4,8 +4,8 @@ import java.time.LocalTime;
 import java.util.regex.Pattern;
 
 /**
- * Represents a train departure with train number, destination, departure time, track number,
- * train line and delay time.
+ * <h5>Represents a train departure with train number, destination, departure time, track number,
+ * train line and delay time.</h5>
  *
  * @author kristiangarder
  */

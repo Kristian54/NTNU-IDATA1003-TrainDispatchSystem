@@ -1,1 +1,0 @@
-packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"edu.ntnu.stud"},{"l":"edu.ntnu.stud.entity"},{"l":"edu.ntnu.stud.logic"},{"l":"edu.ntnu.stud.ui"}];updateSearchResults();

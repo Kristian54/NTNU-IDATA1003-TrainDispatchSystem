@@ -3,13 +3,15 @@ package edu.ntnu.stud.ui;
 import java.util.Scanner;
 
 /**
- * Represents the user input reader.
+ * <h5>Represents the user input reader.</h5>
  *
  * <p>The following functionality is implemented:
  * <ul>
  *   <li>Take input int from user and return it as int</li>
  *   <li>Take input string from user and return it as string</li>
  * </ul>
+ *
+ * @author kristiangarder
  */
 public class UserInputReader {
 

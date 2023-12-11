@@ -6,7 +6,9 @@ import java.util.Scanner;
 import java.util.regex.Pattern;
 
 /**
- * Lets the user modify an existing departure.
+ * <h5>Lets the user modify an existing departure.</h5>
+ *
+ * @author kristiangarder
  */
 public class UserModifyTrainDeparture {
 

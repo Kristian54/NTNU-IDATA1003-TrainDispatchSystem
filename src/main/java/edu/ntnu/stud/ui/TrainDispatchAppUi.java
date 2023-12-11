@@ -6,7 +6,7 @@ import edu.ntnu.stud.logic.TrainDepartureRegister;
 import java.util.Scanner;
 
 /**
- * Represents the UI of the TrainDispatch application.
+ * <h5>Represents the UI of the TrainDispatch application.</h5>
  * The UI is a text based menu system.
  *
  * <p>Through the menu, the user should be able to:</p>
@@ -15,7 +15,7 @@ import java.util.Scanner;
  *   <li>Add departure</li>
  *   <li>Remove existing departure</li>
  *   <li>Modify existing departure</li>
- *    <ul>
+ *   <ul>
  *     <li>Update departure time</li>
  *     <li>Update departure destination</li>
  *     <li>Update train line</li>
@@ -30,6 +30,8 @@ import java.util.Scanner;
  *   <li>Update clock</li>
  *   <li>Exit application</li>
  *  </ul>
+ *
+ * @author kristiangarder
  */
 public class TrainDispatchAppUi {
   private TrainDepartureRegister trainDepartureRegister;
@@ -41,6 +43,9 @@ public class TrainDispatchAppUi {
   private UserAddRemoveTrainDeparture userAddRemoveTrainDeparture;
 
   // Version
+  /**
+   * Application´s current version
+   */
   private static final String version = "v0.7";
 
   // Color reset

@@ -3,7 +3,7 @@
 This file uses Mark Down syntax. For more information see [here](https://www.markdownguide.org/basic-syntax/).
 
 STUDENT NAME = "Kristian Nærum Garder"  
-STUDENT ID = ""
+STUDENT ID = "599293"
 
 ## Project description
 [//]: #

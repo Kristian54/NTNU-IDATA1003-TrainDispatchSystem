@@ -4,7 +4,7 @@ import java.time.LocalTime;
 import java.util.regex.Pattern;
 
 /**
- * Represents the current time in the application in "hh:mm" format.
+ * <h5>Represents the current time in the application in "hh:mm" format.</h5>
  *
  * @author kristiangarder
  */

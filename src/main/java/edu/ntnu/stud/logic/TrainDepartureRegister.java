@@ -8,7 +8,7 @@ import java.util.Comparator;
 import java.util.Iterator;
 
 /**
- * Represents a trainstation with registered train departures.
+ * <h5>Represents a trainstation with registered train departures.</h5>
  *
  * <p>The following functionality is implemented:
  * <ul>
@@ -19,6 +19,8 @@ import java.util.Iterator;
  *   <li>Remove passed departures</li>
  *   <li>Return the register's iterator</li>
  * </ul>
+ *
+ * @author kristiangarder
  */
 public class TrainDepartureRegister {
   private ArrayList<TrainDeparture> departureRegister;
